@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="CompraCreateDlg" widgetVar="CompraCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCompraTitle}">
+      <h:form id="CompraCreateForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{compraController.selected != null}">
+            <p:outputLabel value="#{bundle.CreateCompraLabel_idCompra}" for="idCompra" />
+            <p:inputText id="idCompra" value="#{compraController.selected.idCompra}" title="#{bundle.CreateCompraTitle_idCompra}" required="true" requiredMessage="#{bundle.CreateCompraRequiredMessage_idCompra}"/>
+            <p:outputLabel value="#{bundle.CreateCompraLabel_total}" for="total" />
+            <p:inputText id="total" value="#{compraController.selected.total}" title="#{bundle.CreateCompraTitle_total}" required="true" requiredMessage="#{bundle.CreateCompraRequiredMessage_total}"/>
+            <p:outputLabel value="#{bundle.CreateCompraLabel_fechaHora}" for="fechaHora" />
+            <p:calendar id="fechaHora" pattern="MM/dd/yyyy HH:mm:ss" value="#{compraController.selected.fechaHora}" title="#{bundle.EditCompraTitle_fechaHora}" required="true" requiredMessage="#{bundle.EditCompraRequiredMessage_fechaHora}" showOn="button"/>
+            <p:outputLabel value="#{bundle.CreateCompraLabel_comprobante}" for="comprobante" />
+            <p:inputText id="comprobante" value="#{compraController.selected.comprobante}" title="#{bundle.CreateCompraTitle_comprobante}" required="true" requiredMessage="#{bundle.CreateCompraRequiredMessage_comprobante}"/>
+            <p:outputLabel value="#{bundle.CreateCompraLabel_serie}" for="serie" />
+            <p:inputText id="serie" value="#{compraController.selected.serie}" title="#{bundle.CreateCompraTitle_serie}" />
+            <p:outputLabel value="#{bundle.CreateCompraLabel_nroComprobante}" for="nroComprobante" />
+            <p:inputText id="nroComprobante" value="#{compraController.selected.nroComprobante}" title="#{bundle.CreateCompraTitle_nroComprobante}" />
+            <p:outputLabel value="#{bundle.CreateCompraLabel_estado}" for="estado" />
+            <p:inputText id="estado" value="#{compraController.selected.estado}" title="#{bundle.CreateCompraTitle_estado}" required="true" requiredMessage="#{bundle.CreateCompraRequiredMessage_estado}"/>
+            <p:outputLabel value="#{bundle.CreateCompraLabel_idProveedor}" for="idProveedor" />
+            <p:selectOneMenu id="idProveedor" value="#{compraController.selected.idProveedor}" required="true" requiredMessage="#{bundle.EditCompraRequiredMessage_idProveedor}">
+              <f:selectItems value="#{proveedorController.itemsAvailableSelectOne}"
+                             var="idProveedorItem"
+                             itemValue="#{idProveedorItem}"/>
+            </p:selectOneMenu>
+            <p:outputLabel value="#{bundle.CreateCompraLabel_idUsuario}" for="idUsuario" />
+            <p:selectOneMenu id="idUsuario" value="#{compraController.selected.idUsuario}" required="true" requiredMessage="#{bundle.EditCompraRequiredMessage_idUsuario}">
+              <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
+                             var="idUsuarioItem"
+                             itemValue="#{idUsuarioItem}"/>
+            </p:selectOneMenu>
+          </p:panelGrid>
+          <p:commandButton actionListener="#{compraController.create}" value="#{bundle.Save}" update="display,:CompraListForm:datalist,:growl" oncomplete="handleSubmit(args,'CompraCreateDialog');"/>
+          <p:commandButton value="#{bundle.Cancel}" onclick="CompraCreateDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

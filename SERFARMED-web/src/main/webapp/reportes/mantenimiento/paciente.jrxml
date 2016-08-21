@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="65600e0b-9eb5-4c09-9b10-d6bba1bde56b">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#F1F1F1"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[SELECT
+     paciente.`idPaciente` AS paciente_idPaciente,
+     paciente.`Nombre` AS paciente_Nombre,
+     paciente.`Apelllidos` AS paciente_Apelllidos,
+     paciente.`DNI` AS paciente_DNI,
+     paciente.`Direccion` AS paciente_Direccion,
+     paciente.`Celular` AS paciente_Celular,
+     paciente.`Sexo` AS paciente_Sexo,
+     paciente.`Edad` AS paciente_Edad,
+     paciente.`LugarNacimiento` AS paciente_LugarNacimiento,
+     paciente.`Raza` AS paciente_Raza,
+     paciente.`GradoInstruccion` AS paciente_GradoInstruccion,
+     paciente.`Ocupación` AS paciente_Ocupación,
+     paciente.`Religion` AS paciente_Religion,
+     paciente.`EstadoCivil` AS paciente_EstadoCivil,
+     paciente.`FechaApertura` AS paciente_FechaApertura
+FROM
+     `paciente` paciente]]>
+	</queryString>
+	<field name="paciente_idPaciente" class="java.lang.Long"/>
+	<field name="paciente_Nombre" class="java.lang.String"/>
+	<field name="paciente_Apelllidos" class="java.lang.String"/>
+	<field name="paciente_DNI" class="java.lang.String"/>
+	<field name="paciente_Direccion" class="java.lang.String"/>
+	<field name="paciente_Celular" class="java.lang.String"/>
+	<field name="paciente_Sexo" class="java.lang.String"/>
+	<field name="paciente_Edad" class="java.lang.String"/>
+	<field name="paciente_LugarNacimiento" class="java.lang.String"/>
+	<field name="paciente_Raza" class="java.lang.String"/>
+	<field name="paciente_GradoInstruccion" class="java.lang.String"/>
+	<field name="paciente_Ocupación" class="java.lang.String"/>
+	<field name="paciente_Religion" class="java.lang.String"/>
+	<field name="paciente_EstadoCivil" class="java.lang.String"/>
+	<field name="paciente_FechaApertura" class="java.sql.Date"/>
+	<title>
+		<band height="97" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="7" width="98" height="37" uuid="fcff1d7b-14a3-43db-aa82-b20643523097"/>
+				<imageExpression><![CDATA["D:\\Java virtual course\\Expert\\MyProjects\\CDRevilla\\CDRevilla-web\\src\\main\\webapp\\reportes\\mantenimiento\\logo.jpeg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="113" y="13" width="207" height="26" uuid="b7bcbb29-318a-4715-9778-9c5bad51f81f"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Clinica Dental Revilla]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="555" height="20" forecolor="#0093D0" uuid="c7cd7e1d-6ce5-4d65-981a-82de8ecadede"/>
+				<textElement textAlignment="Center">
+					<font fontName="Impact" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de pacientes]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="91" height="20" uuid="27cbbcbe-1557-4164-a279-00c10a23b6c7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="0" width="97" height="20" uuid="d9d045e0-584d-42ec-9a12-f1929e05b436"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apellido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="188" y="0" width="57" height="20" uuid="9e52050f-5dbe-47c4-a465-d7e7a4bb3758"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DNI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="245" y="0" width="109" height="20" uuid="b2477a8a-9084-4964-90ee-7c774e9c69c6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="354" y="0" width="76" height="20" uuid="b3b57203-00b8-4747-a63f-a536c9473974"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Celular]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="2" width="45" height="20" uuid="1ef20158-0a0b-427d-99a8-2eff8839adbb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Edad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="475" y="0" width="80" height="20" uuid="89a67e5a-e516-4de2-b4d9-24e18cd3806e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FechaApertura]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="2" width="555" height="31" uuid="70913d61-1c56-4f04-a1cf-9a62091f3572"/>
+				<textField>
+					<reportElement x="0" y="0" width="91" height="31" uuid="3b90ede9-7748-4d7d-88c0-aa81efcdb780"/>
+					<textFieldExpression><![CDATA[$F{paciente_Nombre}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="91" y="0" width="97" height="31" uuid="7f4b5d31-fbf1-4acc-a7ea-db6e168d87d9"/>
+					<textFieldExpression><![CDATA[$F{paciente_Apelllidos}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="188" y="0" width="57" height="20" uuid="075b13a6-4f47-4fd1-ae9a-6b600d15493e"/>
+					<textFieldExpression><![CDATA[$F{paciente_DNI}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="245" y="0" width="109" height="31" uuid="8646e6df-c207-491b-b59e-3ecc79c3670b"/>
+					<textFieldExpression><![CDATA[$F{paciente_Direccion}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="354" y="0" width="76" height="20" uuid="b4b8a274-cf4c-49f5-9111-019dc232bfa3"/>
+					<textFieldExpression><![CDATA[$F{paciente_Celular}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="430" y="0" width="43" height="20" uuid="78a40253-2b64-4181-bf21-4b4bbb337fd1"/>
+					<textFieldExpression><![CDATA[$F{paciente_Edad}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="475" y="0" width="80" height="20" uuid="1139a085-926c-42d3-aa5d-65485873ccfb"/>
+					<textFieldExpression><![CDATA[$F{paciente_FechaApertura}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="51" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="14" width="100" height="20" uuid="4bef1e13-5668-45c2-a376-1e3ce67df91f"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="535" y="14" width="40" height="20" forecolor="#736343" uuid="655ff438-5af4-4c7e-ad45-8a3f9804f7e5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column header" x="455" y="14" width="80" height="20" forecolor="#333333" uuid="d39861b6-7b3b-4c05-8d3f-6ec6474bb115"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

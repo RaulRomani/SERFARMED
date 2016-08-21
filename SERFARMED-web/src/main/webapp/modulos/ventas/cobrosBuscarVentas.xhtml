@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <!--
+    lazy="true"
+                       paginator="true"
+                       paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                       rows="10"
+                       rowsPerPageTemplate="10,20,30,40,50"-->
+    <p:dialog id="VentaSearchDlg" widgetVar="VentaSearchDialog" modal="true" resizable="false" appendTo="@(body)" header="Buscar venta">
+      <h:form id="VentaSearchForm" onkeypress="if (event.keyCode == 13) { return false; }" >
+        <h:panelGroup id="display">
+          <p:dataTable id="datalist" 
+                       value="#{creditos.ventaList}" 
+                       var="item"
+                       rowKey="#{item.idVenta}"
+                       selectionMode="single" 
+                       selection="#{creditos.ventaSelected}"
+                       emptyMessage="No hay registros"
+                       widgetVar="ventasTable"
+                       style="width: 700px"
+                       paginator="true"
+                       rows="10"
+                       rowsPerPageTemplate="10,20,30,40,50,60,70,80,90,100"
+                       >
+            
+            <f:facet name="header">
+              <p:outputPanel>
+                <h:outputText value="Buscar por todos los campos:" />
+                <p:inputText id="globalFilter" onkeyup=" PF('ventasTable').filter(); " style="width:150px" placeholder="Palabra clave" />
+              </p:outputPanel>
+            </f:facet>
+
+            <p:column headerText="#{bundle.ListVentaTitle_idVenta}" filterBy="#{item.idVenta}" filterMatchMode="contains">
+              <h:outputText value="#{item.idVenta}"/>
+            </p:column>
+            <p:column headerText="#{bundle.ListVentaTitle_total}">
+              <h:outputText value="#{item.total}"/>
+            </p:column>
+            <p:column headerText="#{bundle.ListVentaTitle_fechaHora}" filterBy="#{item.fechaHora}" filterMatchMode="contains">
+              <h:outputText value="#{item.fechaHora}">
+                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+              </h:outputText>
+            </p:column>
+            <p:column headerText="#{bundle.ListVentaTitle_formapago}">
+              <h:outputText value="#{item.formapago}"/>
+            </p:column>
+            <p:column headerText="#{bundle.ListVentaTitle_comprobante}">
+              <h:outputText value="#{item.comprobante}"/>
+            </p:column>
+            <f:facet name="footer">
+              <p:commandButton value="Aceptar" actionListener="#{creditos.loadCredito()}"  oncomplete="PF('VentaSearchDialog').hide()" 
+                               update=":CobrosForm"/>
+            </f:facet>
+          </p:dataTable>
+
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

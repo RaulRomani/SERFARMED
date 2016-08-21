@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="PagoViewDlg" widgetVar="PagoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPagoTitle}">
+      <h:form id="PagoViewForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{pagoController.selected != null}">
+            <h:outputText value="#{bundle.ViewPagoLabel_idPago}"/>
+            <h:outputText value="#{pagoController.selected.idPago}" title="#{bundle.ViewPagoTitle_idPago}"/>
+            <h:outputText value="#{bundle.ViewPagoLabel_descripcion}"/>
+            <h:outputText value="#{pagoController.selected.descripcion}" title="#{bundle.ViewPagoTitle_descripcion}"/>
+            <h:outputText value="#{bundle.ViewPagoLabel_monto}"/>
+            <h:outputText value="#{pagoController.selected.monto}" title="#{bundle.ViewPagoTitle_monto}"/>
+            <h:outputText value="#{bundle.ViewPagoLabel_fechaHora}"/>
+            <h:outputText value="#{pagoController.selected.fechaHora}" title="#{bundle.ViewPagoTitle_fechaHora}">
+              <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+            </h:outputText>
+            <h:outputText value="#{bundle.ViewPagoLabel_tipo}"/>
+            <h:outputText value="#{pagoController.selected.tipo}" title="#{bundle.ViewPagoTitle_tipo}"/>
+            <h:outputText value="#{bundle.ViewPagoLabel_idUsuario}"/>
+            <h:outputText value="#{pagoController.selected.idUsuario}" title="#{bundle.ViewPagoTitle_idUsuario}"/>
+            <h:outputText value="#{bundle.ViewPagoLabel_idPersonal}"/>
+            <h:outputText value="#{pagoController.selected.idPersonal}" title="#{bundle.ViewPagoTitle_idPersonal}"/>
+          </p:panelGrid>
+          <p:commandButton value="#{bundle.Close}" onclick="PagoViewDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="ServicioViewDlg" widgetVar="ServicioViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewServicioTitle}">
+      <h:form id="ServicioViewForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{servicioController.selected != null}">
+            <h:outputText value="#{bundle.ViewServicioLabel_idServicio}"/>
+            <h:outputText value="#{servicioController.selected.idServicio}" title="#{bundle.ViewServicioTitle_idServicio}"/>
+            <h:outputText value="#{bundle.ViewServicioLabel_nombre}"/>
+            <h:outputText value="#{servicioController.selected.nombre}" title="#{bundle.ViewServicioTitle_nombre}"/>
+            <h:outputText value="#{bundle.ViewServicioLabel_precio}"/>
+            <h:outputText value="#{servicioController.selected.precio}" title="#{bundle.ViewServicioTitle_precio}"/>
+            <h:outputText value="#{bundle.ViewServicioLabel_descripcion}"/>
+            <h:outputText value="#{servicioController.selected.descripcion}" title="#{bundle.ViewServicioTitle_descripcion}"/>
+            <h:outputText value="#{bundle.ViewServicioLabel_idCategoria}"/>
+            <h:outputText value="#{servicioController.selected.idCategoria}" title="#{bundle.ViewServicioTitle_idCategoria}"/>
+          </p:panelGrid>
+          <p:commandButton value="#{bundle.Close}" onclick="ServicioViewDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

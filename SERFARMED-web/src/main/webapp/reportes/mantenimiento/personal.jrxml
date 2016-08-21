@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="65600e0b-9eb5-4c09-9b10-d6bba1bde56b">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="453"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#F1F1F1"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     personal.`IdPersonal` AS personal_IdPersonal,
+     personal.`Nombres` AS personal_Nombres,
+     personal.`Apellidos` AS personal_Apellidos,
+     personal.`Especialidad` AS personal_Especialidad,
+     personal.`DNI` AS personal_DNI,
+     personal.`Direccion` AS personal_Direccion,
+     personal.`LugarNacimiento` AS personal_LugarNacimiento,
+     personal.`Celular` AS personal_Celular,
+     personal.`Sexo` AS personal_Sexo,
+     personal.`Edad` AS personal_Edad,
+     personal.`usuario` AS personal_usuario,
+     personal.`clave` AS personal_clave,
+     personal.`rol` AS personal_rol
+FROM
+     `personal` personal]]>
+	</queryString>
+	<field name="personal_IdPersonal" class="java.lang.Long"/>
+	<field name="personal_Nombres" class="java.lang.String"/>
+	<field name="personal_Apellidos" class="java.lang.String"/>
+	<field name="personal_Especialidad" class="java.lang.String"/>
+	<field name="personal_DNI" class="java.lang.String"/>
+	<field name="personal_Direccion" class="java.lang.String"/>
+	<field name="personal_LugarNacimiento" class="java.lang.String"/>
+	<field name="personal_Celular" class="java.lang.String"/>
+	<field name="personal_Sexo" class="java.lang.String"/>
+	<field name="personal_Edad" class="java.lang.String"/>
+	<field name="personal_usuario" class="java.lang.String"/>
+	<field name="personal_clave" class="java.lang.String"/>
+	<field name="personal_rol" class="java.lang.String"/>
+	<title>
+		<band height="97" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="7" width="98" height="37" uuid="fcff1d7b-14a3-43db-aa82-b20643523097"/>
+				<imageExpression><![CDATA["D:\\Java virtual course\\Expert\\MyProjects\\CDRevilla\\CDRevilla-web\\src\\main\\webapp\\reportes\\mantenimiento\\logo.jpeg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="113" y="13" width="207" height="26" uuid="b7bcbb29-318a-4715-9778-9c5bad51f81f"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Clinica Dental Revilla]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="555" height="20" forecolor="#0093D0" uuid="c7cd7e1d-6ce5-4d65-981a-82de8ecadede"/>
+				<textElement textAlignment="Center">
+					<font fontName="Impact" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de personal]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="91" height="20" uuid="27cbbcbe-1557-4164-a279-00c10a23b6c7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="0" width="97" height="20" uuid="d9d045e0-584d-42ec-9a12-f1929e05b436"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apellido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="188" y="0" width="82" height="20" uuid="9e52050f-5dbe-47c4-a465-d7e7a4bb3758"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Especialidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="0" width="61" height="20" uuid="b2477a8a-9084-4964-90ee-7c774e9c69c6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DNI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="331" y="0" width="103" height="20" uuid="bfa13623-61d8-4f65-b39f-cda20d3768bf"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="434" y="0" width="76" height="20" uuid="b3b57203-00b8-4747-a63f-a536c9473974"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Celular]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="510" y="0" width="45" height="20" uuid="1ef20158-0a0b-427d-99a8-2eff8839adbb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Edad]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="2" width="555" height="31" uuid="70913d61-1c56-4f04-a1cf-9a62091f3572"/>
+				<textField>
+					<reportElement x="0" y="2" width="91" height="29" uuid="d9f5693d-2474-440b-bdde-2c7fa974df78"/>
+					<textFieldExpression><![CDATA[$F{personal_Nombres}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="91" y="2" width="97" height="27" uuid="1d9b72fc-d2d6-4133-b767-2042dbdd9b9e"/>
+					<textFieldExpression><![CDATA[$F{personal_Apellidos}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="188" y="2" width="82" height="27" uuid="45113016-2cf4-4776-8344-a40817ac3e67"/>
+					<textFieldExpression><![CDATA[$F{personal_Especialidad}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="270" y="1" width="61" height="20" uuid="e7496dbb-b4b3-46ed-b226-3d7a83375a2c"/>
+					<textFieldExpression><![CDATA[$F{personal_DNI}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="331" y="0" width="103" height="31" uuid="bdff5433-ae99-4917-8550-4691750883e8"/>
+					<textFieldExpression><![CDATA[$F{personal_Direccion}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="510" y="2" width="45" height="20" uuid="c2fa3ce9-d4bc-4594-a856-ad6030c61809"/>
+					<textFieldExpression><![CDATA[$F{personal_Edad}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="434" y="0" width="76" height="20" uuid="63e449a2-0cd2-4984-bffd-ae509c81683b"/>
+					<textFieldExpression><![CDATA[$F{personal_Celular}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="51" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="14" width="100" height="20" uuid="4bef1e13-5668-45c2-a376-1e3ce67df91f"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="535" y="14" width="40" height="20" forecolor="#736343" uuid="655ff438-5af4-4c7e-ad45-8a3f9804f7e5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column header" x="455" y="14" width="80" height="20" forecolor="#333333" uuid="d39861b6-7b3b-4c05-8d3f-6ec6474bb115"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

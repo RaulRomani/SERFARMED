@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+  <ui:composition template="/templates/templateCool.xhtml">
+
+    <ui:define name="resources">
+      <h:outputScript name="/js/crud.js"/>
+    </ui:define>
+
+
+    <ui:define name="body">
+
+      <div class="container">
+        <h1 class="row" style="color: #269abc">Confirmación de pedido de compra</h1>
+
+
+        <div class="row">
+          <h:form id="DatosCarrito" >
+            <div class="col-sm-3 compras-left">
+              <div class="form-group row">
+                <div class="col-sm-3"/>
+                <div class="col-sm-9">
+                  <p:commandButton id="buscarProducto" icon="ui-icon-search"   
+                                   value="Buscar pedidos de compra"
+                                   actionListener="#{compras.prepareCompra()}"
+                                   update="CompraSearchForm"
+                                   oncomplete="PF('CompraSearchDialog').show()"/>
+                </div>
+              </div>
+
+              <h:panelGroup id="producto" rendered="#{compras.compraSelected!=null}">
+                <div class="form-group row">
+                  <div class="col-sm-4">
+                    <p:outputLabel class="form-control-label"  value="ID de pedido" />
+                  </div>
+                  <div class="col-sm-8">
+                    <h:outputText value="#{compras.compraSelected.idCompra}"/>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-4">
+                    <p:outputLabel class="form-control-label"  value="Fecha" />
+                  </div>
+                  <div class="col-sm-8">
+                    <h:outputText value="#{compras.compraSelected.fechaHora}">
+                      <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                  </div>
+                </div>
+              </h:panelGroup>
+                
+                
+              <h:panelGroup id="proveedor" rendered="#{compras.proveedorSelected.razonSocial!=null}">
+                <div class="form-group row">
+                  <div class="col-sm-4">
+                    <p:outputLabel class="form-control-label"  value="Proveedor" />
+                  </div>
+                  <div class="col-sm-8">
+                    <h:outputText value="#{compras.proveedorSelected.razonSocial}"/>
+                  </div>
+                </div>
+                
+                <div class="form-group row">
+                  <div class="col-sm-4">
+                    <p:outputLabel class="form-control-label"  value="RUC" />
+                  </div>
+                  <div class="col-sm-8">
+                    <h:outputText value="#{compras.proveedorSelected.ruc}"/>
+                  </div>
+                </div>
+
+              </h:panelGroup>
+
+              
+            </div>
+          </h:form>
+
+          <h:form id="CarritoListForm" onkeypress="if (event.keyCode == 13) {
+                return false;
+              }">
+            <div class="col-xs-9 compras-right">
+
+              <p:dataTable id="datalist" value="#{compras.compraSelected.detallecompraList}" 
+                           var="item" emptyMessage="No hay registros">
+                <p:column style="text-align: center" headerText="Cantidad">
+                  <p:inputText id="cantidad" value="#{item.cantidad}" style="width: 50px;" > 
+                    <f:validateLength maximum="2" minimum="1" /> 
+                  </p:inputText>
+                </p:column>
+                <p:column>
+                  <f:facet name="header">
+                    <h:outputText value="Producto" />
+                  </f:facet>
+                  <h:outputText value="#{item.idProducto.nombre}"/>
+                </p:column>
+                <p:column>
+                  <f:facet name="header">
+                    <h:outputText value="Precio"/>
+                  </f:facet>
+                  <h:outputText value="#{item.idProducto.precio}"/>
+                </p:column>
+                <p:column>
+                  <f:facet name="header">
+                    <h:outputText value="Importe"/>
+                  </f:facet>
+                  <h:outputText id="importe" value="#{item.importe}"/>
+                </p:column>
+                <p:column headerText="Recibido">
+                  <p:selectBooleanCheckbox value="#{item.recibido}" />
+                </p:column>
+              </p:dataTable>
+
+              <h:message for="cantidad" style="color:red" />
+              <h:panelGroup id="total">
+                <div class="row total">
+                  <div class="col-lg-4">
+                    <p:outputLabel  value="Total : " />
+                    <div style="margin-bottom: 25px" class="input-group">
+                      <span class="input-group-addon">S/.</span>
+                      <p:outputLabel value="#{compras.compraSelected.total}" class="form-control"/>
+                    </div>
+                  </div>
+                  <div class="col-lg-offset-8" />
+                </div>
+              </h:panelGroup>
+
+              <div class="row pedido-compra">
+                <div class="col-lg-6">
+                  
+                  
+                  <div class="form-group row">
+                    <p:outputLabel class="col-sm-5 form-control-label" value="#{bundle.CreateCompraLabel_serie}" for="serie" />
+                    <div class="col-sm-7">
+                      <p:inputText class="form-control" id="serie" value="#{compras.compraSelected.serie}" title="#{bundle.CreateCompraTitle_serie}" />
+                    </div>
+                  </div>
+                  
+                  <div class="form-group row">
+                    <p:outputLabel class="col-sm-5 form-control-label" value="#{bundle.CreateCompraLabel_nroComprobante}" for="nroComprobante" />
+                    <div class="col-sm-7">
+                      <p:inputText class="form-control" id="nroComprobante" value="#{compras.compraSelected.nroComprobante}" title="#{bundle.CreateCompraTitle_nroComprobante}" />
+                    </div>
+                  </div>
+                  <p:commandButton value="Guardar compra" 
+                                   icon="fa fa-save"
+                                   actionListener="#{compras.grabarCompra()}"
+                                   update=":growl"
+                                   ajax="false"/>
+                </div>
+                <div class="col-lg-offset-6" />
+              </div>
+            </div>
+          </h:form>
+
+        </div>
+      </div>
+
+      <ui:include src="compraBuscarProveedor.xhtml"/>
+      <ui:include src="compraNuevoProveedor.xhtml"/>
+      <ui:include src="buscarPedidoCompra.xhtml"/>
+      
+    </ui:define>
+  </ui:composition>
+</html>
+

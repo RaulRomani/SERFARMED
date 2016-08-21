@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="CreditoCreateDlg" widgetVar="CreditoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCreditoTitle}">
+      <h:form id="CreditoCreateForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{creditoController.selected != null}">
+            <p:outputLabel value="#{bundle.CreateCreditoLabel_idCuota}" for="idCuota" />
+            <p:inputText id="idCuota" value="#{creditoController.selected.idCuota}" title="#{bundle.CreateCreditoTitle_idCuota}" required="true" requiredMessage="#{bundle.CreateCreditoRequiredMessage_idCuota}"/>
+            <p:outputLabel value="#{bundle.CreateCreditoLabel_totalcuotas}" for="totalcuotas" />
+            <p:inputText id="totalcuotas" value="#{creditoController.selected.totalcuotas}" title="#{bundle.CreateCreditoTitle_totalcuotas}" required="true" requiredMessage="#{bundle.CreateCreditoRequiredMessage_totalcuotas}"/>
+            <p:outputLabel value="#{bundle.CreateCreditoLabel_cuotaspagado}" for="cuotaspagado" />
+            <p:inputText id="cuotaspagado" value="#{creditoController.selected.cuotaspagado}" title="#{bundle.CreateCreditoTitle_cuotaspagado}" required="true" requiredMessage="#{bundle.CreateCreditoRequiredMessage_cuotaspagado}"/>
+            <p:outputLabel value="#{bundle.CreateCreditoLabel_fechaHora}" for="fechaHora" />
+            <p:calendar id="fechaHora" pattern="MM/dd/yyyy HH:mm:ss" value="#{creditoController.selected.fechaHora}" title="#{bundle.EditCreditoTitle_fechaHora}" required="true" requiredMessage="#{bundle.EditCreditoRequiredMessage_fechaHora}" showOn="button"/>
+            <p:outputLabel value="#{bundle.CreateCreditoLabel_plazo}" for="plazo" />
+            <p:inputText id="plazo" value="#{creditoController.selected.plazo}" title="#{bundle.CreateCreditoTitle_plazo}" required="true" requiredMessage="#{bundle.CreateCreditoRequiredMessage_plazo}"/>
+            <p:outputLabel value="#{bundle.CreateCreditoLabel_inicial}" for="inicial" />
+            <p:inputText id="inicial" value="#{creditoController.selected.inicial}" title="#{bundle.CreateCreditoTitle_inicial}" required="true" requiredMessage="#{bundle.CreateCreditoRequiredMessage_inicial}"/>
+            <p:outputLabel value="#{bundle.CreateCreditoLabel_importe}" for="importe" />
+            <p:inputText id="importe" value="#{creditoController.selected.importe}" title="#{bundle.CreateCreditoTitle_importe}" required="true" requiredMessage="#{bundle.CreateCreditoRequiredMessage_importe}"/>
+            <p:outputLabel value="#{bundle.CreateCreditoLabel_idVenta}" for="idVenta" />
+            <p:selectOneMenu id="idVenta" value="#{creditoController.selected.idVenta}" required="true" requiredMessage="#{bundle.EditCreditoRequiredMessage_idVenta}">
+              <f:selectItems value="#{ventaController.itemsAvailableSelectOne}"
+                             var="idVentaItem"
+                             itemValue="#{idVentaItem}"/>
+            </p:selectOneMenu>
+          </p:panelGrid>
+          <p:commandButton actionListener="#{creditoController.create}" value="#{bundle.Save}" update="display,:CreditoListForm:datalist,:growl" oncomplete="handleSubmit(args,'CreditoCreateDialog');"/>
+          <p:commandButton value="#{bundle.Cancel}" onclick="CreditoCreateDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

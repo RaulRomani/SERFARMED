@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="PagoEditDlg" widgetVar="PagoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditPagoTitle}">
+      <h:form id="PagoEditForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{pagos.pagoSelected != null}">
+            <p:outputLabel value="#{bundle.EditPagoLabel_descripcion}" for="descripcion" />
+            <p:inputText id="descripcion" value="#{pagos.pagoSelected.descripcion}" title="#{bundle.EditPagoTitle_descripcion}" />
+            <p:outputLabel value="#{bundle.EditPagoLabel_monto}" for="monto" />
+            <p:inputText id="monto" value="#{pagos.pagoSelected.monto}" title="#{bundle.EditPagoTitle_monto}" required="true" requiredMessage="#{bundle.EditPagoRequiredMessage_monto}"/>
+            <p:outputLabel value="#{bundle.EditPagoLabel_tipo}" for="tipo" />
+            <p:selectOneRadio id="tipo" 
+                              required="true" requiredMessage="#{bundle.CreatePagoRequiredMessage_tipo}"
+                              value="#{pagos.pagoSelected.tipo}"
+                              >
+              <f:selectItem itemLabel="Adelanto" itemValue="ADELANTO" />
+            </p:selectOneRadio>
+            
+            
+          </p:panelGrid>
+          <p:commandButton actionListener="#{pagos.updatePago()}" 
+                           value="#{bundle.Save}" 
+                           update="display,:PagoListForm:datalist,:growl" 
+                           oncomplete="handleSubmit(args, 'PagoEditDialog');"/>
+          <p:commandButton value="#{bundle.Cancel}" 
+                           onclick="PagoEditDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+  <h:body>
+    <ui:composition template="./templates/templateCool.xhtml">
+      <ui:define name="body">
+
+
+
+        <div class="container">
+          Bienvenido!
+          <h:form>
+            <div class="row">
+              <div class="col-lg-1"/>
+              <h:panelGroup rendered="#{loginController.usuario.authority.equals('ROLE_ADMIN')}">
+                <div class="col-lg-3 col-md-6">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-xs-3">
+                          <i class="fa fa-fw fa-cubes fa-5x"></i>
+                        </div>
+                        <!--
+                        <div class="col-xs-9 text-right">
+                          <div class="huge">124</div>
+                          <div>New Orders!</div>
+                        </div>-->
+                      </div>
+                    </div>
+                    <h:link outcome="/modulos/compras/pedidoCompra">
+                      <div class="panel-footer">
+                        <span class="pull-left">Realizar compra</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                      </div>
+                    </h:link>
+                    <h:link outcome="/modulos/compras/compra">
+                      <div class="panel-footer">
+                        <span class="pull-left">Confirmar compra</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                      </div>
+                    </h:link>
+                  </div>
+                </div>
+              </h:panelGroup>
+              <div class="col-lg-3 col-md-6">
+                <div class="panel panel-green">
+                  <div class="panel-heading">
+                    <div class="row">
+                      <div class="col-xs-3">
+                        <i class="fa fa-shopping-cart fa-5x"></i>
+                      </div>
+                      <!--
+                      <div class="col-xs-9 text-right">
+                        <div class="huge">124</div>
+                        <div>New Orders!</div>
+                      </div>-->
+                    </div>
+                  </div>
+                  <h:link outcome="/modulos/ventas/venta">
+                    <div class="panel-footer">
+                      <span class="pull-left">Realizar ventas</span>
+                      <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                      <div class="clearfix"></div>
+                    </div>
+                  </h:link>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-6">
+                <div class="panel panel-yellow">
+                  <div class="panel-heading">
+                    <div class="row">
+                      <div class="col-xs-3">
+                        <i class="fa fa-calendar fa-5x"></i>
+                      </div>
+                      <!--
+                      <div class="col-xs-9 text-right">
+                        <div class="huge">124</div>
+                        <div>New Orders!</div>
+                      </div>-->
+                    </div>
+                  </div>
+                  <h:link outcome="/modulos/ventas/cobros">
+                    <div class="panel-footer">
+                      <span class="pull-left">Cobrar cuotas</span>
+                      <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                      <div class="clearfix"></div>
+                    </div>
+                  </h:link>
+                </div>
+              </div>
+
+              <div class="col-lg-2"/>
+
+            </div>
+
+            <h:panelGroup rendered="#{loginController.usuario.authority.equals('ROLE_ADMIN')}">  
+              
+            </h:panelGroup>
+          </h:form>
+        </div>
+
+      </ui:define>
+    </ui:composition>
+  </h:body>
+</html>
+

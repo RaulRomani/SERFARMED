@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="PagoEditDlg" widgetVar="PagoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditPagoTitle}">
+      <h:form id="PagoEditForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{pagoController.selected != null}">
+            <p:outputLabel value="#{bundle.EditPagoLabel_idPago}" for="idPago" />
+            <p:inputText id="idPago" value="#{pagoController.selected.idPago}" title="#{bundle.EditPagoTitle_idPago}" required="true" requiredMessage="#{bundle.EditPagoRequiredMessage_idPago}"/>
+            <p:outputLabel value="#{bundle.EditPagoLabel_descripcion}" for="descripcion" />
+            <p:inputText id="descripcion" value="#{pagoController.selected.descripcion}" title="#{bundle.EditPagoTitle_descripcion}" />
+            <p:outputLabel value="#{bundle.EditPagoLabel_monto}" for="monto" />
+            <p:inputText id="monto" value="#{pagoController.selected.monto}" title="#{bundle.EditPagoTitle_monto}" required="true" requiredMessage="#{bundle.EditPagoRequiredMessage_monto}"/>
+            <p:outputLabel value="#{bundle.EditPagoLabel_fechaHora}" for="fechaHora" />
+            <p:calendar id="fechaHora" pattern="MM/dd/yyyy HH:mm:ss" value="#{pagoController.selected.fechaHora}" title="#{bundle.EditPagoTitle_fechaHora}" required="true" requiredMessage="#{bundle.EditPagoRequiredMessage_fechaHora}" showOn="button"/>
+            <p:outputLabel value="#{bundle.EditPagoLabel_tipo}" for="tipo" />
+            <p:inputText id="tipo" value="#{pagoController.selected.tipo}" title="#{bundle.EditPagoTitle_tipo}" required="true" requiredMessage="#{bundle.EditPagoRequiredMessage_tipo}"/>
+            <p:outputLabel value="#{bundle.EditPagoLabel_idUsuario}" for="idUsuario" />
+            <p:selectOneMenu id="idUsuario" value="#{pagoController.selected.idUsuario}" required="true" requiredMessage="#{bundle.EditPagoRequiredMessage_idUsuario}">
+              <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+              <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
+                             var="idUsuarioItem"
+                             itemValue="#{idUsuarioItem}"/>
+            </p:selectOneMenu>
+            <p:outputLabel value="#{bundle.EditPagoLabel_idPersonal}" for="idPersonal" />
+            <p:selectOneMenu id="idPersonal" value="#{pagoController.selected.idPersonal}" required="true" requiredMessage="#{bundle.EditPagoRequiredMessage_idPersonal}">
+              <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+              <f:selectItems value="#{personalController.itemsAvailableSelectOne}"
+                             var="idPersonalItem"
+                             itemValue="#{idPersonalItem}"/>
+            </p:selectOneMenu>
+          </p:panelGrid>
+          <p:commandButton actionListener="#{pagoController.update}" value="#{bundle.Save}" update="display,:PagoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PagoEditDialog');"/>
+          <p:commandButton value="#{bundle.Cancel}" onclick="PagoEditDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

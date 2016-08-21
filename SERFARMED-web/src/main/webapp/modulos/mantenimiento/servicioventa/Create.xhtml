@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="ServicioventaCreateDlg" widgetVar="ServicioventaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateServicioventaTitle}">
+      <h:form id="ServicioventaCreateForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{servicioventaController.selected != null}">
+            <p:outputLabel value="#{bundle.CreateServicioventaLabel_idServicioVenta}" for="idServicioVenta" />
+            <p:inputText id="idServicioVenta" value="#{servicioventaController.selected.idServicioVenta}" title="#{bundle.CreateServicioventaTitle_idServicioVenta}" required="true" requiredMessage="#{bundle.CreateServicioventaRequiredMessage_idServicioVenta}"/>
+            <p:outputLabel value="#{bundle.CreateServicioventaLabel_cantidad}" for="cantidad" />
+            <p:inputText id="cantidad" value="#{servicioventaController.selected.cantidad}" title="#{bundle.CreateServicioventaTitle_cantidad}" required="true" requiredMessage="#{bundle.CreateServicioventaRequiredMessage_cantidad}"/>
+            <p:outputLabel value="#{bundle.CreateServicioventaLabel_importe}" for="importe" />
+            <p:inputText id="importe" value="#{servicioventaController.selected.importe}" title="#{bundle.CreateServicioventaTitle_importe}" required="true" requiredMessage="#{bundle.CreateServicioventaRequiredMessage_importe}"/>
+            <p:outputLabel value="#{bundle.CreateServicioventaLabel_idServicio}" for="idServicio" />
+            <p:selectOneMenu id="idServicio" value="#{servicioventaController.selected.idServicio}" required="true" requiredMessage="#{bundle.EditServicioventaRequiredMessage_idServicio}">
+              <f:selectItems value="#{servicioController.itemsAvailableSelectOne}"
+                             var="idServicioItem"
+                             itemValue="#{idServicioItem}"/>
+            </p:selectOneMenu>
+            <p:outputLabel value="#{bundle.CreateServicioventaLabel_idPersonal}" for="idPersonal" />
+            <p:selectOneMenu id="idPersonal" value="#{servicioventaController.selected.idPersonal}" required="true" requiredMessage="#{bundle.EditServicioventaRequiredMessage_idPersonal}">
+              <f:selectItems value="#{personalController.itemsAvailableSelectOne}"
+                             var="idPersonalItem"
+                             itemValue="#{idPersonalItem}"/>
+            </p:selectOneMenu>
+            <p:outputLabel value="#{bundle.CreateServicioventaLabel_idVenta}" for="idVenta" />
+            <p:selectOneMenu id="idVenta" value="#{servicioventaController.selected.idVenta}" required="true" requiredMessage="#{bundle.EditServicioventaRequiredMessage_idVenta}">
+              <f:selectItems value="#{ventaController.itemsAvailableSelectOne}"
+                             var="idVentaItem"
+                             itemValue="#{idVentaItem}"/>
+            </p:selectOneMenu>
+          </p:panelGrid>
+          <p:commandButton actionListener="#{servicioventaController.create}" value="#{bundle.Save}" update="display,:ServicioventaListForm:datalist,:growl" oncomplete="handleSubmit(args,'ServicioventaCreateDialog');"/>
+          <p:commandButton value="#{bundle.Cancel}" onclick="ServicioventaCreateDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

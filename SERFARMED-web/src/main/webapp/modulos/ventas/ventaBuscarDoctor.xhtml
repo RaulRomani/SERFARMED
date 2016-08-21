@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <!--
+    lazy="true"
+                       paginator="true"
+                       paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                       rows="10"
+                       rowsPerPageTemplate="10,20,30,40,50"-->
+    <p:dialog id="PersonalSearchDlg" widgetVar="DoctorSearchDialog" modal="true" resizable="false" appendTo="@(body)" header="Buscar doctor">
+      <h:form id="PersonalSearchForm"  >
+        <h:panelGroup id="display">
+          <p:dataTable id="datalist" 
+                       value="#{ventas.doctorList}" 
+                       var="item"
+                       rowKey="#{item.idComision}"
+                       selectionMode="single" 
+                       selection="#{ventas.doctorSelected}"
+                       emptyMessage="No hay registros"
+                       widgetVar="personalsTable"
+                       style="width: 700px"
+                       paginator="true"
+                       rows="5"
+                       rowsPerPageTemplate="5,10,15"
+                       >
+
+            <f:facet name="header">
+              <p:outputPanel>
+                <h:outputText value="Buscar por todos los campos:" />
+                <p:inputText id="globalFilter" onkeyup=" PF('personalsTable').filter();
+                             " style="width:150px" placeholder="Palabra clave" />
+              </p:outputPanel>
+            </f:facet>
+
+            <p:column headerText="#{bundle.ListPersonalTitle_nombre}" filterBy="#{item.nombre}" sortBy="#{item.nombre}" filterMatchMode="contains">
+              ${item.nombre}
+            </p:column>
+            <p:column headerText="#{bundle.ListPersonalTitle_apellido}" filterBy="#{item.apellido}" sortBy="#{item.apellido}" filterMatchMode="contains">
+              <h:outputText value="#{item.apellido}"/>
+            </p:column>
+
+            <p:column headerText="#{bundle.ListComisionTitle_comision}" filterBy="#{item.comision}" sortBy="#{item.nota}" filterMatchMode="contains">
+              <h:outputText value="#{item.comision}"/>
+            </p:column>
+            
+            <p:column headerText="#{bundle.ListComisionTitle_nota}" filterBy="#{item.nota}" sortBy="#{item.nota}" filterMatchMode="contains">
+              <h:outputText value="#{item.nota}"/>
+            </p:column>
+
+            <f:facet name="footer">
+              <p:commandButton
+                id="aceptar"
+                value="Aceptar"  
+                oncomplete="PF('DoctorSearchDialog').hide()" 
+                update=":DatosCarrito" ajax="true">
+                <!--<p:resetInput target=":DatosCarrito:diente" />-->
+              </p:commandButton>
+            </f:facet>
+          </p:dataTable>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+  </ui:composition>
+</html>

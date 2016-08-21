@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+  <ui:composition template="/templates/templateCool.xhtml">
+
+    <ui:define name="resources">
+      <h:outputScript name="/js/scripts.js"/>
+      <h:outputScript name="/js/crud.js"/>
+    </ui:define>
+
+    <ui:define name="body">
+
+      <div class="container">
+        <h2>Modificar usuario</h2>
+        <div class="row">
+          <h:form id="UpdateUserForm" enctype="multipart/form-data" acceptcharset="ISO-8859-1">
+            <div class="col-lg-2">
+              <p:graphicImage alt="Foto" 
+                              class="MostrarImagen" width="150px"
+                              value="#{usuarioController.image}"
+                              cache="false"/>
+
+              <p:fileUpload id="CargarImagen"
+                            value="#{usuarioController.file}" 
+                            update="showImage"
+                            allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                            mode="simple" skinSimple="true"
+                            label="Elegir"/>
+            </div>
+
+            <div class="col-lg-4">
+
+              <div class="form-group row">
+                <p:outputLabel class="col-sm-3 form-control-label" value="#{bundle.EditUsuarioLabel_username}" />
+                <div class="col-sm-9">
+                  <p:outputLabel class="form-control" value="#{usuarioController.selected.username}" title="#{bundle.EditUsuarioTitle_username}"/>
+                </div>
+              </div>
+              <div class="form-group row">
+                <p:outputLabel class="col-sm-3 form-control-label" value="#{bundle.EditUsuarioLabel_password}" />
+                <div class="col-sm-9">
+                  <p:commandButton actionListener="#{usuarioController.prepareUpdateCredentials()}"
+                                   value="Cambiar" 
+                                   icon="fa fa-edit"
+                                   update="UsuarioEditCredentialsForm"
+                                   oncomplete="PF('UsuarioEditCredentialsDialog').show()" />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <p:outputLabel class="col-sm-3 form-control-label" value="#{bundle.EditUsuarioLabel_authority}" for="authority"/>
+                <div class="col-sm-9">
+                  <p:selectOneRadio id="authority" 
+                                    value="#{usuarioController.selected.authority}"
+                                    required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_authority}">
+                    <f:selectItem itemLabel="Administrador(a)" itemValue="ROLE_ADMIN" />
+                    <f:selectItem itemLabel="Cajero(a)" itemValue="ROLE_CAJERO" />
+                  </p:selectOneRadio>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <p:outputLabel class="col-sm-3 form-control-label" value="#{bundle.EditUsuarioLabel_enabled}" />
+                <div class="col-sm-9">
+                  <p:selectBooleanCheckbox id="enabled" value="#{usuarioController.selected.enabled}" />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <p:outputLabel class="col-sm-3 form-control-label" value="#{bundle.EditUsuarioLabel_nota}" />
+                <div class="col-sm-9">
+                  <p:inputTextarea class="form-control" value="#{usuarioController.selected.nota}" />
+                </div>
+              </div>
+
+            </div>
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-offset-1"/>
+
+            <div align="center" class="col-lg-12">
+              <p:commandButton actionListener="#{usuarioController.update()}"  
+                               value="Guardar" 
+                               icon="fa fa-save"
+                               update=":UpdateUserForm,growl"
+                               ajax="false"
+                               />
+
+              <p:commandButton action="List?faces-redirect=true" 
+                               value="Volver" 
+                               icon="fa fa-angle-double-left"
+                               ajax="false"
+                               />
+            </div>
+          </h:form>
+        </div>
+      </div>
+
+      <ui:include src="cambiarPassword.xhtml"/>
+    </ui:define>
+  </ui:composition>
+</html>
+

@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+  <h:body>
+    <ui:composition template="/templates/templateCool.xhtml">
+      <ui:define name="body">
+
+
+        <div class="container">
+          <h1 class="row" style="color: #269abc">Cobrar cuotas</h1>
+
+          <h:form id="CobrosForm">
+            <div class="row">
+              <div class="col-sm-6">
+
+                <div class="form-group row">
+                  <p:outputLabel class="col-sm-3 form-control-label" value="Cliente" />
+                  <div class="col-sm-9">
+                    <p:commandButton id="buscarCliente" icon="ui-icon-search"   
+                                     value="Buscar"
+                                     oncomplete="PF('ClienteSearchDialog').show()"/>
+                  </div>
+                </div>
+
+                <h:panelGroup id="cliente" rendered="#{creditos.clienteSelected.idCliente != null}">
+                  <div class="form-group row">
+                    <div class="col-sm-3">
+                      <p:outputLabel class="form-control-label"  value="Cliente" />
+                    </div>
+                    <div class="col-sm-9">
+                      <p:outputLabel value="#{creditos.clienteSelected.nombreCompleto}"/>
+                      <p:inputText id="idCliente" value="#{creditos.clienteSelected.idCliente}" type="hidden" />
+                    </div>
+                  </div>
+                </h:panelGroup>
+
+                <div class="form-group row">
+                  <p:outputLabel class="col-sm-3 form-control-label" value="Venta a credito" />
+                  <div class="col-sm-9">
+                    <p:commandButton id="buscarVentaEnCuotas" icon="ui-icon-search"   
+                                     value="Buscar"
+                                     update=":VentaSearchForm"
+                                     oncomplete="PF('VentaSearchDialog').show()"/>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-offset-6" />
+            </div>
+
+            <div class="row">
+              <h:panelGroup id="venta" rendered="#{creditos.ventaSelected.idVenta != null}">
+                <div class="col-sm-4">
+                  <div class="form-group row">
+                    <div class="col-sm-3">
+                      <p:outputLabel class="form-control-label"  value="código de venta" />
+                    </div>
+                    <div class="col-sm-9">
+                      <h:outputText value="#{creditos.ventaSelected.idVenta}"/>
+                    </div>
+                  </div>
+
+
+                  <div class="form-group row">
+                    <h:outputLabel class="col-sm-3 form-control-label" value="Fecha de pago" />
+                    <div class="col-sm-9">
+                      <h:outputText value="#{creditos.creditoSelected.fechaHora}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>  
+                      </h:outputText> 
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <p:outputLabel class="col-sm-3 form-control-label" value="Plazo" />
+                    <div class="col-sm-9">
+                      <h:outputText value="#{creditos.creditoSelected.plazo}"/>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-lg-3 form-control-label">
+                      <p:outputLabel value="Cuota a pagar" />
+                    </div>
+                    <div class="col-lg-3">
+                      <p:spinner value="#{creditos.creditos}" min="0" 
+                                 max="#{creditos.creditoSelected.totalcuotas - creditos.creditoSelected.cuotaspagado}"/> 
+                    </div>
+                    <div class="col-lg-6"/>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+
+                  <div class="form-group row">
+                    <div class="col-lg-3 form-control-label">
+                      <p:outputLabel  value="Importe" />
+                    </div>
+                    <div class="col-lg-9">
+                      <div>
+                        <h:outputText value="S/. #{creditos.creditoSelected.importe}"/>
+                      </div>
+                    </div>
+                    <div class="col-lg-offset-8" />
+                  </div>
+
+                  <div class="form-group row">
+                    <p:outputLabel class="col-sm-3 form-control-label" value="Total de cuotas"/>
+                    <div class="col-sm-9">
+                      <h:outputText  value="#{creditos.creditoSelected.totalcuotas}" />
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <p:outputLabel class="col-sm-3 form-control-label" value="Cuotas pagado"/>
+                    <div class="col-sm-9">
+                      <h:outputText  value="#{creditos.creditoSelected.cuotaspagado}" />
+                    </div>
+                  </div>
+
+
+                </div>    
+                <div class="col-sm-4"/>
+                <div class="col-sm-12" align="center">
+                  <p:commandButton actionListener="#{creditos.Save}" 
+                                   value="Guardar" icon="fa fa-floppy-o" 
+                                   update="CobrosForm,:growl"
+                                   ajax="false"/>
+                </div>
+
+
+              </h:panelGroup>
+
+
+            </div>
+
+          </h:form>
+        </div>
+
+        <ui:include src="cobrosBuscarCliente.xhtml"/>
+        <ui:include src="cobrosBuscarVentas.xhtml"/>
+      </ui:define>
+    </ui:composition>
+  </h:body>
+</html>
+

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+  <h:body>
+    <ui:composition template="/templates/templateCool.xhtml">
+      <ui:define name="body">
+
+
+        <div class="container">
+          <h1 class="row" style="color: #269abc">Saldo inicial</h1>
+
+          <h:form id="saldoInicialForm">
+            <div class="row">
+              <div class="col-sm-6">
+                #{saldoinicialController.checkSaldoInicialHoy()}
+                <div class="form-group row">
+                  <div class="col-sm-3">
+                    <p:outputLabel class="form-control-label"  value="Monto" for="saldoinicial"/>
+                  </div>
+                  <div class="col-sm-9">
+                    <p:inputText id="saldoinicial" value="#{saldoinicialController.selected.saldoinicial}" title="#{bundle.CreateSaldoinicialTitle_saldoinicial}" required="true" requiredMessage="#{bundle.CreateSaldoinicialRequiredMessage_saldoinicial}"/>
+                  </div>
+                </div>
+                <p:commandButton actionListener="#{saldoinicialController.actualizar()}" 
+                                 value="#{bundle.Save}" 
+                                 update=":growl" />
+              </div>
+              <div class="col-sm-6"/>
+            </div>
+
+          </h:form>
+        </div>
+
+      </ui:define>
+    </ui:composition>
+  </h:body>
+</html>
+

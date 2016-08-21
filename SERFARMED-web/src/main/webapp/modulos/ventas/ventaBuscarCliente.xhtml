@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <!--
+    lazy="true"
+                       paginator="true"
+                       paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                       rows="10"
+                       rowsPerPageTemplate="10,20,30,40,50"-->
+    <p:dialog id="ClienteSearchDlg" widgetVar="ClienteSearchDialog" modal="true" resizable="false" appendTo="@(body)" header="Buscar cliente">
+      <h:form id="ClienteSearchForm"  >
+
+        <div class="form-group row">
+          <div class="col-sm-5">
+            <p:outputLabel class="form-control-label" value="Tipo de cliente"/>
+          </div>
+          <div class="col-sm-7">
+            <p:selectOneRadio value="#{ventas.tipoCliente}">
+              <f:selectItem itemLabel="Registrado" itemValue="REGISTRADO" />
+              <f:selectItem itemLabel="No registrado" itemValue="NOREGISTRADO" />
+              <p:ajax listener="#{ventas.prepareCliente()}" update=":ClienteSearchDlg" oncomplete="PF('ClienteSearchDialog').show()" />
+            </p:selectOneRadio>
+          </div>
+        </div>
+        <h:panelGroup id="noregistrado" rendered="#{ventas.tipoCliente.equals('NOREGISTRADO')}">
+          <div class="form-group row">
+            <div class="col-sm-3">
+              <p:outputLabel class="form-control-label"  value="Nombre" for="nombre" />
+            </div>
+            <div class="col-sm-9">
+              <h:inputText id="nombre" class="form-control"
+                           value="#{ventas.clienteSelected.nombre}" required="true" requiredMessage="#{bundle.CreateClienteRequiredMessage_nombre}"/>
+            </div>
+          </div>
+          
+          <div class="form-group row">
+            <div class="col-sm-3">
+              <p:outputLabel class="form-control-label"  value="Apellido" />
+            </div>
+            <div class="col-sm-9">
+              <h:inputText class="form-control" value="#{ventas.clienteSelected.apellido}"/>
+            </div>
+          </div>
+          
+          <div class="form-group row">
+            <div class="col-sm-3">
+              <p:outputLabel class="form-control-label"  value="DNI" />
+            </div>
+            <div class="col-sm-9">
+              <h:inputText class="form-control" value="#{ventas.clienteSelected.dni}"/>
+            </div>
+          </div>
+          
+          <div class="form-group row">
+            <div class="col-sm-3">
+              <p:outputLabel class="form-control-label"  value="Dirección" />
+            </div>
+            <div class="col-sm-9">
+              <h:inputText class="form-control" value="#{ventas.clienteSelected.direccion}"/>
+            </div>
+          </div>
+
+          <p:commandButton actionListener="#{ventas.registrarCliente()}"
+            id="aceptar"
+            value="Aceptar"  
+            oncomplete="handleSubmit(args,'ClienteSearchDialog');" 
+            update="display,:DatosCarrito,:growl" ajax="true">
+            <!--<p:resetInput target=":DatosCarrito:diente" />-->
+          </p:commandButton>
+        </h:panelGroup>
+
+        <h:panelGroup id="display" rendered="#{ventas.tipoCliente.equals('REGISTRADO')}">
+          <p:dataTable id="datalist" 
+                       value="#{ventas.clienteList}" 
+                       var="item"
+                       rowKey="#{item.idCliente}"
+                       selectionMode="single" 
+                       selection="#{ventas.clienteSelected}"
+                       emptyMessage="No hay registros"
+                       widgetVar="clientesTable"
+                       style="width: 700px"
+                       paginator="true"
+                       rows="10"
+                       rowsPerPageTemplate="10,20,30,40,50,60,70,80,90,100"
+                       >
+
+            <f:facet name="header">
+              <p:outputPanel>
+                <h:outputText value="Buscar por todos los campos:" />
+                <p:inputText id="globalFilter" onkeyup=" PF('clientesTable').filter();
+                             " style="width:150px" placeholder="Palabra clave"  />
+              </p:outputPanel>
+            </f:facet>
+
+            <p:column headerText="#{bundle.ListClienteTitle_nombre}" filterBy="#{item.nombre}" sortBy="#{item.nombre}" filterMatchMode="contains">
+              ${item.nombre}
+            </p:column>
+            <p:column headerText="#{bundle.ListClienteTitle_apellido}" filterBy="#{item.apellido}" sortBy="#{item.apellido}" filterMatchMode="contains">
+              <h:outputText value="#{item.apellido}"/>
+            </p:column>
+            <p:column headerText="#{bundle.ListClienteTitle_dni}" filterBy="#{item.dni}" sortBy="#{item.dni}" filterMatchMode="contains">
+              <h:outputText value="#{item.dni}"/>
+            </p:column>
+            <p:column headerText="#{bundle.ListClienteTitle_ruc}" filterBy="#{item.ruc}" sortBy="#{item.ruc}" filterMatchMode="contains">
+              <h:outputText value="#{item.ruc}"/>
+            </p:column>
+            <p:column headerText="#{bundle.ListClienteTitle_direccion}">
+              <h:outputText value="#{item.direccion}"/>
+            </p:column>
+            <p:column headerText="#{bundle.ListClienteTitle_lugarNacimiento}">
+              <h:outputText value="#{item.lugarNacimiento}"/>
+            </p:column>
+            <p:column headerText="#{bundle.ListClienteTitle_celular}">
+              <h:outputText value="#{item.celular}"/>
+            </p:column>
+            <f:facet name="footer">
+              <p:commandButton
+                id="aceptar"
+                value="Aceptar"  
+                oncomplete="PF('ClienteSearchDialog').hide()" 
+                update=":DatosCarrito" ajax="true">
+                <!--<p:resetInput target=":DatosCarrito:diente" />-->
+              </p:commandButton>
+              <p:commandButton id="crearCliente" icon="ui-icon-plus"
+                               action="/modulos/mantenimiento/cliente/List?faces-redirect=true"
+                               value="Nuevo Cliente"/>
+
+            </f:facet>
+          </p:dataTable>
+
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

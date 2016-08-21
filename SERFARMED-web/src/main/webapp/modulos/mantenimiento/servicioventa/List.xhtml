@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition template="/templates/templateCool.xhtml">
+
+
+    <ui:define name="title">
+      <h:outputText value="#{bundle.ListServicioventaTitle}"></h:outputText>
+    </ui:define>
+    
+    <ui:define name="resources">
+      <h:outputScript name="/js/crud.js"/>
+    </ui:define>
+
+    <ui:define name="body">
+      <h:form id="ServicioventaListForm">
+        <p:dataTable id="datalist" value="#{servicioventaController.items}" var="item"
+                     selectionMode="single" selection="#{servicioventaController.selected}"
+                     paginator="true"
+                     rowKey="#{item.idServicioVenta}"
+                     rows="10"
+                     rowsPerPageTemplate="10,20,30,40,50"
+                     >
+
+          <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+          <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListServicioventaTitle_idServicioVenta}"/>
+            </f:facet>
+            <h:outputText value="#{item.idServicioVenta}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListServicioventaTitle_cantidad}"/>
+            </f:facet>
+            <h:outputText value="#{item.cantidad}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListServicioventaTitle_importe}"/>
+            </f:facet>
+            <h:outputText value="#{item.importe}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListServicioventaTitle_idServicio}"/>
+            </f:facet>
+            <h:outputText value="#{item.idServicio}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListServicioventaTitle_idComision}"/>
+            </f:facet>
+            <h:outputText value="#{item.idComision}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListServicioventaTitle_idVenta}"/>
+            </f:facet>
+            <h:outputText value="#{item.idVenta}"/>
+          </p:column>
+          
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="cMédico"/>
+            </f:facet>
+            <h:outputText value="#{item.comisionMedico}">
+              <f:convertNumber pattern="#0.00" />
+            </h:outputText>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="cClínica"/>
+            </f:facet>
+            <h:outputText value="#{item.comisionClinica}">
+              <f:convertNumber pattern="#0.00" />
+            </h:outputText>
+          </p:column>
+          <f:facet name="footer">
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{servicioventaController.prepareCreate}" update=":ServicioventaCreateForm" oncomplete="PF('ServicioventaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":ServicioventaViewForm" oncomplete="PF('ServicioventaViewDialog').show()" disabled="#{empty servicioventaController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ServicioventaEditForm" oncomplete="PF('ServicioventaEditDialog').show()" disabled="#{empty servicioventaController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{servicioventaController.destroy}" update=":growl,datalist" disabled="#{empty servicioventaController.selected}"/>
+          </f:facet>
+        </p:dataTable>
+      </h:form>
+
+      <ui:include src="Create.xhtml"/>
+      <ui:include src="Edit.xhtml"/>
+      <ui:include src="View.xhtml"/>
+    </ui:define>
+  </ui:composition>
+
+</html>

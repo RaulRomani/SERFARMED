@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="ClienteCreateDlg" widgetVar="ClienteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateClienteTitle}">
+      <h:form id="ClienteCreateForm">
+        <h:panelGroup id="display">
+          <h:panelGroup rendered="#{clienteController.selected != null}">
+
+            <div class="row">
+              <div class="container">
+                <div class="col-lg-6">
+
+                  #{saldoinicialController.checkSaldoInicialHoy()}
+                  <div class="form-group row">
+                    <div class="col-sm-5">
+                      <p:outputLabel class="form-control-label" value="Cliente" for="tipoCliente" />
+                    </div>
+                    <div class="col-sm-7">
+                      <p:selectOneRadio id="tipoCliente" 
+                                        value="#{clienteController.tipoCliente}"
+                                        required="true" requiredMessage="Ingreso el tipo de cliente">
+                        <f:selectItem itemLabel="Persona" itemValue="Persona" />
+                        <f:selectItem itemLabel="Empresa" itemValue="Empresa" />
+                        <p:ajax update="acciones,datosPersona2" />
+                      </p:selectOneRadio>
+                    </div>
+                  </div>
+
+
+
+                  <h:panelGroup id="acciones">
+
+
+                    <div class="form-group row">
+                      <div class="col-sm-5">
+                        <p:outputLabel class="form-control-label" value="#{ clienteController.tipoCliente.equals('Persona') ? bundle.CreateClienteLabel_nombre: 'Razón social'}" for="nombre" />
+                      </div>
+                      <div class="col-sm-7">
+                        <p:inputText class="form-control" id="nombre" value="#{clienteController.selected.nombre}" title="#{bundle.CreateClienteTitle_nombre}" required="true" requiredMessage="#{clienteController.tipoCliente.equals('Persona') ? bundle.CreateClienteRequiredMessage_nombre: 'Razón social es requerido'}"/>
+                      </div>
+                    </div>
+
+                    <h:panelGroup id="datosPersona1" rendered="#{ clienteController.tipoCliente.equals('Persona') ? true : false}">
+                      <div class="form-group row">
+                        <div class="col-sm-5">
+                          <p:outputLabel class="form-control-label" value="#{bundle.CreateClienteLabel_apellido}" for="apellido"/>
+                        </div>
+                        <div class="col-sm-7">
+                          <p:inputText class="form-control" id="apellido" value="#{clienteController.selected.apellido}" title="#{bundle.CreateClienteTitle_apellido}" />
+                        </div>
+                      </div>
+
+
+                      <div class="form-group row">
+                        <div class="col-sm-5">
+                          <p:outputLabel class="form-control-label" value="#{bundle.CreateClienteLabel_dni}" for="dni"  />
+                        </div>
+                        <div class="col-sm-7">
+                          <p:inputText class="form-control" id="dni" value="#{clienteController.selected.dni}" title="#{bundle.CreateClienteTitle_dni}"  />
+                        </div>
+                      </div>
+                    </h:panelGroup>
+
+                    <div class="form-group row">
+                      <div class="col-sm-5">
+                        <p:outputLabel class="form-control-label" value="#{bundle.CreateClienteLabel_ruc}" for="ruc" rendered="#{ clienteController.tipoCliente.equals('Empresa') ? true : false}" />
+                      </div>
+                      <div class="col-sm-7">
+                        <p:inputText class="form-control" id="ruc" value="#{clienteController.selected.ruc}" title="#{bundle.CreateClienteTitle_ruc}"  rendered="#{ clienteController.tipoCliente.equals('Empresa') ? true : false}" required="true"/>
+                      </div>
+                    </div>
+
+
+
+
+
+                    <div class="form-group row">
+                      <div class="col-sm-5">
+                        <p:outputLabel class="form-control-label" value="#{bundle.CreateClienteLabel_codAsegurado}" for="codAsegurado" />
+                      </div>
+                      <div class="col-sm-7">
+                        <p:inputText class="form-control" id="codAsegurado" value="#{clienteController.selected.codAsegurado}" title="#{bundle.CreateClienteTitle_codAsegurado}" />
+                      </div>
+                    </div>
+
+
+
+                    <div class="form-group row">
+                      <div class="col-sm-5">
+                        <p:outputLabel class="form-control-label" value="#{bundle.CreateClienteLabel_direccion}" for="direccion" />
+                      </div>
+                      <div class="col-sm-7">
+                        <p:inputText class="form-control" id="direccion" value="#{clienteController.selected.direccion}" title="#{bundle.CreateClienteTitle_direccion}" />
+                      </div>
+                    </div>
+
+
+
+                    <div class="form-group row">
+                      <div class="col-sm-5">
+                        <p:outputLabel class="form-control-label" value="#{bundle.CreateClienteLabel_celular}" for="celular" />
+                      </div>
+                      <div class="col-sm-7">
+                        <p:inputText class="form-control" id="celular" value="#{clienteController.selected.celular}" title="#{bundle.CreateClienteTitle_celular}" />
+                      </div>
+                    </div>
+
+
+
+
+                  </h:panelGroup>
+
+
+
+                </div>
+
+
+                <div class="col-lg-6">
+
+
+                  <div class="form-group row">
+                    <div class="col-sm-5">
+                      <p:outputLabel class="form-control-label" value="#{bundle.CreateClienteLabel_telefono}" for="telefono" />
+                    </div>
+                    <div class="col-sm-7">
+                      <p:inputText class="form-control" id="telefono" value="#{clienteController.selected.telefono}" title="#{bundle.CreateClienteTitle_telefono}" />
+                    </div>
+                  </div>
+
+
+
+
+
+                  <div class="form-group row">
+                    <div class="col-sm-5">
+                      <p:outputLabel class="form-control-label" value="#{bundle.CreateClienteLabel_correo}" for="correo" />
+                    </div>
+                    <div class="col-sm-7">
+                      <p:inputText class="form-control" id="correo" value="#{clienteController.selected.correo}" title="#{bundle.CreateClienteTitle_correo}" />
+                    </div>
+                  </div>
+
+                  <h:panelGroup id="datosPersona2" >
+                    <h:panelGroup rendered="#{ clienteController.tipoCliente.equals('Persona') ? true : false}">
+                      <div class="form-group row">
+                        <div class="col-sm-5">
+                          <p:outputLabel class="form-control-label" value="#{bundle.CreateClienteLabel_lugarNacimiento}" for="lugarNacimiento" />
+                        </div>
+                        <div class="col-sm-7">
+                          <p:inputText class="form-control" id="lugarNacimiento" value="#{clienteController.selected.lugarNacimiento}" title="#{bundle.CreateClienteTitle_lugarNacimiento}" />
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <div class="col-sm-5">
+                          <p:outputLabel class="form-control-label" value="#{bundle.CreateClienteLabel_fechaNacimiento}" for="fechaNacimiento" />
+                        </div>
+                        <div class="col-sm-7">
+                          <p:calendar id="fechaNacimiento" pattern="dd/MM/yyyy" value="#{clienteController.selected.fechaNacimiento}" title="#{bundle.EditClienteTitle_fechaNacimiento}"  navigator="true" yearRange="c-70:c+10"  showOn="button"/>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <div class="col-sm-5">
+                          <p:outputLabel class="form-control-label" value="#{bundle.CreateClienteLabel_sexo}" for="sexo" />
+                        </div>
+
+                        <div class="col-sm-7">
+                          <p:selectOneRadio id="sexo" 
+                                            value="#{clienteController.selected.sexo}">
+                            <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                            <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                          </p:selectOneRadio>
+                        </div>
+                      </div>
+
+                    </h:panelGroup>
+                  </h:panelGroup>
+
+
+
+
+
+                </div>
+              </div>
+            </div>
+
+          </h:panelGroup>
+          <p:commandButton actionListener="#{clienteController.create}" value="#{bundle.Save}" update="display,:ClienteListForm:datalist,:growl" oncomplete="handleSubmit(args,'ClienteCreateDialog');"/>
+          <p:commandButton value="#{bundle.Cancel}" onclick="ClienteCreateDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="ClienteViewDlg" widgetVar="ClienteViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewClienteTitle}">
+      <h:form id="ClienteViewForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{clienteController.selected != null}">
+            <h:outputText value="#{bundle.ViewClienteLabel_idCliente}"/>
+            <h:outputText value="#{clienteController.selected.idCliente}" title="#{bundle.ViewClienteTitle_idCliente}"/>
+            <h:outputText value="#{bundle.ViewClienteLabel_nombre}"/>
+            <h:outputText value="#{clienteController.selected.nombre}" title="#{bundle.ViewClienteTitle_nombre}"/>
+            <h:outputText value="#{bundle.ViewClienteLabel_apellido}"/>
+            <h:outputText value="#{clienteController.selected.apellido}" title="#{bundle.ViewClienteTitle_apellido}"/>
+            <h:outputText value="#{bundle.ViewClienteLabel_dni}"/>
+            <h:outputText value="#{clienteController.selected.dni}" title="#{bundle.ViewClienteTitle_dni}"/>
+            <h:outputText value="#{bundle.ViewClienteLabel_ruc}"/>
+            <h:outputText value="#{clienteController.selected.ruc}" title="#{bundle.ViewClienteTitle_ruc}"/>
+            <h:outputText value="#{bundle.ViewClienteLabel_codAsegurado}"/>
+            <h:outputText value="#{clienteController.selected.codAsegurado}" title="#{bundle.ViewClienteTitle_codAsegurado}"/>
+            <h:outputText value="#{bundle.ViewClienteLabel_direccion}"/>
+            <h:outputText value="#{clienteController.selected.direccion}" title="#{bundle.ViewClienteTitle_direccion}"/>
+            <h:outputText value="#{bundle.ViewClienteLabel_celular}"/>
+            <h:outputText value="#{clienteController.selected.celular}" title="#{bundle.ViewClienteTitle_celular}"/>
+            <h:outputText value="#{bundle.ViewClienteLabel_telefono}"/>
+            <h:outputText value="#{clienteController.selected.telefono}" title="#{bundle.ViewClienteTitle_telefono}"/>
+            <h:outputText value="#{bundle.ViewClienteLabel_sexo}"/>
+            <h:outputText value="#{clienteController.selected.sexo}" title="#{bundle.ViewClienteTitle_sexo}"/>
+            <h:outputText value="#{bundle.ViewClienteLabel_edad}"/>
+            <h:outputText value="#{clienteController.selected.edad}" title="#{bundle.ViewClienteTitle_edad}"/>
+            <h:outputText value="#{bundle.ViewClienteLabel_correo}"/>
+            <h:outputText value="#{clienteController.selected.correo}" title="#{bundle.ViewClienteTitle_correo}"/>
+            <h:outputText value="#{bundle.ViewClienteLabel_lugarNacimiento}"/>
+            <h:outputText value="#{clienteController.selected.lugarNacimiento}" title="#{bundle.ViewClienteTitle_lugarNacimiento}"/>
+            <h:outputText value="#{bundle.ViewClienteLabel_fechaNacimiento}"/>
+            <h:outputText value="#{clienteController.selected.fechaNacimiento}" title="#{bundle.ViewClienteTitle_fechaNacimiento}">
+              <f:convertDateTime pattern="dd/MM/yyyy" />
+            </h:outputText>
+            <h:outputText value="#{bundle.ViewClienteLabel_fechaCreacion}"/>
+            <h:outputText value="#{clienteController.selected.fechaCreacion}" title="#{bundle.ViewClienteTitle_fechaCreacion}">
+              <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+            </h:outputText>
+          </p:panelGrid>
+          <p:commandButton value="#{bundle.Close}" onclick="ClienteViewDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

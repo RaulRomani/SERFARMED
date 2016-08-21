@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+  <ui:composition template="/templates/templateCool.xhtml">
+
+    <ui:define name="resources">
+      <h:outputScript name="/js/crud.js"/>
+    </ui:define>
+
+
+    <ui:define name="body">
+
+      <div class="container">
+        <h1 class="row" style="color: #269abc">Pagos</h1>
+        <div class="row">
+          <h:form id="DatosPersonal" >
+            <div class="col-sm-3 pagos-left">
+              <div class="form-group row">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-9">
+                  <p:commandButton actionListener="#{pagos.prepareFindPersonal()}"
+                                   id="buscarPersonal" icon="ui-icon-search"   
+                                   value="Buscar Personal"
+                                   oncomplete="PF('PersonalSearchDialog').show()"/>
+                </div>
+              </div>
+
+              <h:panelGroup id="personal" rendered="#{pagos.personalSelected.idPersonal!=null}">
+                <div class="form-group row">
+                  <div class="col-sm-4">
+                    <p:outputLabel class="form-control-label"  value="Personal" />
+                  </div>
+                  <div class="col-sm-8">
+                    <h:outputText value="#{pagos.personalSelected.nombreCompleto}"/>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-4">
+                    <p:outputLabel class="form-control-label"  value="Mes" />
+                  </div>
+                  <div class="col-sm-8">
+                    <h:outputText value="#{pagos.mes}"/>
+                  </div>
+                </div>
+              </h:panelGroup>
+            </div>
+          </h:form>
+
+
+          <div class="col-xs-9 pagos-right">
+            <div class="row">
+              <div class="col-lg-12">
+
+                <h:form id="PagoListForm">
+                  <p:dataTable id="datalist" value="#{pagos.pagoList}" var="item"
+                               selectionMode="single" selection="#{pagos.pagoSelected}"
+                               rowKey="#{item.idPago}"
+                               sortBy="#{item.idPersonal.idPersonal}"
+                               >
+
+                    <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
+                    <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
+
+                    <p:column headerText="id" style="width:40px;">
+                      <h:outputText value="#{item.idPago}"/>
+                    </p:column>
+                    <p:column headerText="#{bundle.ListPagoTitle_descripcion}">
+                      <h:outputText value="#{item.descripcion}"/>
+                    </p:column>
+                    <p:column headerText="#{bundle.ListPagoTitle_monto}">
+                      <h:outputText value="#{item.monto}"/>
+                    </p:column>
+                    <p:column headerText="#{bundle.ListPagoTitle_fechaHora}">
+                      <h:outputText value="#{item.fechaHora}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                      </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{bundle.ListPagoTitle_tipo}">
+                      <h:outputText value="#{item.tipo}"/>
+                    </p:column>
+
+                    <p:summaryRow>
+                      <p:column colspan="2" style="text-align:right">
+                        <h:outputText value="Total:" />
+                      </p:column>
+                      <p:column colspan="3" style="text-align:left">
+                        <h:outputText value="#{pagos.totalAdelanto}"/>
+                      </p:column>
+                    </p:summaryRow>
+
+
+                    <f:facet name="footer">
+                      <p:commandButton id="createButton" icon="ui-icon-plus"   
+                                       value="#{bundle.Create}" 
+                                       actionListener="#{pagos.prepareCreatePago()}" 
+                                       disabled="#{empty pagos.personalSelected || pagos.personalSelected.sueldo.subtract(pagos.totalAdelanto).compareTo(0) == 0}"
+                                       update=":PagoCreateForm" 
+                                       oncomplete="PF('PagoCreateDialog').show()"/>
+                      <p:commandButton id="editButton"   icon="ui-icon-pencil" 
+                                       value="#{bundle.Edit}" 
+                                       update=":PagoEditForm" 
+                                       oncomplete="PF('PagoEditDialog').show()" 
+                                       disabled="#{empty pagos.pagoSelected || pagos.personalSelected.sueldo.subtract(pagos.totalAdelanto).compareTo(0) == 0}"/>
+                      <p:commandButton id="deleteButton" icon="ui-icon-trash"  
+                                       value="#{bundle.Delete}" 
+                                       actionListener="#{pagos.destroyPago()}" 
+                                       update=":growl,datalist" 
+                                       disabled="#{empty pagos.pagoSelected || pagos.personalSelected.sueldo.subtract(pagos.totalAdelanto).compareTo(0) == 0}"/>
+                    </f:facet>
+                  </p:dataTable>
+                </h:form>
+
+                <h3>Pagar Mensualidad de personal</h3>
+
+
+                <h:form id="pago-mensualidad">
+                  <h:panelGroup id="mensualidad" >
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <p:outputLabel  value="Sueldo: " />
+                        <div style="margin-bottom: 25px" class="input-group">
+                          <span class="input-group-addon">S/.</span>
+                          <p:outputLabel value="#{pagos.personalSelected.sueldo}" class="form-control"/>
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <p:outputLabel  value="#{pagos.personalSelected.sueldo.subtract(pagos.totalAdelanto) == 0? 'Total (Adelantos):':'Total (pagos):'}" />
+                        <div style="margin-bottom: 25px" class="input-group">
+                          <span class="input-group-addon">S/.</span>
+                          <p:outputLabel value="#{pagos.totalAdelanto}" class="form-control"/>
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <p:outputLabel  value="Diferencia: " />
+                        <div style="margin-bottom: 25px" class="input-group">
+                          <span class="input-group-addon">S/.</span>
+                          <p:outputLabel value="#{pagos.personalSelected.sueldo.subtract(pagos.totalAdelanto)}" class="form-control"/>
+                        </div>
+                      </div>
+                    </div>
+
+                    <p:commandButton id="pagarMensualidad" icon="fa fa-save"  
+                                     value="Pagar mensualidad" 
+                                     actionListener="#{pagos.pagarMensualidad()}" 
+                                     disabled="#{empty pagos.personalSelected || pagos.personalSelected.sueldo.subtract(pagos.totalAdelanto).compareTo(0) == 0}"
+                                     update=":PagoListForm:datalist, :pago-mensualidad, :growl" 
+                                     />
+                  </h:panelGroup>
+                </h:form>
+
+
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <ui:include src="pagoBuscarPersonal.xhtml"/>
+      <ui:include src="pagoNuevoPago.xhtml"/>
+      <ui:include src="pagoEditarPago.xhtml"/>
+    </ui:define>
+  </ui:composition>
+</html>
+

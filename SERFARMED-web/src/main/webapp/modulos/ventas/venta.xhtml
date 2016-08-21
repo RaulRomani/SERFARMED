@@ -1,0 +1,361 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+  <ui:composition template="/templates/templateCool.xhtml">
+
+    <ui:define name="resources">
+      <h:outputScript name="/js/crud.js"/>
+    </ui:define>
+
+
+    <ui:define name="body">
+
+      <div class="container">
+        <h1 class="row" style="color: #269abc">Ventas</h1>
+
+
+        <div class="row">
+          <h:form id="DatosCarrito" >
+            <div class="col-sm-3 ventas-left">
+              <div class="form-group row">
+                <div class="col-sm-3">
+                  <!--<p:outputLabel class="form-control-label"  value="Cliente" for="buscarCliente" />-->
+                </div>
+                <div class="col-sm-9">
+                  <p:commandButton actionListener="#{ventas.prepareCliente()}"
+                                   id="buscarCliente" icon="ui-icon-search"   
+                                   value="Buscar Cliente"
+                                   update=":ClienteSearchForm:noregistrado"
+                                   oncomplete="PF('ClienteSearchDialog').show()"/>
+                </div>
+              </div>
+
+              <h:panelGroup id="cliente" rendered="#{ventas.clienteSelected.nombre!=null}">
+                <div class="form-group row">
+                  <div class="col-sm-3">
+                    <p:outputLabel class="form-control-label"  value="Cliente" />
+                  </div>
+                  <div class="col-sm-9">
+                    <h:outputText value="#{ventas.clienteSelected.nombreCompleto}"/>
+                  </div>
+                </div>
+
+              </h:panelGroup>
+
+
+
+
+              <div class="form-group row">
+                <div class="col-sm-3">
+                  <!--<p:outputLabel class="form-control-label" for="buscarProducto" value="Producto:  " />-->
+                </div>
+                <div class="col-sm-9">
+                  <p:commandButton id="buscarServicio" icon="ui-icon-search"   
+                                   value="Buscar Servicio"
+                                   oncomplete="PF('ServicioSearchDialog').show()"/>
+                </div>
+              </div>
+
+
+
+              <h:panelGroup id="servicio" rendered="#{ventas.servicioSelected!=null}">
+                <div class="form-group row">
+                  <div class="col-sm-3">
+                    <p:outputLabel class="form-control-label"  value="Servicio" />
+                  </div>
+                  <div class="col-sm-9">
+                    <h:outputText value="#{ventas.servicioSelected.nombre}"/>
+                  </div>
+                </div>
+              </h:panelGroup>
+              
+              
+              <div class="form-group row">
+                <div class="col-sm-3">
+                  <!--<p:outputLabel class="form-control-label" for="buscarProducto" value="Producto:  " />-->
+                </div>
+                <div class="col-sm-9">
+                  <p:commandButton id="buscarDoctor" icon="ui-icon-search"   
+                                   value="Buscar doctor"
+                                   update=":PersonalSearchForm:datalist"
+                                   oncomplete="PF('DoctorSearchDialog').show()"/>
+                </div>
+              </div>
+
+
+
+              <h:panelGroup id="doctor" rendered="#{ventas.doctorSelected!=null}">
+                <div class="form-group row">
+                  <div class="col-sm-3">
+                    <p:outputLabel class="form-control-label"  value="Doctor" />
+                  </div>
+                  <div class="col-sm-9">
+                    <h:outputText value="#{ventas.doctorSelected.nombreCompleto}"/>
+                  </div>
+                </div>
+              </h:panelGroup>
+              
+              <div class="form-group row">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-9">
+                  <p:commandButton value="Agregar" icon="ui-icon-plus" actionListener="#{ventas.agregarServicio()}" 
+                                   update="CarritoListForm:total,CarritoListForm:datalist,:growl,cliente"
+                                   ajax="true"/>
+                </div>
+              </div>
+            </div>
+          </h:form>
+
+          <h:form id="CarritoListForm" onkeypress="if (event.keyCode == 13) {
+                return false;
+              }">
+            <div class="col-xs-9 ventas-right">
+
+              <p:dataTable id="datalist" value="#{ventas.carrito.items}" var="item" emptyMessage="Agregue servicios.">
+                <p:column style="text-align: center; width: 60px;" >
+                  <f:facet name="header">
+                    <h:outputText value="Cant."/>
+                  </f:facet>
+                  <p:inputText id="cantidad" value="#{item.cantidad}" style="width: 40px;">
+                    <p:ajax event="keyup" 
+                            delay="300"
+                            listener="#{ventas.handleChangeCantidad(item)}" 
+                            update="CarritoListForm:datalist, CarritoListForm:total" />
+                    <f:validateLength maximum="2" minimum="1" />
+                  </p:inputText>
+                </p:column>
+                <p:column>
+                  <f:facet name="header">
+                    <h:outputText value="Servicio" />
+                  </f:facet>
+                  <h:outputText value="#{item.nombreProducto}"/>
+                </p:column>
+                <p:column>
+                  <f:facet name="header">
+                    <h:outputText value="Doctor" />
+                  </f:facet>
+                  <h:outputText value="#{item.nombreDoctor}"/>
+                </p:column>
+                <p:column>
+                  <f:facet name="header">
+                    <h:outputText value="Precio"/>
+                  </f:facet>
+                  <h:outputText value="#{item.precioProducto}"/>
+                </p:column>
+                <p:column>
+                  <f:facet name="header">
+                    <h:outputText value="Importe"/>
+                  </f:facet>
+                  <h:outputText id="importe" value="#{item.importe}"/>
+                </p:column>
+                <p:column style="text-align: center; width: 60px;">
+                  <p:commandLink actionListener="#{ventas.eliminarServicio(item)}" 
+                                 class="btn btn-sm btn-danger action-btn"
+                                 update="CarritoListForm:datalist, CarritoListForm:total">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <p:confirm header="Confirmación" message="¿Estas seguro(a) de eliminar este registro?" icon="ui-icon-alert"/>
+                  </p:commandLink>
+                  <p:confirmDialog global="true">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                  </p:confirmDialog>
+                </p:column>
+              </p:dataTable>
+
+              <h:message for="cantidad" style="color:red" />
+              <h:panelGroup id="total">
+                <div class="row total">
+                  <div class="col-lg-4">
+                    <p:outputLabel  value="Total : " />
+                    <div style="margin-bottom: 25px" class="input-group">
+                      <span class="input-group-addon">S/.</span>
+                      <p:outputLabel value="#{ventas.carrito.total}" class="form-control"/>
+                    </div>
+                  </div>
+                  <div class="col-lg-offset-8" />
+                </div>
+              </h:panelGroup>
+
+              <div class="row forma-pago">
+                <div class="col-lg-6">
+                  <h3>Forma de pago</h3>
+
+                  <p:tabView id="tabs" dynamic="true" cache="true" >
+                    <p:tab title="Al contado">
+
+                      <div class="form-group row">
+                        <div class="col-sm-5">
+                          <p:outputLabel class="form-control-label" value="#{bundle.ListVentaTitle_comprobante}" for="comprobante" />
+                        </div>
+                        <div class="col-sm-7">
+                          <p:selectOneRadio id="comprobante" 
+                                            value="#{ventas.carrito.comprobante}"
+                                            required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_comprobante}"
+                                            >
+                            <f:selectItem itemLabel="Boleta" itemValue="BOLETA" />
+                            <f:selectItem itemLabel="Factura" itemValue="FACTURA" />
+                          </p:selectOneRadio>
+                        </div>
+                      </div>
+
+                      <p:commandButton value="Guardar venta" 
+                                       icon="fa fa-save"
+                                       actionListener="#{ventas.grabarVentaContado()}"
+                                       update=":growl, CarritoListForm:datalist"
+                                       ajax="false"/>
+                    </p:tab>
+
+
+                    <p:tab title="Credito" id="pagoCredito">
+
+                      <div class="form-group row">
+                        <div class="col-lg-3 form-control-label">
+                          <p:outputLabel  value="Inicial" for="inicial" />
+                        </div>
+                        <div class="col-lg-9">
+                          <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon">S/.</span>
+                            <p:inputText id="inicial" value="#{ventas.credito.inicial}" class="form-control" required="true" 
+                                         requiredMessage="#{bundle.CreateCreditoRequiredMessage_inicial}">
+                              <p:ajax event="keyup" listener="#{ventas.calcularImporte()}" update="importe" 
+                                      delay="300"
+                                      process="@this ncuotas"/>  
+                            </p:inputText>
+                          </div>
+                        </div>
+                        <div class="col-lg-offset-8" />
+                      </div>
+
+                      <div class="form-group row">
+                        <p:outputLabel class="col-sm-3 form-control-label" value="Nº de cuotas" for="ncuotas" />
+                        <div class="col-sm-9">
+                          <!-- validar solo numeros -->
+                          <p:inputText class="form-control" 
+                                       id="ncuotas" 
+                                       value="#{ventas.credito.totalcuotas}"
+                                       rendered="true"
+                                       requiredMessage='El campo "Nº de cuotas" es requerido'>
+                            <f:validateLongRange minimum="1" maximum="100"/>
+                            <p:ajax event="keyup" listener="#{ventas.calcularImporte()}" update="importe" 
+                                    delay="300"
+                                    process="@this inicial"/>  
+                          </p:inputText>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <div class="col-lg-3 form-control-label">
+                          <p:outputLabel  value="Credito a pagar" />
+                        </div>
+                        <div class="col-lg-9">
+                          <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon">S/.</span>
+                            <h:panelGroup>
+                              <p:outputLabel id="importe" value="#{ventas.credito.importe}" class="form-control"/>
+                            </h:panelGroup>
+                          </div>
+                        </div>
+                        <div class="col-lg-offset-8" />
+                      </div>
+
+                      <div class="form-group row">
+                        <p:outputLabel class="col-sm-3 form-control-label" for="tiempo" value="Plazo" />
+                        <div class="col-sm-9">
+                          <p:selectOneRadio id="tiempo" value="#{ventas.credito.plazo}">
+                            <f:selectItem itemLabel="Mensual"
+                                          itemValue="MENSUAL"/>
+                            <f:selectItem itemLabel="Quincenal"
+                                          itemValue="QUINCENAL"/>
+                            <f:selectItem itemLabel="1 Dia"
+                                          itemValue="DIA"/>
+                          </p:selectOneRadio>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <div class="col-sm-3"/>
+                        <div class="col-sm-9">
+                          <p:commandButton value="Guardar venta" actionListener="#{ventas.grabarVentaCreditos()}"
+                                           icon="fa fa-save"
+                                           update=":growl, CarritoListForm:datalist" ajax="false"/>
+                        </div>
+                      </div>
+
+
+
+                      <div class="form-group row">
+                        <p:outputLabel class="col-sm-5 form-control-label" for="comprobante-credito" value="Comprobante" />
+                        <div class="col-sm-7">
+                          <p:inputSwitch value="#{ventas.comprobanteCredito}" id="comprobante-credito" onLabel="SI" offLabel="NO">
+                            <p:ajax update="acciones" />
+                          </p:inputSwitch>
+                        </div>
+                      </div>
+
+                      <h:panelGroup id="acciones">
+                        <h:panelGroup rendered="#{ventas.comprobanteCredito==true}">
+                          <div class="form-group row">
+                            <div class="col-sm-5">
+
+                            </div>
+                            <div class="col-sm-7">
+                              <p:selectOneRadio id="comprobante-credito2" 
+                                                value="#{ventas.carrito.comprobante}"
+                                                rendered="#{ventas.comprobanteCredito==true}"
+                                                required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_comprobante}"
+                                                >
+                                <f:selectItem itemLabel="Boleta" itemValue="BOLETA" />
+                                <f:selectItem itemLabel="Factura" itemValue="FACTURA" />
+                              </p:selectOneRadio>
+                            </div>
+                          </div>
+
+                          <div class="form-group row">
+                            <div class="col-sm-5"/>
+                            <div class="col-sm-7">
+                              <p:commandButton value="Imprimir" actionListener="#{ventas.imprimirComprobanteCredito}"
+                                               icon="fa fa-print"
+                                               update=":growl" ajax="false"/>
+                            </div>
+                          </div>
+
+
+
+                        </h:panelGroup>
+                      </h:panelGroup>
+                    </p:tab>
+
+
+                    <p:tab title="Proforma" id="proforma">
+                      <p:commandButton value="Imprimir" 
+                                       icon="fa fa-print"
+                                       actionListener="#{ventas.imprimirProforma()}"
+                                       update=":growl"
+                                       ajax="false"/>
+                    </p:tab>
+                  </p:tabView>
+
+                </div>
+                <div class="col-lg-offset-6" />
+              </div>
+            </div>
+          </h:form>
+
+        </div>
+      </div>
+
+      <ui:include src="ventaBuscarCliente.xhtml"/>
+      <ui:include src="ventaBuscarServicio.xhtml"/>
+      <ui:include src="ventaNuevoCliente.xhtml"/>
+      <ui:include src="ventaBuscarDoctor.xhtml"/>
+    </ui:define>
+  </ui:composition>
+</html>
+

@@ -1,0 +1,6 @@
+# Ignore these folders for a Netbeans Maven project
+
+target/
+lib/
+
+gitLogs.log

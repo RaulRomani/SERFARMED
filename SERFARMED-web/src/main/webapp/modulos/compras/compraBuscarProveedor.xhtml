@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <!--
+    lazy="true"
+                       paginator="true"
+                       paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                       rows="10"
+                       rowsPerPageTemplate="10,20,30,40,50"-->
+    <p:dialog id="ProveedorSearchDlg" widgetVar="ProveedorSearchDialog" modal="true" resizable="false" appendTo="@(body)" header="Buscar proveedor">
+      <h:form id="ProveedorSearchForm"  >
+        <p:dataTable id="datalist" 
+                     value="#{compras.proveedorList}" 
+                     var="item"
+                     rowKey="#{item.idProveedor}"
+                     selectionMode="single" 
+                     selection="#{compras.proveedorSelected}"
+                     emptyMessage="No hay registros"
+                     widgetVar="proveedorTable"
+                     style="width: 700px"
+                     paginator="true"
+                     rows="10"
+                     rowsPerPageTemplate="10,20,30,40,50,60,70,80,90,100"
+                     >
+
+          <f:facet name="header">
+            <p:outputPanel>
+              <h:outputText value="Buscar por todos los campos:" />
+              <p:inputText id="globalFilter" onkeyup=" PF('proveedorTable').filter();
+                           " style="width:150px" placeholder="Palabra clave" />
+            </p:outputPanel>
+          </f:facet>
+
+          <p:column headerText="#{bundle.ListProveedorTitle_razonSocial}"
+                    filterBy="#{item.razonSocial}" sortBy="#{item.razonSocial}" filterMatchMode="contains">
+            <h:outputText value="#{item.razonSocial}"/>
+          </p:column>
+          <p:column headerText="#{bundle.ListProveedorTitle_ruc}"
+                    filterBy="#{item.ruc}" sortBy="#{item.ruc}" filterMatchMode="contains">
+            <h:outputText value="#{item.ruc}"/>
+          </p:column>
+          <p:column headerText="#{bundle.ListProveedorTitle_direccion}">
+            <h:outputText value="#{item.direccion}"/>
+          </p:column>
+          <p:column headerText="#{bundle.ListProveedorTitle_telefono}">
+            <h:outputText value="#{item.telefono}"/>
+          </p:column>
+          <p:column headerText="#{bundle.ListProveedorTitle_celular}">
+            <h:outputText value="#{item.celular}"/>
+          </p:column>
+
+
+          <f:facet name="footer">
+            <p:commandButton
+              id="aceptar"
+              value="Aceptar"  
+              oncomplete="PF('ProveedorSearchDialog').hide()" 
+              update=":DatosCarrito" ajax="true">
+              <!--<p:resetInput target=":DatosCarrito:diente" />-->
+            </p:commandButton>
+            <p:commandButton id="crearProveedor" icon="ui-icon-plus"
+                             actionListener="#{proveedorController.prepareCreate}"
+                             value="Nuevo Proveedor"
+                             update=":ProveedorCreateForm"
+                             oncomplete="PF('ProveedorCreateDialog').show()"/>
+
+          </f:facet>
+        </p:dataTable>
+
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

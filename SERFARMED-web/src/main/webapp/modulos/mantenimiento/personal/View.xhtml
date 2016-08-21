@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="PersonalViewDlg" widgetVar="PersonalViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPersonalTitle}">
+      <h:form id="PersonalViewForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{personalController.selected != null}">
+            <h:outputText value="#{bundle.ViewPersonalLabel_idPersonal}"/>
+            <h:outputText value="#{personalController.selected.idPersonal}" title="#{bundle.ViewPersonalTitle_idPersonal}"/>
+            <h:outputText value="#{bundle.ViewPersonalLabel_nombre}"/>
+            <h:outputText value="#{personalController.selected.nombre}" title="#{bundle.ViewPersonalTitle_nombre}"/>
+            <h:outputText value="#{bundle.ViewPersonalLabel_apellido}"/>
+            <h:outputText value="#{personalController.selected.apellido}" title="#{bundle.ViewPersonalTitle_apellido}"/>
+            <h:outputText value="#{bundle.ViewPersonalLabel_cargo}"/>
+            <h:outputText value="#{personalController.selected.cargo}" title="#{bundle.ViewPersonalTitle_cargo}"/>
+            <h:outputText value="#{bundle.ViewPersonalLabel_dni}"/>
+            <h:outputText value="#{personalController.selected.dni}" title="#{bundle.ViewPersonalTitle_dni}"/>
+            <h:outputText value="#{bundle.ViewPersonalLabel_sueldo}"/>
+            <h:outputText value="#{personalController.selected.sueldo}" title="#{bundle.ViewPersonalTitle_sueldo}"/>
+            <h:outputText value="#{bundle.ViewPersonalLabel_especialidad}"/>
+            <h:outputText value="#{personalController.selected.especialidad}" title="#{bundle.ViewPersonalTitle_especialidad}"/>
+            <h:outputText value="#{bundle.ViewPersonalLabel_correo}"/>
+            <h:outputText value="#{personalController.selected.correo}" title="#{bundle.ViewPersonalTitle_correo}"/>
+            <h:outputText value="#{bundle.ViewPersonalLabel_direccion}"/>
+            <h:outputText value="#{personalController.selected.direccion}" title="#{bundle.ViewPersonalTitle_direccion}"/>
+            <h:outputText value="#{bundle.ViewPersonalLabel_lugarNacimiento}"/>
+            <h:outputText value="#{personalController.selected.lugarNacimiento}" title="#{bundle.ViewPersonalTitle_lugarNacimiento}"/>
+            <h:outputText value="#{bundle.ViewPersonalLabel_fechaNacimiento}"/>
+            <h:outputText value="#{personalController.selected.fechaNacimiento}" title="#{bundle.ViewPersonalTitle_fechaNacimiento}">
+              <f:convertDateTime pattern="MM/dd/yyyy" />
+            </h:outputText>
+            <h:outputText value="#{bundle.ViewPersonalLabel_celular}"/>
+            <h:outputText value="#{personalController.selected.celular}" title="#{bundle.ViewPersonalTitle_celular}"/>
+            <h:outputText value="#{bundle.ViewPersonalLabel_sexo}"/>
+            <h:outputText value="#{personalController.selected.sexo}" title="#{bundle.ViewPersonalTitle_sexo}"/>
+            <h:outputText value="#{bundle.ViewPersonalLabel_edad}"/>
+            <h:outputText value="#{personalController.selected.edad}" title="#{bundle.ViewPersonalTitle_edad}"/>
+            <h:outputText value="#{bundle.ViewPersonalLabel_fechaCreacion}"/>
+            <h:outputText value="#{personalController.selected.fechaCreacion}" title="#{bundle.ViewPersonalTitle_fechaCreacion}">
+              <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+            </h:outputText>
+          </p:panelGrid>
+          <p:commandButton value="#{bundle.Close}" onclick="PersonalViewDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

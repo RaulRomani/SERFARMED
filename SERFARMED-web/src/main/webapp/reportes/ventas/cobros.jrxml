@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="8ea5f271-b3a6-4d4f-9e25-16a1b8af86c4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#F1F1F1"/>
+		</conditionalStyle>
+	</style>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="idCliente" class="java.lang.Integer"/>
+	<parameter name="idVenta" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     venta.`idVenta` AS venta_idVenta,
+     venta.`idUsuario` AS venta_idUsuario,
+     venta.`idCliente` AS venta_idCliente,
+     venta.`subtotal` AS venta_subtotal,
+     venta.`descuento` AS venta_descuento,
+     venta.`formapago` AS venta_formapago,
+     venta.`comprobante` AS venta_comprobante,
+     venta.`estado` AS venta_estado,
+     cliente.`idCliente` AS cliente_idCliente,
+     cliente.`nombre` AS cliente_nombre,
+     cliente.`apellido` AS cliente_apellido,
+     cliente.`DNI` AS cliente_DNI,
+     cliente.`RUC` AS cliente_RUC,
+     cliente.`direccion` AS cliente_direccion,
+     credito.`idCuota` AS credito_idCuota,
+     credito.`IdVenta` AS credito_IdVenta,
+     credito.`totalcuotas` AS credito_totalcuotas,
+     credito.`cuotaspagado` AS credito_cuotaspagado,
+     credito.`fechaHora` AS credito_fechaHora,
+     credito.`plazo` AS credito_plazo,
+     credito.`inicial` AS credito_inicial,
+     credito.`importe` AS credito_importe,
+     venta.`fechaHora` AS venta_fechaHora,
+     venta.`total` AS venta_total,
+     cliente.`celular` AS cliente_celular
+FROM
+     `cliente` cliente INNER JOIN `venta` venta ON cliente.`idCliente` = venta.`idCliente`
+     INNER JOIN `credito` credito ON venta.`idVenta` = credito.`IdVenta`
+WHERE
+     cliente.`idCliente` = $P{idCliente}
+ AND venta.`idVenta` = $P{idVenta}]]>
+	</queryString>
+	<field name="venta_idVenta" class="java.lang.Long"/>
+	<field name="venta_idUsuario" class="java.lang.Long"/>
+	<field name="venta_idCliente" class="java.lang.Long"/>
+	<field name="venta_subtotal" class="java.math.BigDecimal"/>
+	<field name="venta_descuento" class="java.math.BigDecimal"/>
+	<field name="venta_formapago" class="java.lang.String"/>
+	<field name="venta_comprobante" class="java.lang.String"/>
+	<field name="venta_estado" class="java.lang.String"/>
+	<field name="cliente_idCliente" class="java.lang.Long"/>
+	<field name="cliente_nombre" class="java.lang.String"/>
+	<field name="cliente_apellido" class="java.lang.String"/>
+	<field name="cliente_DNI" class="java.lang.String"/>
+	<field name="cliente_RUC" class="java.lang.String"/>
+	<field name="cliente_direccion" class="java.lang.String"/>
+	<field name="credito_idCuota" class="java.lang.Long"/>
+	<field name="credito_IdVenta" class="java.lang.Long"/>
+	<field name="credito_totalcuotas" class="java.lang.Integer"/>
+	<field name="credito_cuotaspagado" class="java.lang.Integer"/>
+	<field name="credito_fechaHora" class="java.sql.Timestamp"/>
+	<field name="credito_plazo" class="java.lang.String"/>
+	<field name="credito_inicial" class="java.math.BigDecimal"/>
+	<field name="credito_importe" class="java.math.BigDecimal"/>
+	<field name="venta_fechaHora" class="java.sql.Timestamp"/>
+	<field name="venta_total" class="java.math.BigDecimal"/>
+	<field name="cliente_celular" class="java.lang.String"/>
+	<title>
+		<band height="182" splitType="Stretch">
+			<rectangle>
+				<reportElement x="355" y="10" width="180" height="91" uuid="199688d9-d8e5-4a3f-a242-9476b8a05493"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="69" y="151" width="9" height="20" uuid="51eefb3b-be46-43c6-ac16-415bc599486d"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="151" width="51" height="20" uuid="1bd88f2a-801a-43c4-81ca-bee32d784f39"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="151" width="22" height="20" uuid="52d16505-8daf-46e6-b59d-67a75dc1a2f8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DNI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="388" y="78" width="45" height="20" uuid="26e5ad12-d5f1-4ccd-ac43-7673bb976532"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="435" y="78" width="9" height="20" uuid="473228a6-122d-41c3-8851-c0c22a154751"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="435" y="58" width="9" height="20" uuid="cd3d96b6-6d90-4dfb-be31-f1f91a94a44a"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="373" y="58" width="60" height="20" uuid="8909c8ff-4052-4b41-a922-31ab2d7e1448"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="17" width="180" height="20" uuid="e155ba7c-d71e-4d38-9230-87cdf72d98c6"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[R.U.C. Nº 84354235678]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="444" y="58" width="81" height="20" uuid="11b64c0c-1b5a-4e6e-8db8-1c8004e72ee6"/>
+				<textFieldExpression><![CDATA[String.format("%06d", Long.valueOf( $F{venta_idVenta} ))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="18" y="131" width="51" height="20" uuid="61b0bed6-8079-4e9a-bec3-cc9d834f2a7c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Señor(es)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="69" y="131" width="9" height="20" uuid="3bb745ca-4de6-453a-ac6e-efe802f279be"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="255" y="151" width="9" height="20" uuid="46aee83b-262c-4a93-abc0-2f0f461d2a94"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="78" y="131" width="155" height="20" uuid="204ec6f1-79c7-4614-abbe-35dcbafce9c3"/>
+				<textFieldExpression><![CDATA[$F{cliente_nombre} + " " + $F{cliente_apellido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="78" y="151" width="155" height="20" uuid="bc963c76-8c4d-44f5-ae21-e0266cd042b0"/>
+				<textFieldExpression><![CDATA[$F{cliente_direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="264" y="151" width="100" height="20" uuid="e842d5e0-8840-4103-b777-9a77aefd3553"/>
+				<textFieldExpression><![CDATA[$F{cliente_DNI}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="355" y="35" width="180" height="20" forecolor="#FF0000" uuid="6f77b32e-d7fb-4c5e-9021-f2312c7ffa2f"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CRÉDITO]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="444" y="78" width="81" height="20" uuid="06708275-7ddf-417a-9cbb-3c74a4359882"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="74" width="333" height="20" uuid="a058ec29-f99a-42d3-baa8-066eb6e67437"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Email: contacto@serfarmed.com]]></text>
+			</staticText>
+			<image>
+				<reportElement x="18" y="10" width="232" height="40" uuid="f3e9c13a-7590-4ced-b089-964d8d174508"/>
+				<imageExpression><![CDATA["logo.png"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="10" y="55" width="333" height="1" uuid="e855c2dd-5b11-4754-b4fc-6c101c2b59b9"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="112">
+			<rectangle>
+				<reportElement x="88" y="24" width="376" height="79" uuid="f595d3ce-c239-4c86-9f08-de5f284344dc"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="331" y="54" width="9" height="20" uuid="bbcc2cb0-668c-4384-9a00-62fc9f4e8d88"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="170" y="34" width="100" height="20" uuid="65a7d6bf-c570-4012-ba18-3536181ebea5"/>
+				<textFieldExpression><![CDATA[$F{credito_totalcuotas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="74" width="100" height="20" uuid="ebc31262-0943-460c-b7ba-e5ac3c2b69d9"/>
+				<textFieldExpression><![CDATA[$F{credito_totalcuotas} - $F{credito_cuotaspagado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="111" y="34" width="50" height="20" uuid="97de0076-643a-4462-8835-65b6a4b9c8e4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="74" width="50" height="20" uuid="dbcc5094-d481-41eb-b79e-e4f1edd84e7c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Debe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="54" width="50" height="20" uuid="aa6c9409-5f90-4c6e-a1f5-d38b9da2cdcd"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pagado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="54" width="9" height="20" uuid="493cd2a9-6e5c-4571-b4b2-d96f09aa358e"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="161" y="74" width="9" height="20" uuid="5033ab72-f643-443c-87ca-a5b4d0ea2f2b"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="34" width="47" height="20" uuid="fc56102a-1194-41e6-bfd3-0c670e28f367"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Plazo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="54" width="47" height="20" uuid="aaaffc25-3016-4c3c-ac3b-113d47eb26a3"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="170" y="54" width="100" height="20" uuid="4f4c2885-4bd0-4b74-9d08-368960726ab9"/>
+				<textFieldExpression><![CDATA[$F{credito_cuotaspagado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="340" y="54" width="100" height="20" uuid="6ee1f8be-5c7f-4b28-966f-6c9b5c424ca9"/>
+				<textFieldExpression><![CDATA[$F{credito_importe}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="88" y="4" width="376" height="20" uuid="2f29740c-5421-424a-9bd3-2c9747feb584"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUOTAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="331" y="34" width="9" height="20" uuid="583bb029-7b3a-4863-9e54-e4112b2c082a"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="34" width="9" height="20" uuid="4772e61d-bf03-451b-acf3-06cd6b84eae1"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="340" y="34" width="100" height="20" uuid="8561a286-047e-4118-b1d4-679c26c014f8"/>
+				<textFieldExpression><![CDATA[$F{credito_plazo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

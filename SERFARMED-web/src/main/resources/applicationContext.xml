@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:sec="http://www.springframework.org/schema/security"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+          http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+          http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+          http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+">
+
+    <!-- begin Spring Security config -->
+    <sec:global-method-security secured-annotations="enabled" />
+
+    <!-- Don't SSL encrypt static resources -->
+    <sec:http pattern="/resources/**" security="none"/>
+
+    <sec:http auto-config="true" access-denied-page="/faces/loginerror.xhtml">
+            
+        <!-- On Glassfish, dev ports are 8080 and 8181, whereas on
+        production its 80 and 443 -->
+        <sec:port-mappings>
+            <sec:port-mapping http="8080" https="8181"/>
+        </sec:port-mappings>
+
+        <!--MODULOS-->
+        <sec:intercept-url 
+            pattern="/faces/modulos/ventas/**" 
+            access="ROLE_CAJERO, ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/compras/**" 
+            access="ROLE_CAJERO, ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/egresos/**" 
+            access="ROLE_CAJERO, ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/reportes/**" 
+            access="ROLE_CAJERO, ROLE_ADMIN" requires-channel="https" />
+        
+        <!--
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/**" 
+            access="ROLE_ADMIN" requires-channel="https" />-->
+        <!-- MANTENIMIENTO -->
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/categoria/**" 
+            access="ROLE_CAJERO, ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/cliente/**" 
+            access="ROLE_CAJERO, ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/comision/**" 
+            access="ROLE_ADMIN" requires-channel="https" />
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/credito/**" 
+            access="ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/detallecompra/**" 
+            access="ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/egresos/**" 
+            access="ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/pago/**" 
+            access="ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/personal/**" 
+            access="ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/prodcto/**" 
+            access="ROLE_CAJERO, ROLE_ADMIN" requires-channel="https" />
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/proveedor/**" 
+            access="ROLE_CAJERO, ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/saldoinicial/**" 
+            access="ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/servicio/**" 
+            access="ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/servicioventa/**" 
+            access="ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/usuario/**" 
+            access="ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/venta/**" 
+            access="ROLE_ADMIN" requires-channel="https" />
+        
+        
+        
+        <!--PAGES-->
+        <sec:intercept-url 
+            pattern="/faces/main.xhtml" 
+            access="ROLE_CAJERO, ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/perfil.xhtml" 
+            access="ROLE_CAJERO, ROLE_ADMIN" requires-channel="https" />
+        <sec:intercept-url 
+            pattern="/**" 
+            access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        
+        <!-- Use O/S provided login window
+        <http-basic />
+        -->
+        <!-- Use custom form for login -->
+        <sec:form-login 
+            login-processing-url="/j_spring_security_check"
+            login-page="/faces/login.xhtml" 
+            authentication-success-handler-ref="myAuthenticationHandler"
+            authentication-failure-url="/faces/loginerror.xhtml"/>
+            
+        <sec:logout logout-url="/j_spring_security_logout" 
+                    invalidate-session="true" 
+                    logout-success-url="/faces/login.xhtml" />
+
+    </sec:http>
+ 
+    <sec:authentication-manager alias="authenticationManager">
+        <sec:authentication-provider>
+            <sec:password-encoder ref="encoderBean">
+                <sec:salt-source user-property="username"/>
+            </sec:password-encoder>
+            <!--<sec:jdbc-user-service data-source-ref="dataSource" /> -->
+            
+            <!-- if not using a database for accounts, hard-code them here
+           <sec:user-service>
+               <sec:user name="admin" password="admin" authorities="ROLE_ADMIN, ROLE_MEMBER" />
+               <sec:user name="member" password="member" authorities="ROLE_MEMBER" />
+           </sec:user-service>
+            -->
+            
+            <sec:jdbc-user-service data-source-ref="dataSource"
+                               users-by-username-query="
+                              SELECT username, password, CASE ENABLED WHEN 1 THEN 'true' ELSE 'false' END 'ENABLED' 
+                              FROM usuario
+                              WHERE username=?;"
+
+                               authorities-by-username-query="
+                              SELECT u.username, r.authority
+                              FROM usuario u, usuario r
+                              WHERE u.idUsuario = r.idUsuario
+                              AND u.username=?;"
+                              
+                              
+            />
+        </sec:authentication-provider>
+    </sec:authentication-manager>
+    
+    <bean id="myAuthenticationHandler" class="com.serfarmed.controllers.util.MyAuthenticationHandler" />
+    
+    <bean id="encoderBean" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
+        <constructor-arg value="512" />
+        <property name="iterations" value="1024"/>
+    </bean>
+    
+    
+    <!-- Server managed connection pool accessed via JNDI -->
+    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/Serfarmed"/>
+        
+    <!-- (Optional) Automatically receives and logs AuthenticationEvent messages -->
+    <!-- <bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener"/>-->
+
+</beans>

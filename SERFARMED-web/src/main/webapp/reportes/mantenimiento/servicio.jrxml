@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="65600e0b-9eb5-4c09-9b10-d6bba1bde56b">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#F1F1F1"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[SELECT
+     servicio.`idServicio` AS servicio_idServicio,
+     servicio.`nombre` AS servicio_nombre,
+     servicio.`precio` AS servicio_precio,
+     servicio.`descripcion` AS servicio_descripcion
+FROM
+     `servicio` servicio]]>
+	</queryString>
+	<field name="servicio_idServicio" class="java.lang.Long"/>
+	<field name="servicio_nombre" class="java.lang.String"/>
+	<field name="servicio_precio" class="java.math.BigDecimal"/>
+	<field name="servicio_descripcion" class="java.lang.String"/>
+	<title>
+		<band height="97" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="7" width="98" height="37" uuid="fcff1d7b-14a3-43db-aa82-b20643523097"/>
+				<imageExpression><![CDATA["D:\\Java virtual course\\Expert\\MyProjects\\CDRevilla\\CDRevilla-web\\src\\main\\webapp\\reportes\\mantenimiento\\logo.jpeg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="113" y="13" width="207" height="26" uuid="b7bcbb29-318a-4715-9778-9c5bad51f81f"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Clinica Dental Revilla]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="555" height="20" forecolor="#0093D0" uuid="c7cd7e1d-6ce5-4d65-981a-82de8ecadede"/>
+				<textElement textAlignment="Center">
+					<font fontName="Impact" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de servicios]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="41" y="2" width="164" height="20" uuid="6272be70-941b-4e13-af50-4a53600decb5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="234" y="0" width="86" height="20" uuid="dbfe94a4-1c14-43ee-a256-29b524873b47"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio (S/.)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="303" y="0" width="252" height="20" uuid="5025d10a-fd75-4105-81dd-dbbf05eb2f93"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="2" width="29" height="16" forecolor="#000000" uuid="a331c6ce-2007-45b0-b98f-6c9996358f22"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="2" width="555" height="31" uuid="70913d61-1c56-4f04-a1cf-9a62091f3572"/>
+				<textField>
+					<reportElement x="41" y="2" width="164" height="29" uuid="c6730651-f861-4157-8e86-6738a7b268b7"/>
+					<textFieldExpression><![CDATA[$F{servicio_nombre}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="213" y="0" width="58" height="20" uuid="37f8ce2c-f65d-441d-a7d9-a24fe97c3b9c"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{servicio_precio}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="303" y="0" width="252" height="20" uuid="c4f5bc11-1c49-48cc-88a3-d75f94070de5"/>
+					<textFieldExpression><![CDATA[$F{servicio_descripcion}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="10" y="2" width="28" height="15" uuid="0f9d40b9-40a2-4764-bdb9-99209e9932f9"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="51" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="14" width="100" height="20" uuid="4bef1e13-5668-45c2-a376-1e3ce67df91f"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="535" y="14" width="40" height="20" forecolor="#736343" uuid="655ff438-5af4-4c7e-ad45-8a3f9804f7e5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column header" x="455" y="14" width="80" height="20" forecolor="#333333" uuid="d39861b6-7b3b-4c05-8d3f-6ec6474bb115"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

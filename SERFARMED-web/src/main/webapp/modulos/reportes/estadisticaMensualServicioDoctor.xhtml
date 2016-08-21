@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+  <ui:composition template="/templates/templateCool.xhtml">
+    <ui:define name="resources">
+      <h:outputScript name="/js/crud.js"/>
+    </ui:define>
+
+    <ui:define name="body">
+
+      <div class="container">
+
+        <h1 class="row" style="color: #269abc">Estadística Mensual por servicio y doctor</h1>
+
+        <div class="row">
+          <div class="col-sm-3 reportes-left">
+
+            <div class="form-group row">
+              <div class="col-sm-3"/>
+              <div class="col-sm-9">
+                <h:form>
+                  <p:commandButton id="buscarServicio" icon="ui-icon-search"   
+                                   value="Buscar Servicio"
+                                   oncomplete="PF('ServicioSearchDialog').show()"/>
+
+                </h:form>
+              </div>
+            </div>
+
+            <h:panelGroup id="servicio" >
+              <h:panelGroup rendered="#{reportes.servicioSelected!=null}">
+                <div class="form-group row">
+                  <div class="col-sm-3">
+                    <p:outputLabel class="form-control-label"  value="Servicio" />
+                  </div>
+                  <div class="col-sm-9">
+                    <h:outputText value="#{reportes.servicioSelected.nombre}"/>
+                  </div>
+                </div>
+              </h:panelGroup>
+            </h:panelGroup>
+
+          </div>
+          <div class="col-sm-9" />
+
+        </div>
+
+        <h:panelGroup id="reporte">
+          <h:panelGroup rendered="#{empty reportes.servicioSelected ? false:true}">
+            <div class="row">
+              <h:form id="resultsForm" >
+                <div class="row" align="center">
+                  <p:chart type="pie" model="#{reportes.pieServicioDoctorTotal}" style="width:1000px;height:900px"  rendered="#{!empty reportes.pieServicioDoctorTotal}"/>
+                </div>
+
+                <div class="row" align="center">
+                  <!--<h2>Egresos</h2>-->
+
+                  <div style="width: 1000px">
+                    <p:dataTable id="resultsDatalist" value="#{reportes.servicioDoctorTotalList}" var="item" emptyMessage="No hay registros" rowIndexVar="rowIndex">
+                      <p:column headerText="Nº" style="width: 10%;text-align: center">
+                        #{rowIndex+1}
+                      </p:column>
+                      <p:column headerText="Doctor" style="width: 80%">
+                        #{item[0]}
+                      </p:column>
+                      <p:column headerText="Total (S/.)" style="width: 20%" >
+                        <p style="float: right">#{item[1]}</p> 
+                      </p:column>
+                    </p:dataTable>
+                  </div>
+                </div>
+              </h:form>
+            </div>
+          </h:panelGroup>
+        </h:panelGroup>
+
+      </div>
+
+
+      <ui:include src="buscarServicio.xhtml"/>
+    </ui:define>
+  </ui:composition>
+</html>
+

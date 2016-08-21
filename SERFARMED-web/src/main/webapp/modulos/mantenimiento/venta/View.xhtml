@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="VentaViewDlg" widgetVar="VentaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewVentaTitle}">
+      <h:form id="VentaViewForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{ventaController.selected != null}">
+            <h:outputText value="#{bundle.ViewVentaLabel_idVenta}"/>
+            <h:outputText value="#{ventaController.selected.idVenta}" title="#{bundle.ViewVentaTitle_idVenta}"/>
+            <h:outputText value="#{bundle.ViewVentaLabel_subtotal}"/>
+            <h:outputText value="#{ventaController.selected.subtotal}" title="#{bundle.ViewVentaTitle_subtotal}"/>
+            <h:outputText value="#{bundle.ViewVentaLabel_descuento}"/>
+            <h:outputText value="#{ventaController.selected.descuento}" title="#{bundle.ViewVentaTitle_descuento}"/>
+            <h:outputText value="#{bundle.ViewVentaLabel_total}"/>
+            <h:outputText value="#{ventaController.selected.total}" title="#{bundle.ViewVentaTitle_total}"/>
+            <h:outputText value="#{bundle.ViewVentaLabel_fechaHora}"/>
+            <h:outputText value="#{ventaController.selected.fechaHora}" title="#{bundle.ViewVentaTitle_fechaHora}">
+              <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+            </h:outputText>
+            <h:outputText value="#{bundle.ViewVentaLabel_formapago}"/>
+            <h:outputText value="#{ventaController.selected.formapago}" title="#{bundle.ViewVentaTitle_formapago}"/>
+            <h:outputText value="#{bundle.ViewVentaLabel_comprobante}"/>
+            <h:outputText value="#{ventaController.selected.comprobante}" title="#{bundle.ViewVentaTitle_comprobante}"/>
+            <h:outputText value="#{bundle.ViewVentaLabel_estado}"/>
+            <h:outputText value="#{ventaController.selected.estado}" title="#{bundle.ViewVentaTitle_estado}"/>
+            <h:outputText value="#{bundle.ViewVentaLabel_idCliente}"/>
+            <h:outputText value="#{ventaController.selected.idCliente}" title="#{bundle.ViewVentaTitle_idCliente}"/>
+            <h:outputText value="#{bundle.ViewVentaLabel_idUsuario}"/>
+            <h:outputText value="#{ventaController.selected.idUsuario}" title="#{bundle.ViewVentaTitle_idUsuario}"/>
+          </p:panelGrid>
+          <p:commandButton value="#{bundle.Close}" onclick="VentaViewDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

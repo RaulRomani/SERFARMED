@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+  <ui:composition template="/templates/templateCool.xhtml">
+
+    <ui:define name="resources">
+      <h:outputScript name="/js/crud.js"/>
+    </ui:define>
+
+
+    <ui:define name="body">
+
+      <div class="container">
+        <h1 class="row" style="color: #269abc">Compras</h1>
+
+
+        <div class="row">
+          <h:form id="DatosCarrito" >
+            <div class="col-sm-3 compras-left">
+              <div class="form-group row">
+                <div class="col-sm-3">
+                  <!--<p:outputLabel class="form-control-label"  value="Proveedor" for="buscarProveedor" />-->
+                </div>
+                <div class="col-sm-9">
+                  <p:commandButton actionListener="#{compras.prepareProveedor()}"
+                                   id="buscarProveedor" icon="ui-icon-search"   
+                                   value="Buscar Proveedor"
+                                   oncomplete="PF('ProveedorSearchDialog').show()"/>
+                </div>
+              </div>
+
+              <h:panelGroup id="proveedor" rendered="#{compras.proveedorSelected.razonSocial!=null}">
+                <div class="form-group row">
+                  <div class="col-sm-4">
+                    <p:outputLabel class="form-control-label"  value="Proveedor" />
+                  </div>
+                  <div class="col-sm-8">
+                    <h:outputText value="#{compras.proveedorSelected.razonSocial}"/>
+                  </div>
+                </div>
+                
+                <div class="form-group row">
+                  <div class="col-sm-4">
+                    <p:outputLabel class="form-control-label"  value="RUC" />
+                  </div>
+                  <div class="col-sm-8">
+                    <h:outputText value="#{compras.proveedorSelected.ruc}"/>
+                  </div>
+                </div>
+
+              </h:panelGroup>
+
+
+
+
+              <div class="form-group row">
+                <div class="col-sm-3">
+                  <!--<p:outputLabel class="form-control-label" for="buscarProducto" value="Producto:  " />-->
+                </div>
+                <div class="col-sm-9">
+                  <p:commandButton id="buscarProducto" icon="ui-icon-search"   
+                                   value="Buscar Producto"
+                                   oncomplete="PF('ProductoSearchDialog').show()"/>
+                </div>
+              </div>
+
+              <h:panelGroup id="producto" rendered="#{compras.productoSelected!=null}">
+                <div class="form-group row">
+                  <div class="col-sm-3">
+                    <p:outputLabel class="form-control-label"  value="Producto" />
+                  </div>
+                  <div class="col-sm-9">
+                    <h:outputText value="#{compras.productoSelected.nombre}"/>
+                  </div>
+                </div>
+              </h:panelGroup>
+
+              <div class="form-group row">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-9">
+                  <p:commandButton value="Agregar" icon="ui-icon-plus" actionListener="#{compras.agregarProducto()}" 
+                                   update="CarritoListForm:total,CarritoListForm:datalist,:growl,proveedor"
+                                   ajax="true"/>
+                </div>
+              </div>
+            </div>
+          </h:form>
+
+          <h:form id="CarritoListForm" onkeypress="if (event.keyCode == 13) {
+                return false;
+              }">
+            <div class="col-xs-9 compras-right">
+
+              <p:dataTable id="datalist" value="#{compras.carrito.items}" var="item" emptyMessage="">
+                <p:column style="text-align: center">
+                  <f:facet name="header">
+                    <h:outputText value="Cantidad"/>
+                  </f:facet>
+                  <p:inputText id="cantidad" value="#{item.cantidad}" style="width: 50px;" >
+                    <p:ajax event="keyup" 
+                            delay="300"
+                            listener="#{compras.handleChangeCantidad(item)}" 
+                            update="CarritoListForm:datalist, CarritoListForm:total" />
+                    <f:validateLength maximum="2" minimum="1" />
+                  </p:inputText>
+                </p:column>
+                <p:column>
+                  <f:facet name="header">
+                    <h:outputText value="Producto" />
+                  </f:facet>
+                  <h:outputText value="#{item.nombreProducto}"/>
+                </p:column>
+                <p:column>
+                  <f:facet name="header">
+                    <h:outputText value="Precio"/>
+                  </f:facet>
+                  <h:outputText value="#{item.precioProducto}"/>
+                </p:column>
+                <p:column>
+                  <f:facet name="header">
+                    <h:outputText value="Importe"/>
+                  </f:facet>
+                  <h:outputText id="importe" value="#{item.importe}"/>
+                </p:column>
+                <p:column style="text-align: center; width: 60px;">
+                  <p:commandLink actionListener="#{compras.eliminarProducto(item)}" 
+                                 class="btn btn-sm btn-danger action-btn"
+                                 update="CarritoListForm:datalist, CarritoListForm:total">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <p:confirm header="Confirmación" message="¿Estas seguro(a) de eliminar este registro?" icon="ui-icon-alert"/>
+                  </p:commandLink>
+                  <p:confirmDialog global="true">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                  </p:confirmDialog>
+                </p:column>
+              </p:dataTable>
+
+              <h:message for="cantidad" style="color:red" />
+              <h:panelGroup id="total">
+                <div class="row total">
+                  <div class="col-lg-4">
+                    <p:outputLabel  value="Total : " />
+                    <div style="margin-bottom: 25px" class="input-group">
+                      <span class="input-group-addon">S/.</span>
+                      <p:outputLabel value="#{compras.carrito.total}" class="form-control"/>
+                    </div>
+                  </div>
+                  <div class="col-lg-offset-8" />
+                </div>
+              </h:panelGroup>
+
+              <div class="row pedido-compra">
+                <div class="col-lg-6">
+                  <p:tabView id="tabs" dynamic="true" cache="true" >
+                    <p:tab title="Guardar pedido" id="guardar">
+
+                      <p:commandButton value="Guardar pedido" 
+                                       icon="fa fa-save"
+                                       actionListener="#{compras.grabarPedidoCompra()}"
+                                       update=":growl,CarritoListForm:datalist"
+                                       ajax="false"/>
+                    </p:tab>
+
+
+                    
+                    <p:tab title="Proforma" id="proforma">
+                      <p:commandButton value="Descargar" 
+                                       icon="fa  fa-file-pdf-o"
+                                       actionListener="#{compras.imprimirProforma()}"
+                                       update=":growl"
+                                       ajax="false"/>
+                    </p:tab>
+                  </p:tabView>
+
+                </div>
+                <div class="col-lg-offset-6" />
+              </div>
+            </div>
+          </h:form>
+
+        </div>
+      </div>
+
+      <ui:include src="compraBuscarProveedor.xhtml"/>
+      <ui:include src="compraBuscarProducto.xhtml"/>
+      <ui:include src="compraNuevoProveedor.xhtml"/>
+    </ui:define>
+  </ui:composition>
+</html>
+

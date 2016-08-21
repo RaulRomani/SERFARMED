@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition template="/templates/templateCool.xhtml">
+
+
+    <ui:define name="title">
+      <h:outputText value="#{bundle.ListCreditoTitle}"></h:outputText>
+    </ui:define>
+    
+    <ui:define name="resources">
+      <h:outputScript name="/js/crud.js"/>
+    </ui:define>
+
+    <ui:define name="body">
+      <h:form id="CreditoListForm">
+        <p:dataTable id="datalist" value="#{creditoController.items}" var="item"
+                     selectionMode="single" selection="#{creditoController.selected}"
+                     paginator="true"
+                     rowKey="#{item.idCuota}"
+                     rows="10"
+                     rowsPerPageTemplate="10,20,30,40,50"
+                     >
+
+          <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+          <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListCreditoTitle_idCuota}"/>
+            </f:facet>
+            <h:outputText value="#{item.idCuota}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListCreditoTitle_totalcuotas}"/>
+            </f:facet>
+            <h:outputText value="#{item.totalcuotas}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListCreditoTitle_cuotaspagado}"/>
+            </f:facet>
+            <h:outputText value="#{item.cuotaspagado}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListCreditoTitle_fechaHora}"/>
+            </f:facet>
+            <h:outputText value="#{item.fechaHora}">
+              <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+            </h:outputText>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListCreditoTitle_plazo}"/>
+            </f:facet>
+            <h:outputText value="#{item.plazo}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListCreditoTitle_inicial}"/>
+            </f:facet>
+            <h:outputText value="#{item.inicial}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListCreditoTitle_importe}"/>
+            </f:facet>
+            <h:outputText value="#{item.importe}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListCreditoTitle_idVenta}"/>
+            </f:facet>
+            <h:outputText value="#{item.idVenta}"/>
+          </p:column>
+          <f:facet name="footer">
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{creditoController.prepareCreate}" update=":CreditoCreateForm" oncomplete="PF('CreditoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":CreditoViewForm" oncomplete="PF('CreditoViewDialog').show()" disabled="#{empty creditoController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CreditoEditForm" oncomplete="PF('CreditoEditDialog').show()" disabled="#{empty creditoController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{creditoController.destroy}" update=":growl,datalist" disabled="#{empty creditoController.selected}"/>
+          </f:facet>
+        </p:dataTable>
+      </h:form>
+
+      <ui:include src="Create.xhtml"/>
+      <ui:include src="Edit.xhtml"/>
+      <ui:include src="View.xhtml"/>
+    </ui:define>
+  </ui:composition>
+
+</html>

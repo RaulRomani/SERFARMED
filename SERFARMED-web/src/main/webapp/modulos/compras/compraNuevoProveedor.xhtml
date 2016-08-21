@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="ProveedorCreateDlg" widgetVar="ProveedorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateProveedorTitle}">
+      <h:form id="ProveedorCreateForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{proveedorController.selected != null}">
+            
+            <p:outputLabel value="#{bundle.CreateProveedorLabel_razonSocial}" for="razonSocial" />
+            <p:inputText id="razonSocial" value="#{proveedorController.selected.razonSocial}" title="#{bundle.CreateProveedorTitle_razonSocial}" required="true" requiredMessage="#{bundle.CreateProveedorRequiredMessage_razonSocial}"/>
+            <p:outputLabel value="#{bundle.CreateProveedorLabel_ruc}" for="ruc" />
+            <p:inputMask id="ruc" value="#{proveedorController.selected.ruc}" mask="99999999999" title="#{bundle.CreateProveedorTitle_ruc}" required="true" requiredMessage="#{bundle.CreateProveedorRequiredMessage_ruc}"/>
+            <p:outputLabel value="#{bundle.CreateProveedorLabel_direccion}" for="direccion" />
+            <p:inputText id="direccion" value="#{proveedorController.selected.direccion}" title="#{bundle.CreateProveedorTitle_direccion}" />
+            <p:outputLabel value="#{bundle.CreateProveedorLabel_telefono}" for="telefono" />
+            <p:inputText id="telefono" value="#{proveedorController.selected.telefono}" title="#{bundle.CreateProveedorTitle_telefono}" />
+            <p:outputLabel value="#{bundle.CreateProveedorLabel_celular}" for="celular" />
+            <p:inputText id="celular" value="#{proveedorController.selected.celular}" title="#{bundle.CreateProveedorTitle_celular}" />
+            <p:outputLabel value="#{bundle.CreateProveedorLabel_correo}" for="correo" />
+            <p:inputText id="correo" value="#{proveedorController.selected.correo}" title="#{bundle.CreateProveedorTitle_correo}" />
+            <p:outputLabel value="#{bundle.CreateProveedorLabel_paginaWeb}" for="paginaWeb" />
+            <p:inputText id="paginaWeb" value="#{proveedorController.selected.paginaWeb}" title="#{bundle.CreateProveedorTitle_paginaWeb}" />
+            <p:outputLabel value="#{bundle.CreateProveedorLabel_fechaCreacion}" for="fechaCreacion" />
+            <p:calendar id="fechaCreacion" pattern="MM/dd/yyyy HH:mm:ss" value="#{proveedorController.selected.fechaCreacion}" title="#{bundle.EditProveedorTitle_fechaCreacion}" required="true" requiredMessage="#{bundle.EditProveedorRequiredMessage_fechaCreacion}" showOn="button"/>
+            <p:outputLabel value="#{bundle.CreateProveedorLabel_nota}" for="nota" />
+            <p:inputText id="nota" value="#{proveedorController.selected.nota}" title="#{bundle.CreateProveedorTitle_nota}" />
+            
+          </p:panelGrid>
+          <p:commandButton actionListener="#{proveedorController.create}" value="#{bundle.Save}" update="display,ProveedorSearchForm:datalist,:growl" oncomplete="handleSubmit(args,'ProveedorCreateDialog');"/>
+          
+          <p:commandButton value="#{bundle.Close}" onclick="PF('ProveedorCreateDialog').hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

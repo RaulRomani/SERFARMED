@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="PersonalEditDlg" widgetVar="PersonalEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditPersonalTitle}">
+      <h:form id="PersonalEditForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{personalController.selected != null}">
+            
+            <p:outputLabel value="#{bundle.EditPersonalLabel_nombre}" for="nombre" />
+            <p:inputText id="nombre" value="#{personalController.selected.nombre}" title="#{bundle.EditPersonalTitle_nombre}" required="true" requiredMessage="#{bundle.EditPersonalRequiredMessage_nombre}"/>
+            <p:outputLabel value="#{bundle.EditPersonalLabel_apellido}" for="apellido" />
+            <p:inputText id="apellido" value="#{personalController.selected.apellido}" title="#{bundle.EditPersonalTitle_apellido}" required="true" requiredMessage="#{bundle.EditPersonalRequiredMessage_apellido}"/>
+            <p:outputLabel value="#{bundle.EditPersonalLabel_cargo}" for="cargo" />
+            <p:inputText id="cargo" value="#{personalController.selected.cargo}" title="#{bundle.EditPersonalTitle_cargo}" required="true" requiredMessage="#{bundle.EditPersonalRequiredMessage_cargo}"/>
+            <p:outputLabel value="#{bundle.EditPersonalLabel_dni}" for="dni" />
+            <p:inputText id="dni" value="#{personalController.selected.dni}" title="#{bundle.EditPersonalTitle_dni}" required="true" requiredMessage="#{bundle.EditPersonalRequiredMessage_dni}"/>
+            <p:outputLabel value="#{bundle.EditPersonalLabel_sueldo}" for="sueldo" />
+            <p:inputText id="sueldo" value="#{personalController.selected.sueldo}" title="#{bundle.EditPersonalTitle_sueldo}" required="true" requiredMessage="#{bundle.EditPersonalRequiredMessage_sueldo}"/>
+            <p:outputLabel value="#{bundle.EditPersonalLabel_especialidad}" for="especialidad" />
+            <p:inputText id="especialidad" value="#{personalController.selected.especialidad}" title="#{bundle.EditPersonalTitle_especialidad}" />
+            <p:outputLabel value="#{bundle.EditPersonalLabel_correo}" for="correo" />
+            <p:inputText id="correo" value="#{personalController.selected.correo}" title="#{bundle.EditPersonalTitle_correo}" />
+            <p:outputLabel value="#{bundle.EditPersonalLabel_direccion}" for="direccion" />
+            <p:inputText id="direccion" value="#{personalController.selected.direccion}" title="#{bundle.EditPersonalTitle_direccion}" />
+            <p:outputLabel value="#{bundle.EditPersonalLabel_lugarNacimiento}" for="lugarNacimiento" />
+            <p:inputText id="lugarNacimiento" value="#{personalController.selected.lugarNacimiento}" title="#{bundle.EditPersonalTitle_lugarNacimiento}" />
+            <p:outputLabel value="#{bundle.EditPersonalLabel_fechaNacimiento}" for="fechaNacimiento" />
+            <p:calendar id="fechaNacimiento" pattern="dd/MM/yyyy" value="#{personalController.selected.fechaNacimiento}" title="#{bundle.EditPersonalTitle_fechaNacimiento}" navigator="true" yearRange="c-70:c+10"  showOn="button"/>
+            <p:outputLabel value="#{bundle.EditPersonalLabel_celular}" for="celular" />
+            <p:inputText id="celular" value="#{personalController.selected.celular}" title="#{bundle.EditPersonalTitle_celular}" />
+            <p:outputLabel value="#{bundle.EditPersonalLabel_sexo}" for="sexo" />
+            <p:inputText id="sexo" value="#{personalController.selected.sexo}" title="#{bundle.EditPersonalTitle_sexo}" />
+            
+            
+          </p:panelGrid>
+          <p:commandButton actionListener="#{personalController.update}" value="#{bundle.Save}" update="display,:PersonalListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PersonalEditDialog');"/>
+          <p:commandButton value="#{bundle.Cancel}" onclick="PersonalEditDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

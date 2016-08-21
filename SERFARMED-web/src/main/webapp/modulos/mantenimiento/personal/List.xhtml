@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition template="/templates/templateCool.xhtml">
+
+
+    <ui:define name="title">
+      <h:outputText value="#{bundle.ListPersonalTitle}"></h:outputText>
+    </ui:define>
+
+
+    <ui:define name="resources">
+      <h:outputScript name="/js/crud.js"/>
+    </ui:define>
+
+    <ui:define name="body">
+      <div class="container">
+        <h:form id="PersonalListForm">
+          <p:dataTable id="datalist" value="#{personalController.items}" var="item"
+                       selectionMode="single" selection="#{personalController.selected}"
+                       paginator="true"
+                       rowKey="#{item.idPersonal}"
+                       rows="10"
+                       rowsPerPageTemplate="10,20,30,40,50"
+                       reflow="true"
+                       >
+
+            <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+            <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="#{bundle.ListPersonalTitle_idPersonal}"/>
+              </f:facet>
+              <h:outputText value="#{item.idPersonal}"/>
+            </p:column>
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="#{bundle.ListPersonalTitle_nombre}"/>
+              </f:facet>
+              <h:outputText value="#{item.nombre}"/>
+            </p:column>
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="#{bundle.ListPersonalTitle_apellido}"/>
+              </f:facet>
+              <h:outputText value="#{item.apellido}"/>
+            </p:column>
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="#{bundle.ListPersonalTitle_cargo}"/>
+              </f:facet>
+              <h:outputText value="#{item.cargo}"/>
+            </p:column>
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="#{bundle.ListPersonalTitle_dni}"/>
+              </f:facet>
+              <h:outputText value="#{item.dni}"/>
+            </p:column>
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="#{bundle.ListPersonalTitle_sueldo}"/>
+              </f:facet>
+              <h:outputText value="#{item.sueldo}"/>
+            </p:column>
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="#{bundle.ListPersonalTitle_especialidad}"/>
+              </f:facet>
+              <h:outputText value="#{item.especialidad}"/>
+            </p:column>
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="#{bundle.ListPersonalTitle_correo}"/>
+              </f:facet>
+              <h:outputText value="#{item.correo}"/>
+            </p:column>
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="#{bundle.ListPersonalTitle_direccion}"/>
+              </f:facet>
+              <h:outputText value="#{item.direccion}"/>
+            </p:column>
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="#{bundle.ListPersonalTitle_fechaCreacion}"/>
+              </f:facet>
+              <h:outputText value="#{item.fechaCreacion}">
+                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+              </h:outputText>
+            </p:column>
+            <f:facet name="footer">
+              <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{personalController.prepareCreate}" update=":PersonalCreateForm" oncomplete="PF('PersonalCreateDialog').show()"/>
+              <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":PersonalViewForm" oncomplete="PF('PersonalViewDialog').show()" disabled="#{empty personalController.selected}"/>
+              <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":PersonalEditForm" oncomplete="PF('PersonalEditDialog').show()" disabled="#{empty personalController.selected}"/>
+              <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{personalController.destroy}" update=":growl,datalist" disabled="#{empty personalController.selected}"/>
+            </f:facet>
+          </p:dataTable>
+        </h:form>
+
+        <ui:include src="Create.xhtml"/>
+        <ui:include src="Edit.xhtml"/>
+        <ui:include src="View.xhtml"/>
+
+      </div>
+    </ui:define>
+  </ui:composition>
+
+</html>

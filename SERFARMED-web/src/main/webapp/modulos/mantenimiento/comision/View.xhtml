@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="ComisionViewDlg" widgetVar="ComisionViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewComisionTitle}">
+      <h:form id="ComisionViewForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{comisionController.selected != null}">
+            <h:outputText value="#{bundle.ViewComisionLabel_idComision}"/>
+            <h:outputText value="#{comisionController.selected.idComision}" title="#{bundle.ViewComisionTitle_idComision}"/>
+            <h:outputText value="#{bundle.ViewComisionLabel_tipo}"/>
+            <h:outputText value="#{comisionController.selected.tipo}" title="#{bundle.ViewComisionTitle_tipo}"/>
+            <h:outputText value="#{bundle.ViewComisionLabel_comision}"/>
+            <h:outputText value="#{comisionController.selected.comision}" title="#{bundle.ViewComisionTitle_comision}"/>
+            <h:outputText value="#{bundle.ViewComisionLabel_nota}"/>
+            <h:outputText value="#{comisionController.selected.nota}" title="#{bundle.ViewComisionTitle_nota}"/>
+            <h:outputText value="#{bundle.ViewComisionLabel_idPersonal}"/>
+            <h:outputText value="#{comisionController.selected.idPersonal}" title="#{bundle.ViewComisionTitle_idPersonal}"/>
+          </p:panelGrid>
+          <p:commandButton value="#{bundle.Close}" onclick="ComisionViewDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

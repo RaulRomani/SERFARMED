@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+  <h:head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+
+    <!-- Morris Charts CSS -->
+    <!--<h:outputStylesheet name="./plantilla/css/plugins/morris.css"/>-->
+
+    <!-- Custom Fonts -->
+    <h:outputStylesheet name="./plantilla/font-awesome/css/font-awesome.min.css"/>
+
+    <!-- Idioma español p:calendar -->
+    <h:outputScript name="/js/fechas.js"/>
+
+    <!-- Custom resources -->
+    <ui:insert name="resources">
+
+    </ui:insert>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <title><ui:insert name="title">Serfarmed</ui:insert></title>
+
+  </h:head>
+
+  <h:body>
+
+    <!-- Bootstrap Core CSS -->
+    <h:outputStylesheet name="./plantilla/css/bootstrap.min.css"/>
+    <!-- Custom CSS -->
+    <h:outputStylesheet name="/css/custom.css"/>
+
+    <h:form id="MainMenu">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!--<a class="navbar-brand" href="/index.xhtml">Clinica Dental</a>-->
+
+            <h:link class="navbar-brand" outcome="/main">
+              <h:graphicImage class="logo" url="/resources/images/logo.png" />
+            </h:link>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
+
+              <!--
+              <li class="active">
+                <a href="#"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+              </li> -->
+
+              <h:panelGroup rendered="#{loginController.usuario.authority.equals('ROLE_ADMIN')||loginController.usuario.authority.equals('ROLE_CAJERO')}"> 
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" 
+                     aria-expanded="false"><i class="fa fa-fw fa-shopping-cart "></i> Ventas <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li class="#{view.viewId eq '/modulos/ventas/venta.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/ventas/venta"><i class="fa fa-fw fa-shopping-cart "></i> Venta</h:link>
+                    </li>
+                    <li class="#{view.viewId eq '/modulos/ventas/cobros.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/ventas/cobros">
+                        <i class="fa fa-fw fa-calendar "></i> Cobrar cuotas
+                      </h:link>
+                    </li>
+                    <li class="#{view.viewId eq '/modulos/ventas/saldoInicial.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/ventas/saldoInicial">
+                        <i class="fa fa-fw fa-calendar "></i> Saldo inicial
+                      </h:link>
+                    </li>
+                  </ul>
+                </li>
+              </h:panelGroup>
+
+
+              <h:panelGroup rendered="#{loginController.usuario.authority.equals('ROLE_ADMIN')||loginController.usuario.authority.equals('ROLE_CAJERO')}"> 
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" 
+                     aria-expanded="false"><i class="fa fa-fw fa-cubes  "></i> Compras <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li class="#{view.viewId eq '/modulos/compras/pedidoCompra.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/compras/pedidoCompra"><i class="fa fa-fw fa-tasks  "></i> Pedido de compra</h:link>
+                    </li>
+                    <li class="#{view.viewId eq '/modulos/compras/compra.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/compras/compra"><i class="fa fa-fw fa-check-square-o  "></i> Confirmación</h:link>
+                    </li>
+                  </ul>
+                </li>
+              </h:panelGroup>
+
+
+              <h:panelGroup rendered="#{loginController.usuario.authority.equals('ROLE_ADMIN')||loginController.usuario.authority.equals('ROLE_CAJERO')}">  
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" 
+                     aria-expanded="false"><i class="fa fa-fw fa-money"></i> Egresos <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li class="#{view.viewId eq '/modulos/egresos/pago.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/egresos/pago"><i class="fa fa-fw fa-money  "></i> Adelantos</h:link>
+                    </li>
+                    <li class="#{view.viewId eq '/modulos/egresos/egresos.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/egresos/egresos"><i class="fa fa-fw fa-money  "></i> Egresos</h:link>
+                    </li>
+                  </ul>
+                </li>
+              </h:panelGroup>
+
+
+              <h:panelGroup rendered="#{loginController.usuario.authority.equals('ROLE_ADMIN')||loginController.usuario.authority.equals('ROLE_CAJERO')}">  
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" 
+                     aria-expanded="false"><i class="fa fa-fw fa-file-text"></i> Reportes <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li class="#{view.viewId eq '/modulos/reportes/resuumen.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/reportes/resumen"><i class="fa fa-fw fa-file-text  "></i> Resumen del día</h:link>
+                    </li>
+
+                    <li class="#{view.viewId eq '/modulos/reportes/estadisticaMensualServicio.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/reportes/estadisticaMensualServicio"><i class="fa fa-fw fa-bar-chart"></i> Estadística Mensual por servicio</h:link>
+                    </li>
+                    
+                    <li class="#{view.viewId eq '/modulos/reportes/estadisticaMensualServicioDoctor.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/reportes/estadisticaMensualServicioDoctor"><i class="fa fa-fw fa-bar-chart"></i> Estadística Mensual por servicio y doctor</h:link>
+                    </li>
+
+                  </ul>
+
+                </li>
+              </h:panelGroup>
+
+
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" 
+                   aria-expanded="false"><i class="fa fa-fw fa-wrench  "></i> Mantenimiento <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+
+                  <li class="#{view.viewId eq '/modulos/mantenimiento/categoria/List.xhtml' ? 'active' : ''}">
+                    <h:link outcome="/modulos/mantenimiento/categoria/List">Categoria</h:link>
+                  </li>
+                  <li class="#{view.viewId eq '/modulos/mantenimiento/cliente/List.xhtml' ? 'active' : ''}">
+                    <h:link outcome="/modulos/mantenimiento/cliente/List">Cliente</h:link>
+                  </li>
+
+                  <h:panelGroup rendered="#{loginController.usuario.authority.equals('ROLE_ADMIN')}"> 
+
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/comision/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/comision/List">Comisión</h:link>
+                    </li>
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/compra/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/compra/List">Compra</h:link>
+                    </li>
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/credito/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/credito/List">Crédito</h:link>
+                    </li>
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/pago/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/pago/List">Adelantos</h:link>
+                    </li>
+
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/detallecompra/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/detallecompra/List">DetalleCompra</h:link>
+                    </li>
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/personal/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/personal/List">Personal</h:link>
+                    </li>
+
+                  </h:panelGroup>
+
+                  <li class="#{view.viewId eq '/modulos/mantenimiento/producto/List.xhtml' ? 'active' : ''}">
+                    <h:link outcome="/modulos/mantenimiento/producto/List">Producto</h:link>
+                  </li>
+
+                  <li class="#{view.viewId eq '/modulos/mantenimiento/proveedor/List.xhtml' ? 'active' : ''}">
+                    <h:link outcome="/modulos/mantenimiento/proveedor/List">Proveedor</h:link>
+                  </li>
+
+
+                  <h:panelGroup rendered="#{loginController.usuario.authority.equals('ROLE_ADMIN')}"> 
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/servicio/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/servicio/List">Servicios</h:link>
+                    </li>
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/servicioventa/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/servicioventa/List">ServicioVenta</h:link>
+                    </li>
+
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/usuario/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/usuario/List">Usuario</h:link>
+                    </li>
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/venta/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/venta/List">Venta</h:link>
+                    </li>
+
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/saldoinicial/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/saldoinicial/List">Saldo inicial</h:link>
+                    </li>
+
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/egresos/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/egresos/List">Egresos</h:link>
+                    </li>
+
+                  </h:panelGroup>
+
+                </ul>
+              </li>
+
+
+            </ul>
+
+            <!--
+            <h:panelGroup rendered="#loginController.validarPermisos().equals('director')}">
+
+              <li class="#view.viewId eq '/modulos/programacion/programacionTutores.xhtml' ? 'active' : ''}">
+                <h:link outcome="/modulos/programacion/programacionTutores">
+                  <i class="fa fa-calendar-check-o"/> Programación de tutores
+                </h:link>
+              </li>
+            </h:panelGroup>-->
+            <h:panelGroup id="RightMenu"> 
+              <ul class="nav navbar-nav navbar-right">
+                <!--<li><a href="#">Link</a></li>-->
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" 
+                     aria-haspopup="true" aria-expanded="false">
+                    <h:panelGroup rendered="#{loginController.image != null}">
+                      <p:graphicImage class="foto-user"
+                                      value="#{loginController.image}"
+                                      cache="false"/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{loginController.image == null}">
+                      <i class="fa fa-user"></i>&nbsp;
+                    </h:panelGroup>
+                    <h:outputLabel value="#{loginController.personal.nombreCompleto}"/> <span class="caret"></span>
+                  </a>
+
+                  <ul class="dropdown-menu">
+                    <li class="#{view.viewId eq '/perfil.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/perfil">
+                        <i class="fa fa-fw fa-user"></i> Perfil
+                      </h:link>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                      <h:outputLink value="#{request.contextPath}/j_spring_security_logout">
+                        <i class="fa fa-fw fa-power-off"></i> Cerrar sesión
+                      </h:outputLink>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </h:panelGroup>
+
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>  
+    </h:form>
+
+    <p:growl id="growl" life="5000" />
+
+    <ui:insert name="body"></ui:insert>
+
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="footer">
+          <div class="copyright">
+            <p class="" >Sistema creado y diseñado por Innova Systems</p>
+            <p>Copyright © Todos los derechos reservados.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!-- jQuery -->
+    <!--<h:outputScript name="./plantilla/js/jquery.js"/>-->
+
+    <!-- Bootstrap Core JavaScript -->
+    <h:outputScript name="./plantilla/js/bootstrap.min.js"/>
+
+
+
+
+  </h:body>
+
+</html>
+
+
+

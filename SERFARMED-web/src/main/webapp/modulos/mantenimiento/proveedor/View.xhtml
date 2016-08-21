@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="ProveedorViewDlg" widgetVar="ProveedorViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewProveedorTitle}">
+      <h:form id="ProveedorViewForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{proveedorController.selected != null}">
+            <h:outputText value="#{bundle.ViewProveedorLabel_idProveedor}"/>
+            <h:outputText value="#{proveedorController.selected.idProveedor}" title="#{bundle.ViewProveedorTitle_idProveedor}"/>
+            <h:outputText value="#{bundle.ViewProveedorLabel_razonSocial}"/>
+            <h:outputText value="#{proveedorController.selected.razonSocial}" title="#{bundle.ViewProveedorTitle_razonSocial}"/>
+            <h:outputText value="#{bundle.ViewProveedorLabel_ruc}"/>
+            <h:outputText value="#{proveedorController.selected.ruc}" title="#{bundle.ViewProveedorTitle_ruc}"/>
+            <h:outputText value="#{bundle.ViewProveedorLabel_direccion}"/>
+            <h:outputText value="#{proveedorController.selected.direccion}" title="#{bundle.ViewProveedorTitle_direccion}"/>
+            <h:outputText value="#{bundle.ViewProveedorLabel_telefono}"/>
+            <h:outputText value="#{proveedorController.selected.telefono}" title="#{bundle.ViewProveedorTitle_telefono}"/>
+            <h:outputText value="#{bundle.ViewProveedorLabel_celular}"/>
+            <h:outputText value="#{proveedorController.selected.celular}" title="#{bundle.ViewProveedorTitle_celular}"/>
+            <h:outputText value="#{bundle.ViewProveedorLabel_correo}"/>
+            <h:outputText value="#{proveedorController.selected.correo}" title="#{bundle.ViewProveedorTitle_correo}"/>
+            <h:outputText value="#{bundle.ViewProveedorLabel_paginaWeb}"/>
+            <h:outputText value="#{proveedorController.selected.paginaWeb}" title="#{bundle.ViewProveedorTitle_paginaWeb}"/>
+            <h:outputText value="#{bundle.ViewProveedorLabel_fechaCreacion}"/>
+            <h:outputText value="#{proveedorController.selected.fechaCreacion}" title="#{bundle.ViewProveedorTitle_fechaCreacion}">
+              <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+            </h:outputText>
+            <h:outputText value="#{bundle.ViewProveedorLabel_nota}"/>
+            <h:outputText value="#{proveedorController.selected.nota}" title="#{bundle.ViewProveedorTitle_nota}"/>
+          </p:panelGrid>
+          <p:commandButton value="#{bundle.Close}" onclick="ProveedorViewDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>
