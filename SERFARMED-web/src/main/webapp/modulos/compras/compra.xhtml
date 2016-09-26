@@ -137,14 +137,19 @@
                   <div class="form-group row">
                     <p:outputLabel class="col-sm-5 form-control-label" value="#{bundle.CreateCompraLabel_serie}" for="serie" />
                     <div class="col-sm-7">
-                      <p:inputText class="form-control" id="serie" value="#{compras.compraSelected.serie}" title="#{bundle.CreateCompraTitle_serie}" />
+                      <p:inputText class="form-control" id="serie" value="#{compras.compraSelected.serie}" title="#{bundle.CreateCompraTitle_serie}" 
+                                   required="true"
+                                   requiredMessage="El campo serie es requerido"/>
                     </div>
                   </div>
                   
                   <div class="form-group row">
                     <p:outputLabel class="col-sm-5 form-control-label" value="#{bundle.CreateCompraLabel_nroComprobante}" for="nroComprobante" />
                     <div class="col-sm-7">
-                      <p:inputText class="form-control" id="nroComprobante" value="#{compras.compraSelected.nroComprobante}" title="#{bundle.CreateCompraTitle_nroComprobante}" />
+                      <p:inputText class="form-control" id="nroComprobante" value="#{compras.compraSelected.nroComprobante}" 
+                                   title="#{bundle.CreateCompraTitle_nroComprobante}" 
+                                   required="true"
+                                   requiredMessage="El campo nroComprobante es requerido"/>
                     </div>
                   </div>
                   <p:commandButton value="Guardar compra" 

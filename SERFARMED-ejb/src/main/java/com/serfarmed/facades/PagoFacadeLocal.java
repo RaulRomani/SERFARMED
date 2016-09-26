@@ -32,8 +32,18 @@ public interface PagoFacadeLocal {
 
   int count();
   
-  public List<Pago> findByPersonal(Personal personal, String fechaHora);
+  public List<Pago> findAdelantosByPersonal(Personal personal, String fechaHora);
   
   public List<Pago> findByFecha(Date fecha);
+  
+  public List<Pago> findAdelantosByFecha(Date fecha);
+  
+  public List<Pago> findPagoDoctorHoy(Date fecha);
+  
+  public List<Pago> findAdelantosMes(Date fecha);
+  
+  public List<Pago> findPagoDoctorMes(Date fecha);
+  
+  public List<Pago> findPagoByDoctorMes(Personal doctor, Date fecha);
   
 }

@@ -7,6 +7,7 @@ import com.serfarmed.facades.VentaFacadeLocal;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -30,15 +31,10 @@ public class VentaController implements Serializable {
   private com.serfarmed.facades.VentaFacadeLocal ejbFacade;
   private List<Venta> items = null;
   private Venta selected;
-  private List<Venta> ventaListHoy;
   
-  private Date fecha;
-
-  @PostConstruct
-  void init() {
-    fecha = new Date();
-  }
-
+  private Date fechaInicio;
+  private Date fechaFin;
+  
   public Venta getSelected() {
     return selected;
   }
@@ -64,6 +60,7 @@ public class VentaController implements Serializable {
   }
 
   public void create() {
+    selected.setFechaHora(new Date());
     persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("VentaCreated"));
     if (!JsfUtil.isValidationFailed()) {
       items = null;    // Invalidate list of items to trigger re-query.
@@ -121,48 +118,8 @@ public class VentaController implements Serializable {
     return getFacade().find(id);
   }
   
-  public List<Venta> getVentaListHoy() {
-    ventaListHoy = getFacade().findByFecha(fecha);
-    return ventaListHoy;
-  }
-  
-  public BigDecimal getComisionClinicaHoy(){
-    
-    BigDecimal total = BigDecimal.ZERO ;
-    for (Venta item : ventaListHoy) 
-      if (item.getEstado().equals("CANCELADO"))
-        total = total.add(item.getComisionClinica());
-    return total;
-  }
   
   
-  public BigDecimal getComisionMedicoHoy(){
-    
-    BigDecimal total = BigDecimal.ZERO ;
-    for (Venta item : ventaListHoy) 
-      if (item.getEstado().equals("CANCELADO"))
-        total = total.add(item.getComisionMedico());
-    return total;
-  }
-  
-  public BigDecimal getTotalVentasContadoHoy(){
-    
-    BigDecimal total = BigDecimal.ZERO ;
-    for (Venta item : ventaListHoy) 
-      if (item.getEstado().equals("CANCELADO"))
-        total = total.add(item.getTotal());
-    return total;
-  }
-  
-  public BigDecimal getTotalVentasCreditoHoy(){
-    BigDecimal total = BigDecimal.ZERO ;
-    for (Venta item : ventaListHoy) {
-      if (item.getEstado().equals( "CREDITO")){
-        total = total.add(item.getTotal());
-      } 
-    }
-    return total;
-  }
 
   public List<Venta> getItemsAvailableSelectMany() {
     return getFacade().findAll();
@@ -215,15 +172,21 @@ public class VentaController implements Serializable {
 
   }
 
-  public Date getFecha() {
-    return fecha;
+  public Date getFechaInicio() {
+    return fechaInicio;
   }
 
-  public void setFecha(Date fecha) {
-    this.fecha = fecha;
+  public void setFechaInicio(Date fechaInicio) {
+    this.fechaInicio = fechaInicio;
   }
-  
-  
-  
 
+  public Date getFechaFin() {
+    return fechaFin;
+  }
+
+  public void setFechaFin(Date fechaFin) {
+    this.fechaFin = fechaFin;
+  }
+
+  
 }

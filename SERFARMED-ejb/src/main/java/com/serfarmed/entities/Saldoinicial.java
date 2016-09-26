@@ -32,9 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
   @NamedQuery(name = "Saldoinicial.findAll", query = "SELECT s FROM Saldoinicial s"),
   @NamedQuery(name = "Saldoinicial.findByIdSaldoinicial", query = "SELECT s FROM Saldoinicial s WHERE s.idSaldoinicial = :idSaldoinicial"),
-  @NamedQuery(name = "Saldoinicial.findByFecha", query = "SELECT s FROM Saldoinicial s WHERE s.fecha = :fecha"),
   @NamedQuery(name = "Saldoinicial.findBySaldoinicial", query = "SELECT s FROM Saldoinicial s WHERE s.saldoinicial = :saldoinicial"),
-  @NamedQuery(name = "Saldoinicial.findByFechaHoy", query = "SELECT s FROM Saldoinicial s WHERE  s.fecha = :fechaHoy")})
+  @NamedQuery(name = "Saldoinicial.findByFecha", query = "SELECT s FROM Saldoinicial s WHERE  s.fecha = :fecha"),
+  @NamedQuery(name = "Saldoinicial.findByMonth", query = "SELECT s FROM Saldoinicial s WHERE  s.fecha BETWEEN :startDate AND :endDate")})
 public class Saldoinicial implements Serializable {
   private static final long serialVersionUID = 1L;
   @Id

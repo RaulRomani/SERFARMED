@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+    <p:dialog id="PersonalSearchDlg" widgetVar="PersonalSearchDialog" modal="true" resizable="false" appendTo="@(body)" header="Buscar personal">
+      <h:form id="PersonalSearchForm" onkeypress="if (event.keyCode == 13) {
+            return false;
+          }" >
+        <h:panelGroup id="display">
+          <p:dataTable id="datalist" 
+                       value="#{pagos.personalList}" 
+                       var="item"
+                       rowKey="#{item.idPersonal}"
+                       selectionMode="single" 
+                       selection="#{pagos.personalSelected}"
+                       emptyMessage="No hay registros"
+                       widgetVar="personalsTable"
+                       style="width: 700px"
+                       paginator="true"
+                       rows="5"
+                       rowsPerPageTemplate="5,10"
+                       >
+
+            <p:ajax event="rowSelect"   update="agregar"/>
+            <p:ajax event="rowUnselect" update="agregar"/>
+
+            <f:facet name="header">
+              <p:outputPanel>
+                <h:outputText value="Buscar por todos los campos:" />
+                <p:inputText id="globalFilter" 
+                             onkeyup="PF('personalsTable').filter();
+                             " 
+                             style="width:150px" 
+                             placeholder="Palabra clave" />
+              </p:outputPanel>
+            </f:facet>
+
+            <p:column headerText="#{bundle.ListPersonalTitle_nombre}" filterBy="#{item.nombre}" sortBy="#{item.nombre}" filterMatchMode="contains">
+              <h:outputText value="#{item.nombre}"/>
+            </p:column>
+            <p:column headerText="#{bundle.ListPersonalTitle_apellido}" filterBy="#{item.apellido}" sortBy="#{item.apellido}" filterMatchMode="contains">
+              <h:outputText value="#{item.apellido}"/>
+            </p:column>
+
+            <p:column headerText="#{bundle.ListPersonalTitle_dni}" filterBy="#{item.dni}" sortBy="#{item.dni}" filterMatchMode="contains">
+              <h:outputText value="#{item.dni}"/>
+            </p:column>
+
+            <p:column headerText="#{bundle.ListPersonalTitle_cargo}">
+              <h:outputText value="#{item.cargo}"/>
+            </p:column>
+            
+            <p:column headerText="#{bundle.ListPersonalTitle_sueldo}">
+              <h:outputText value="#{item.sueldo}"/>
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="Mes"/>
+                <p:selectOneRadio id="mes" value="#{pagos.mes}" required="true" requiredMessage="Seleccione un mes"
+                                  layout="grid" columns="4">
+                  <f:selectItem itemLabel="Enero"
+                                itemValue="01"/>
+                  <f:selectItem itemLabel="Febrero"
+                                itemValue="02"/>
+                  <f:selectItem itemLabel="Marzo"
+                                itemValue="03"/>
+                  <f:selectItem itemLabel="Abril"
+                                itemValue="04"/>
+                  <f:selectItem itemLabel="Mayo"
+                                itemValue="05"/>
+                  <f:selectItem itemLabel="Junio"
+                                itemValue="06"/>
+                  <f:selectItem itemLabel="Julio"
+                                itemValue="07"/>
+                  <f:selectItem itemLabel="Agosto"
+                                itemValue="08"/>
+                  <f:selectItem itemLabel="Setiembre"
+                                itemValue="09"/>
+                  <f:selectItem itemLabel="Octubre"
+                                itemValue="10"/>
+                  <f:selectItem itemLabel="Noviembre"
+                                itemValue="11"/>
+                  <f:selectItem itemLabel="Diciembre"
+                                itemValue="12"/>
+                </p:selectOneRadio>
+                <h:outputText value=""/>
+                <p:commandButton value="Aceptar" id="agregar"
+                                 actionListener="#{pagos.loadAdelantos()}"
+                                 oncomplete="PF('PersonalSearchDialog').hide()" 
+                                 update=":DatosPersonal,:PagoListForm:datalist, :pago-mensualidad, :growl"
+                                 disabled="#{pagos.personalSelected.idPersonal == null ? true:false }">
+                  <!--<p:resetInput target=":DatosCarrito:diente" />-->
+                </p:commandButton>
+            </f:facet>
+          </p:dataTable>
+
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

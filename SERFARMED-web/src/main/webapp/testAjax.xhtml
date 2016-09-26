@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+  <h:body>
+    <ui:composition template="./templates/templateCool.xhtml">
+      <ui:define name="body">
+
+
+
+        <div class="container">
+
+
+
+
+          <h:form>
+            
+            <h:panelGroup  id="msg">
+            <h:panelGroup rendered="#{!empty testAjax.msgReporteServicio }" > 
+              <h:outputText value="#{testAjax.msgReporteServicio}" />
+            </h:panelGroup>
+              
+              
+              
+              
+              </h:panelGroup>
+
+            <p:selectOneMenu id="buscarServicio" value="#{testAjax.servicioSelected}" panelStyle="width:180px"
+                             effect="fade" var="s" style="width:160px" filter="true" filterMatchMode="startsWith" >
+              <f:selectItems value="#{testAjax.servicioList}" var="servicio" itemLabel="#{servicio.nombre}" itemValue="#{servicio}" />
+              <p:column>
+                <h:outputText value="#{s.nombre}" />
+              </p:column>
+            </p:selectOneMenu>
+            
+            <p:commandButton value="servicio" actionListener="#{testAjax.buttonServicio()}" 
+                             ajax="false" update=":msg, @this" 
+                             onclick="setTimeout('this.disabled = true;', 50);"/>
+            
+            <!--<p:commandLink target="_blank"  value="servicio" actionListener="#{testAjax.buttonServicio()}" 
+                              ajax="false" />-->
+
+          </h:form>
+
+
+
+          <h:form>
+            
+            
+            <p:selectOneMenu id="buscarCliente" value="#{testAjax.clienteSelected}" panelStyle="width:180px"
+                             effect="fade" var="c" style="width:160px" filter="true" filterMatchMode="startsWith" >
+              <f:selectItems value="#{testAjax.clienteList}" var="cliente" itemLabel="#{cliente.nombre}" itemValue="#{cliente}" />
+              <p:column>
+                <h:outputText value="#{c.nombre}" />
+              </p:column>
+            </p:selectOneMenu>
+            
+            
+            <p:commandButton value="cliente" actionListener="#{testAjax.buttonCliente()}" 
+                              ajax="false"
+                              />
+
+
+
+          </h:form>
+
+        </div>
+
+      </ui:define>
+    </ui:composition>
+  </h:body>
+</html>
+

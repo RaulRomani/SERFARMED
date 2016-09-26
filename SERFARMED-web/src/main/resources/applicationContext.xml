@@ -43,7 +43,7 @@
             access="ROLE_CAJERO, ROLE_ADMIN" requires-channel="https" />
         
         <sec:intercept-url 
-            pattern="/faces/modulos/egresos/**" 
+            pattern="/faces/modulos/operaciones/**" 
             access="ROLE_CAJERO, ROLE_ADMIN" requires-channel="https" />
         
         <sec:intercept-url 
@@ -88,7 +88,7 @@
             access="ROLE_ADMIN" requires-channel="https" />
         
         <sec:intercept-url 
-            pattern="/faces/modulos/mantenimiento/prodcto/**" 
+            pattern="/faces/modulos/mantenimiento/producto/**" 
             access="ROLE_CAJERO, ROLE_ADMIN" requires-channel="https" />
         <sec:intercept-url 
             pattern="/faces/modulos/mantenimiento/proveedor/**" 
@@ -112,6 +112,10 @@
         
         <sec:intercept-url 
             pattern="/faces/modulos/mantenimiento/venta/**" 
+            access="ROLE_ADMIN" requires-channel="https" />
+        
+        <sec:intercept-url 
+            pattern="/faces/modulos/mantenimiento/compra/**" 
             access="ROLE_ADMIN" requires-channel="https" />
         
         

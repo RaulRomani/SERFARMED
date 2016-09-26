@@ -6,6 +6,7 @@ import com.serfarmed.controllers.util.JsfUtil.PersistAction;
 import com.serfarmed.facades.ProveedorFacadeLocal;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -56,7 +57,10 @@ public class ProveedorController implements Serializable {
   }
 
   public void create() {
+    
+    selected.setFechaCreacion(new Date());
     persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProveedorCreated"));
+    
     if (!JsfUtil.isValidationFailed()) {
       items = null;    // Invalidate list of items to trigger re-query.
     }

@@ -5,12 +5,15 @@
  */
 package com.serfarmed.facades;
 
+import com.serfarmed.entities.Saldoinicial;
 import com.serfarmed.entities.Personal;
 import com.serfarmed.entities.Saldoinicial;
+import com.serfarmed.entities.util.EjbUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -39,24 +42,41 @@ public class SaldoinicialFacade extends AbstractFacade<Saldoinicial> implements 
   
   
   @Override
-  public Saldoinicial findByFechaHoy() {
-    TypedQuery<Saldoinicial> q = getEntityManager().createNamedQuery("Saldoinicial.findByFechaHoy", Saldoinicial.class);
+  public Saldoinicial findByFecha(Date fecha) {
+    TypedQuery<Saldoinicial> q = getEntityManager().createNamedQuery("Saldoinicial.findByFecha", Saldoinicial.class);
     
-    //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
-    Date fechaHoy = new Date();
-    q.setParameter("fechaHoy",fechaHoy );
+    q.setParameter("fecha",fecha );
     
     List<Saldoinicial> list;
-    try {
-      list = q.getResultList();
-    } catch (NoResultException e) {
-      list = null;
-      System.out.println("THERE IS'NT ACTUAL SALDO INICIAL ");
-    }
-    if(list.isEmpty())
+    list = q.getResultList();
+    
+    if(list.isEmpty()){
       return null;
-    System.out.println("FIND SALDO INICIAL DE HOY OK");
+    }
+    
     return list.get(0);
   }
+  
+  @Override
+  public List<Saldoinicial> findByMonth(Date fecha) {
+
+    TypedQuery<Saldoinicial> q = getEntityManager().createNamedQuery("Saldoinicial.findByMonth", Saldoinicial.class);
+
+    SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+    Map<String, String> parametro = EjbUtil.getStartEndMonth(fecha);
+    
+    try {
+      q.setParameter("startDate", dtFormat.parse(parametro.get("startDate")) , TemporalType.TIMESTAMP );
+      q.setParameter("endDate", dtFormat.parse(parametro.get("endDate")) , TemporalType.TIMESTAMP );
+      
+    } catch (ParseException ex) {
+      System.out.println(ex.getMessage());
+    }
+
+    List<Saldoinicial> list = q.getResultList();
+    return list;
+  }
+  
+  
   
 }

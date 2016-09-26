@@ -30,7 +30,7 @@
           <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
           <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-          <p:column>
+          <p:column filterBy="#{item.idServicioVenta}" sortBy="#{item.idServicioVenta}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListServicioventaTitle_idServicioVenta}"/>
             </f:facet>
@@ -44,9 +44,33 @@
           </p:column>
           <p:column>
             <f:facet name="header">
+              <h:outputText value="#{bundle.ListServicioventaTitle_precio}"/>
+            </f:facet>
+            <h:outputText value="#{item.precio}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
               <h:outputText value="#{bundle.ListServicioventaTitle_importe}"/>
             </f:facet>
             <h:outputText value="#{item.importe}"/>
+          </p:column>
+          <p:column filterBy="#{item.tipoComision}" sortBy="#{item.tipoComision}">
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListServicioventaTitle_tipoComision}"/>
+            </f:facet>
+            <h:outputText value="#{item.tipoComision}"/>
+          </p:column>
+          <p:column filterBy="#{item.comision}" sortBy="#{item.comision}">
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListServicioventaTitle_comision}"/>
+            </f:facet>
+            <h:outputText value="#{item.comision}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListServicioventaTitle_sePago}"/>
+            </f:facet>
+            <h:outputText value="#{item.sePago}"/>
           </p:column>
           <p:column>
             <f:facet name="header">
@@ -54,13 +78,7 @@
             </f:facet>
             <h:outputText value="#{item.idServicio}"/>
           </p:column>
-          <p:column>
-            <f:facet name="header">
-              <h:outputText value="#{bundle.ListServicioventaTitle_idComision}"/>
-            </f:facet>
-            <h:outputText value="#{item.idComision}"/>
-          </p:column>
-          <p:column>
+          <p:column filterBy="#{item.idVenta}" sortBy="#{item.idVenta}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListServicioventaTitle_idVenta}"/>
             </f:facet>

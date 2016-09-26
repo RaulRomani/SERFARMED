@@ -13,6 +13,13 @@
 
     <ui:define name="body">
 
+      <f:view>
+        <!--<f:event type="preRenderView" listener="{resumen.init()}"/>-->
+        <f:metadata>
+          <f:viewAction action="#{resumen.init()}" onPostback="false" />
+        </f:metadata>
+      </f:view>
+
       <div class="container">
 
         <h1 class="row" style="color: #269abc">Resumen del día</h1>
@@ -22,16 +29,15 @@
         <div class="row">
 
 
-          <div class="row">
-            <div class="col-lg-4">
-
-              <h:form>
+          <h:form id="resumenForm" >  
+            <div class="row">
+              <div class="col-lg-4">
                 <div class="form-group row">
                   <div class="col-sm-4">
                     <p:outputLabel class="form-control-label" value="Fecha"  />
                   </div>
                   <div class="col-sm-8">
-                    <p:calendar pattern="dd/MM/yyyy" value="#{ventaController.fecha}"  showOn="button" navigator="true"  yearRange="c:c+20"> 
+                    <p:calendar pattern="dd/MM/yyyy" value="#{resumen.fecha}"  showOn="button" navigator="true"  yearRange="c-15:c+15"> 
                       <!---<p:ajax event="change" update="resumenForm"/>  -->
                     </p:calendar>
                   </div>
@@ -43,50 +49,62 @@
                   </div>
                   <div class="col-sm-8">
                     <p:commandButton  value="Consultar" update="resumenForm" styleClass="ui" 
-                                     class="btn btn-success"/>
+                                      class="btn btn-success"/>
                   </div>
                 </div>
-              </h:form>
+              </div>
+              <div class="col-lg-offset-8"/>
+
             </div>
-            <div class="col-lg-offset-8"/>
 
-          </div>
+            <div >
+              <h2>Ventas</h2>
 
-          <h:form id="resumenForm" >  
-
-            <div class="ingresos">
-              <h2>Ingresos</h2>
-
-              <p:dataTable id="ingresosDatalist" value="#{ventaController.ventaListHoy}" var="venta" emptyMessage="No hay registros">
+              <p:dataTable id="ventasDatalist" value="#{resumen.ventaListHoy}" var="venta" emptyMessage="No hay registros">
                 -
                 <p:columnGroup type="header">
                   <p:row>
                     <p:column rowspan="2" headerText="Comprobante" />
+                    <p:column rowspan="2" headerText="Serie" />
+                    <p:column rowspan="2" headerText="Nº comprobante" />
                     <p:column rowspan="2" headerText="Estado" />
                     <!--<p:column rowspan="2" headerText="Total" />-->
 
-                    <p:column colspan="5" headerText="Detalle" />
+                    <p:column colspan="7" headerText="Detalle" />
                   </p:row>
                   <p:row>
                     <p:column headerText="Cant." style="text-align: center; width: 60px;" />
                     <p:column headerText="Servicio" />
                     <p:column headerText="Precio" />
                     <p:column headerText="Importe" />
+                    <p:column headerText="cClínica" />
+                    <p:column headerText="cMédico" />
                     <p:column headerText="Doctor" />
                   </p:row>
                 </p:columnGroup>
 
                 <p:subTable value="#{venta.productoventaList}" var="detalle">
                   <f:facet name="header">
-                    <h:outputText value="Código: #{venta.idVenta}" /> <!--  serie + nro -->
+                    Código: 
+                    <h:outputText value="#{venta.idVenta}"  > <!--  serie + nro -->
+                      <f:convertNumber pattern="000000" />
+                    </h:outputText>
                   </f:facet>
 
                   <p:column headerText="Comprobante">
                     #{venta.comprobante}
                   </p:column>
 
+                  <p:column headerText="Serie">
+                    #{venta.serie}
+                  </p:column>
+
+                  <p:column headerText="Nº Comprobante">
+                    #{venta.nroComprobante}
+                  </p:column>
+
                   <p:column headerText="Estado">
-                    #{venta.formapago}
+                    #{venta.estado}
                   </p:column>
 
                   <!--<p:column headerText="Total">
@@ -102,33 +120,77 @@
                   </p:column>
 
                   <p:column headerText="Precio">
-                    #{detalle.idServicio.precio}
+                    <h:outputText value="#{detalle.precio}" id="detallePrecio"/>
+                    <p:tooltip for="detallePrecio" value="Precio" />
                   </p:column>
 
-                  <p:column headerText="Importe">
-                    #{detalle.importe}
+                  <p:column headerText="Importe" style="text-align:right">
+                    <h:outputText value="#{detalle.importe}" id="detalleImporte"/>
+                    <p:tooltip for="detalleImporte" value="Importe" />
                   </p:column>
 
-                  <p:column headerText="Doctor">
-                    #{detalle.idComision.idPersonal.nombreCompleto}
+                  <p:column style="text-align:right">
+                    <h:outputText id="detalleComisionClinica" value="#{detalle.comisionClinica}" />
+                    <p:tooltip for="detalleComisionClinica" value="Comisión clínica" trackMouse="true" />
+                  </p:column>
+
+                  <p:column style="text-align:right">
+                    <h:outputText id="detalleComisionMedico" value="#{detalle.comisionMedico}"/>
+                    <p:tooltip for="detalleComisionMedico" value="Comisión Médico" />
+                  </p:column>
+
+                  <p:column headerText="Doctor" >
+                    #{detalle.idPersonal.nombreCompleto}
                   </p:column>
 
                 </p:subTable>
-                <!--
                 <p:columnGroup type="footer">
                   <p:row>
-                    <p:column colspan="2" style="text-align:right" footerText="Total:"/>
-                    <p:column footerText="S/. #{ventas.totalVentas}"/>
+                    <p:column colspan="7" style="text-align:right" footerText="Total:"/>
+                    <p:column style="text-align:right" footerText="S/. #{resumen.totalVentasContadoHoy}"/>
+                    <p:column style="text-align:right" footerText="S/. #{resumen.comisionClinicaHoy}"/>
+                    <p:column footerText=""/>
+                    <p:column footerText=""/>
                   </p:row>
-                </p:columnGroup>-->
+                </p:columnGroup>
+
+              </p:dataTable>
+            </div>
+
+            <div class="ingresos">
+              <h2>Ingresos</h2>
+
+              <p:dataTable id="ingresosDatalist" value="#{resumen.ingresoListHoy}" var="ingreso" emptyMessage="No hay registros">
+                <p:column headerText="Comprobante">
+                  #{ingreso.comprobante}
+                </p:column>
+
+                <p:column headerText="Nº de comprobante">
+                  <h:outputText value="#{ingreso.serie} - #{ingreso.nroComprobante}" />
+                </p:column>
+
+                <p:column headerText="Descripción">
+                  #{ingreso.descripcion}
+                </p:column>
+
+                <p:column headerText="Monto">
+                  #{ingreso.monto}
+                </p:column>
+
+                <p:columnGroup type="footer">
+                  <p:row>
+                    <p:column colspan="3" style="text-align:right" footerText="Total:"/>
+                    <p:column footerText="S/. #{resumen.totalIngresosHoy}"/>
+                  </p:row>
+                </p:columnGroup>
               </p:dataTable>
             </div>
 
             <div class="egresos">
               <h2>Egresos</h2>
 
-              <p:dataTable id="egresosDatalist" value="#{egresosController.egresoListHoy}" var="egreso" emptyMessage="No hay registros">
-                -
+              <p:dataTable id="egresosDatalist" value="#{resumen.egresoListHoy}" var="egreso" emptyMessage="No hay registros">
+
                 <p:column headerText="Comprobante">
                   #{egreso.comprobante}
                 </p:column>
@@ -144,31 +206,223 @@
                 <p:column headerText="Monto">
                   #{egreso.monto}
                 </p:column>
+
+                <p:columnGroup type="footer">
+                  <p:row>
+                    <p:column colspan="3" style="text-align:right" footerText="Total:"/>
+                    <p:column footerText="S/. #{resumen.totalEgresosHoy}"/>
+                  </p:row>
+                </p:columnGroup>
               </p:dataTable>
             </div>
 
 
-            <div class="pagos">
-              <h2>Pago de Doctores</h2>
+            <div class="adelantos">
+              <h2>Adelantos</h2>
 
-              <p:dataTable id="pagosDatalist" value="#{pagoController.pagoListHoy}" var="pago" emptyMessage="No hay registros">
+              <p:dataTable id="adelantosDatalist" value="#{resumen.adelantoListHoy}" var="pago" emptyMessage="No hay registros">
 
-                <p:column headerText="Monto">
-                  #{pago.monto}
+
+                <p:column headerText="Código">
+                  #{pago.idPago}
+                </p:column>
+                <p:column headerText="Fecha">
+                  <h:outputText value="#{pago.fechaHora}">
+                    <f:convertDateTime pattern="dd/MM//yyyy HH:mm:ss" />
+                  </h:outputText>
                 </p:column>
 
                 <p:column headerText="Descripción">
                   #{pago.descripcion}
                 </p:column>
 
-                <p:column headerText="Hora">
-                  <h:outputText value="#{pago.fechaHora}">
-                    <f:convertDateTime pattern="HH:mm:ss" />
-                  </h:outputText>
-
+                <p:column headerText="Monto">
+                  #{pago.monto}
                 </p:column>
+
+                <p:columnGroup type="footer">
+                  <p:row>
+                    <p:column colspan="3" style="text-align:right" footerText="Total:"/>
+                    <p:column footerText="S/. #{resumen.totalAdelantosHoy}"/>
+                  </p:row>
+                </p:columnGroup>
+
               </p:dataTable>
             </div>
+
+            <div class="pagos">
+              <h2>Pago de doctores</h2>
+
+
+              <p:dataTable id="pagoDoctorDatalist" 
+                           value="#{resumen.pagoDoctorListHoy}" 
+                           var="item" 
+                           emptyMessage="No hay registros">
+
+                <p:column headerText="Código">
+                  <h:outputText value="#{item.idPago}" >
+                    <f:convertNumber pattern="000000" />
+                  </h:outputText>
+                </p:column>
+                <p:column headerText="Fecha">
+                  <h:outputText value="#{item.fechaHora}">
+                    <f:convertDateTime pattern="dd/MM//yyyy HH:mm:ss" />
+                  </h:outputText>
+                </p:column>
+                <p:column headerText="Doctor">
+                  #{item.idPersonal.nombreCompleto}
+                </p:column>
+                <p:column headerText="Descripción">
+                  <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+                <p:column headerText="Monto">
+                  <h:outputText value="#{item.monto}"/>
+                </p:column>
+
+                <p:columnGroup type="footer">
+                  <p:row>
+                    <p:column colspan="4" style="text-align:right" footerText="Total:"/>
+                    <p:column footerText="S/. #{resumen.totalPagosDoctorHoy}"/>
+                  </p:row>
+                </p:columnGroup>
+              </p:dataTable>
+
+
+            </div>
+
+
+            <div class="deuda-doctor">
+              <h2>Deuda a doctores</h2>
+
+              <p:dataTable id="deudaDoctorDatalist" 
+                           value="#{resumen.deudaDoctorListHoy}" 
+                           var="item" 
+                           selectionMode="single"
+                           rowKey="#{item.idPersonal}"
+                           selection="#{resumen.deudaDoctorSelectedHoy}"
+                           emptyMessage="No hay registros">
+
+                <p:column headerText="Fecha">
+                  <h:outputText value="#{item.fechaHora}">
+                    <f:convertDateTime pattern="dd/MM//yyyy HH:mm:ss" />
+                  </h:outputText>
+                </p:column>
+                <p:column headerText="Doctor">
+                  #{item.idPersonal.nombreCompleto}
+                </p:column>
+                <p:column headerText="Descripción">
+                  <p:inputText value="#{item.descripcion}"/>
+                </p:column>
+                <p:column headerText="Monto">
+                  <h:outputText value="#{item.monto}"/>
+                </p:column>
+                <p:column style="text-align: center; width: 60px;">
+                  <p:commandLink class="btn btn-sm btn-success action-btn"
+                                 actionListener="#{resumen.pagarDoctor(item)}" 
+                                 update=":resumenForm:pagoDoctorDatalist, :resumenForm:deudaDoctorDatalist :growl"
+                                 id="pagarDoctor">
+                    <i class="fa fa-dollar"></i>
+                    <p:confirm header="Confirmación" message="¿Estas seguro(a) de realizar el pago del doctor: #{item.idPersonal.nombreCompleto} ?" icon="ui-icon-alert"/>
+                    <p:tooltip for="pagarDoctor" value="Realizar pago" trackMouse="true" />
+                  </p:commandLink>
+                  <p:confirmDialog global="true">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                  </p:confirmDialog>
+                </p:column>
+                <p:column style="text-align: center; width: 60px;">
+                  <p:commandLink class="btn btn-sm btn-warning action-btn"
+                                 update=":resumenForm:detalleDeudaSection"
+                                 id="verDetalle">
+                    <i class="fa fa-bars"></i>
+                    <p:tooltip for="verDetalle" value="Ver detalle de deuda" trackMouse="true" />
+                  </p:commandLink>
+
+                </p:column>
+                <p:column style="text-align: center; width: 60px;">
+                  <p:commandLink class="btn btn-sm btn-warning action-btn"
+                                 update=":resumenForm:detalleDeudaSection"
+                                 actionListener="#{resumen.posponerPagoDoctor(item)}"
+                                 id="posponerPago">
+                    <i class="fa fa-arrow-circle-right"></i>
+                    <p:tooltip for="posponerPago" value="Posponer pago" trackMouse="true" />
+                    <p:confirm header="Confirmación" message="¿Estas seguro(a) de posponer el pago del doctor: #{item.idPersonal.nombreCompleto} ?" icon="ui-icon-alert"/>
+                  </p:commandLink>
+                  <p:confirmDialog global="true">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                  </p:confirmDialog>
+
+                </p:column>
+                <!--<p:columnGroup type="footer">
+                  <p:row>
+                    <p:column colspan="4" style="text-align:right" footerText="Total:"/>
+                  </p:row>
+                </p:columnGroup>-->
+              </p:dataTable>
+
+            </div>
+
+            <h:panelGroup id="detalleDeudaSection" >
+
+              <h:panelGroup rendered="#{resumen.deudaDoctorSelectedHoy != null}" >
+                <div class="deuda-doctor">
+                  <h2>Detalle de deuda</h2>
+
+                  <p:dataTable id="detalleDeudaDoctorDatalist" 
+                               value="#{resumen.detalleDeudaDoctorListHoy}" 
+                               var="item" 
+                               emptyMessage="No hay registros">
+
+                    <p:column headerText="Cod. Venta">
+                      #{item.idVenta.idVenta}
+                    </p:column>
+                    <p:column headerText="comprobante">
+                      #{item.idVenta.comprobante}
+                    </p:column>
+                    <p:column headerText="Nº comprobante">
+                      <h:outputText value="#{item.idVenta.serie} #{item.idVenta.nroComprobante}" />
+                    </p:column>
+                    <p:column headerText="Fecha">
+                      <h:outputText value="#{item.idVenta.fechaHora}">
+                        <f:convertDateTime pattern="dd/MM//yyyy HH:mm:ss" />
+                      </h:outputText>
+                    </p:column>
+                    <p:column headerText="Servicio">
+                      #{item.idServicio.nombre}
+                    </p:column>
+                    <p:column headerText="Cantidad">
+                      #{item.cantidad}
+                    </p:column>
+
+                    <p:column headerText="Precio">
+                      #{item.precio}
+                    </p:column>
+
+                    <p:column headerText="Importe">
+                      #{item.importe}
+                    </p:column>
+
+                    <p:column headerText="Comisión">
+                      #{item.comision}
+                      <h:outputText value="%" rendered="#{item.tipoComision.equals('PORCENTAJE')}"/>
+                    </p:column>
+                    <p:column headerText="cMédico">
+                      #{item.comisionMedico}
+                    </p:column>
+
+
+                    <!--<p:columnGroup type="footer">
+                      <p:row>
+                        <p:column colspan="4" style="text-align:right" footerText="Total:"/>
+                      </p:row>
+                    </p:columnGroup>-->
+                  </p:dataTable>
+
+                </div>
+
+              </h:panelGroup>
+            </h:panelGroup>
 
             <div class="resumen">
               <h2>Resumen</h2>
@@ -181,7 +435,16 @@
                     <p:outputLabel class="form-control-label" value="Salgo inicial"  />
                   </div>
                   <div class="col-sm-7">
-                    <h:outputText value="#{saldoinicialController.selected.saldoinicial}" />
+                    <h:outputText value="#{resumen.saldoInicialHoy}" />
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-sm-5">
+                    <p:outputLabel class="form-control-label" value="Ventas"  />
+                  </div>
+                  <div class="col-sm-7">
+                    <h:outputText value="#{resumen.totalVentasContadoHoy}" />
                   </div>
                 </div>
 
@@ -190,7 +453,7 @@
                     <p:outputLabel class="form-control-label" value="Ingresos"  />
                   </div>
                   <div class="col-sm-7">
-                    <h:outputText value="#{ventaController.totalVentasContadoHoy}" />
+                    <h:outputText value="#{resumen.totalIngresosHoy}" />
                   </div>
                 </div>
 
@@ -199,25 +462,26 @@
                     <p:outputLabel class="form-control-label" value="Egresos"  />
                   </div>
                   <div class="col-sm-7">
-                    <h:outputText value="#{egresosController.totalEgresosHoy}" />
+                    <h:outputText value="#{resumen.totalEgresosHoy}" />
                   </div>
                 </div>
 
                 <div class="form-group row">
                   <div class="col-sm-5">
-                    <p:outputLabel class="form-control-label" value="Saldo efectivo"  />
+                    <p:outputLabel class="form-control-label" value="Adelantos"  />
                   </div>
                   <div class="col-sm-7">
-                    <h:outputText value="#{ventaController.totalVentasContadoHoy + saldoinicialController.selected.saldoinicial - egresosController.totalEgresosHoy}" />
+                    <h:outputText value="#{resumen.totalAdelantosHoy}" />
                   </div>
                 </div>
 
+
                 <div class="form-group row">
                   <div class="col-sm-5">
-                    <p:outputLabel class="form-control-label" value="Op. a crédito"  />
+                    <p:outputLabel class="form-control-label" value="Pago a Doctores"  />
                   </div>
                   <div class="col-sm-7">
-                    <h:outputText value="#{ventaController.totalVentasCreditoHoy}" />
+                    <h:outputText value="#{resumen.totalPagosDoctorHoy}" />
                   </div>
                 </div>
 
@@ -226,35 +490,36 @@
                     <p:outputLabel class="form-control-label" value="Comisión Clínica"  />
                   </div>
                   <div class="col-sm-7">
-                    <h:outputText value="#{ventaController.comisionClinicaHoy}" >
-                      <f:convertNumber pattern="#0.00" />
-                    </h:outputText>
+                    <h:outputText value="#{resumen.comisionClinicaHoy}" />
                   </div>
                 </div>
-
 
                 <div class="form-group row">
                   <div class="col-sm-5">
-                    <p:outputLabel class="form-control-label" value="Comisión de Doctores"  />
+                    <p:outputLabel class="form-control-label" value="Saldo efectivo"  />
                   </div>
                   <div class="col-sm-7">
-                    <h:outputText value="#{ventaController.comisionMedicoHoy}" >
-                      <f:convertNumber pattern="#0.00" />
+                    <h:outputText id="saldo-efectivo" value="#{resumen.totalVentasContadoHoy + resumen.totalIngresosHoy + resumen.saldoInicialHoy 
+                                                               - resumen.totalEgresosHoy - resumen.totalAdelantosHoy - resumen.totalPagosDoctorHoy}" >
                     </h:outputText>
+                    <p:tooltip for="saldo-efectivo" value="Saldo efectivo = SaldoInicial + Ventas + Ingreso - Egresos - Adelantos - Pago a doctores" trackMouse="true" />
+
                   </div>
                 </div>
-
 
                 <div class="form-group row">
                   <div class="col-sm-5">
-                    <p:outputLabel class="form-control-label" value="Utilidad"  />
+                    <p:outputLabel class="form-control-label" value="Op. a crédito"  />
                   </div>
                   <div class="col-sm-7">
-                    <h:outputText value="#{ventaController.totalVentasContadoHoy + saldoinicialController.selected.saldoinicial - egresosController.totalEgresosHoy - ventaController.comisionMedicoHoy }" >
-                      <f:convertNumber pattern="#0.00" />
-                    </h:outputText>
+                    <h:outputText value="#{resumen.totalVentasCreditoHoy}" />
                   </div>
                 </div>
+
+
+
+
+
               </div>
             </div>
 

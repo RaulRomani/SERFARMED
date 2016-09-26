@@ -5,7 +5,9 @@
  */
 package com.serfarmed.facades;
 
+import com.serfarmed.entities.Personal;
 import com.serfarmed.entities.Servicioventa;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -30,4 +32,13 @@ public interface ServicioventaFacadeLocal {
 
   int count();
   
+  public void updatePagoDoctorHoy(Date fecha);
+  
+  public void updatePagoDoctorMes(Date fecha);
+  
+  public void updatePagoByDoctorHoy(Date fecha, Personal doctor);
+  
+  public List<Servicioventa> findDetallePagoByDoctorHoy(Date fecha, Personal doctor);
+  
+  public void posponerPagoByDoctorHoy(Date fecha, Personal doctor);
 }

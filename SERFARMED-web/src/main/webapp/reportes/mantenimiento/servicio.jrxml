@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="65600e0b-9eb5-4c09-9b10-d6bba1bde56b">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="65600e0b-9eb5-4c09-9b10-d6bba1bde56b">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -14,14 +14,12 @@
 		<![CDATA[SELECT
      servicio.`idServicio` AS servicio_idServicio,
      servicio.`nombre` AS servicio_nombre,
-     servicio.`precio` AS servicio_precio,
      servicio.`descripcion` AS servicio_descripcion
 FROM
      `servicio` servicio]]>
 	</queryString>
 	<field name="servicio_idServicio" class="java.lang.Long"/>
 	<field name="servicio_nombre" class="java.lang.String"/>
-	<field name="servicio_precio" class="java.math.BigDecimal"/>
 	<field name="servicio_descripcion" class="java.lang.String"/>
 	<title>
 		<band height="97" splitType="Stretch">
@@ -55,14 +53,7 @@ FROM
 				<text><![CDATA[Nombre]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="234" y="0" width="86" height="20" uuid="dbfe94a4-1c14-43ee-a256-29b524873b47"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Precio (S/.)]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="303" y="0" width="252" height="20" uuid="5025d10a-fd75-4105-81dd-dbbf05eb2f93"/>
+				<reportElement x="219" y="2" width="316" height="20" uuid="5025d10a-fd75-4105-81dd-dbbf05eb2f93"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
@@ -93,12 +84,7 @@ FROM
 					<textFieldExpression><![CDATA[$F{servicio_nombre}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="213" y="0" width="58" height="20" uuid="37f8ce2c-f65d-441d-a7d9-a24fe97c3b9c"/>
-					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA[$F{servicio_precio}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="303" y="0" width="252" height="20" uuid="c4f5bc11-1c49-48cc-88a3-d75f94070de5"/>
+					<reportElement x="219" y="2" width="316" height="20" uuid="c4f5bc11-1c49-48cc-88a3-d75f94070de5"/>
 					<textFieldExpression><![CDATA[$F{servicio_descripcion}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">

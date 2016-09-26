@@ -6,6 +6,7 @@
 package com.serfarmed.facades;
 
 import com.serfarmed.entities.Saldoinicial;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -30,6 +31,8 @@ public interface SaldoinicialFacadeLocal {
 
   int count();
   
-  public Saldoinicial findByFechaHoy();
+  public Saldoinicial findByFecha(Date fecha);
+  
+  public List<Saldoinicial> findByMonth(Date fecha);
   
 }

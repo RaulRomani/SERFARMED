@@ -21,6 +21,9 @@ public class Carrito {
   private Date fecha;
   private String formaPago;
   private String comprobante;
+  private String nroComprobante;
+  private String serie;
+  
   private List<CarritoItem> items;
   
 
@@ -104,5 +107,23 @@ public class Carrito {
   public void setItems(List<CarritoItem> items) {
     this.items = items;
   }
+
+  public String getNroComprobante() {
+    return nroComprobante;
+  }
+
+  public void setNroComprobante(String nroComprobante) {
+    this.nroComprobante = nroComprobante;
+  }
+
+  public String getSerie() {
+    return serie;
+  }
+
+  public void setSerie(String serie) {
+    this.serie = serie;
+  }
+  
+  
 
 }

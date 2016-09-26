@@ -50,10 +50,6 @@
               ${item.nombre}
             </p:column>
             
-            <p:column headerText="#{bundle.ListServicioTitle_precio}">
-              <h:outputText value="#{item.precio}"/>
-            </p:column>
-            
             <p:column headerText="#{bundle.ListServicioTitle_descripcion}">
               <h:outputText value="#{item.descripcion}"/>
             </p:column>
@@ -62,7 +58,7 @@
             <f:facet name="footer">
               <p:commandButton value="Aceptar" id="agregar"
                                oncomplete="PF('ServicioSearchDialog').hide()" 
-                               update=":reporte,:servicio,:growl"
+                               update=":reporte, :servicio :growl"
                                actionListener="#{reportes.reporteMensualServicioDoctor()}"
                                disabled="#{empty reportes.servicioSelected ? true:false }">
                 <!--<p:resetInput target=":DatosCarrito:diente" />-->

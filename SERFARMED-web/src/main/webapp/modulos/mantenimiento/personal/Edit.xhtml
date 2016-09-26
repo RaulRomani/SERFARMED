@@ -17,12 +17,28 @@
             <p:inputText id="nombre" value="#{personalController.selected.nombre}" title="#{bundle.EditPersonalTitle_nombre}" required="true" requiredMessage="#{bundle.EditPersonalRequiredMessage_nombre}"/>
             <p:outputLabel value="#{bundle.EditPersonalLabel_apellido}" for="apellido" />
             <p:inputText id="apellido" value="#{personalController.selected.apellido}" title="#{bundle.EditPersonalTitle_apellido}" required="true" requiredMessage="#{bundle.EditPersonalRequiredMessage_apellido}"/>
-            <p:outputLabel value="#{bundle.EditPersonalLabel_cargo}" for="cargo" />
-            <p:inputText id="cargo" value="#{personalController.selected.cargo}" title="#{bundle.EditPersonalTitle_cargo}" required="true" requiredMessage="#{bundle.EditPersonalRequiredMessage_cargo}"/>
+            <p:outputLabel value="rol" for="cargo" />
+            <p:selectOneRadio id="cargo" 
+                              value="#{personalController.selected.cargo}"
+                              required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_cargo}">
+              <f:selectItem itemLabel="Doctor" itemValue="Doctor" />
+              <f:selectItem itemLabel="Cajero" itemValue="Cajero" />
+              <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+            </p:selectOneRadio>
             <p:outputLabel value="#{bundle.EditPersonalLabel_dni}" for="dni" />
             <p:inputText id="dni" value="#{personalController.selected.dni}" title="#{bundle.EditPersonalTitle_dni}" required="true" requiredMessage="#{bundle.EditPersonalRequiredMessage_dni}"/>
             <p:outputLabel value="#{bundle.EditPersonalLabel_sueldo}" for="sueldo" />
             <p:inputText id="sueldo" value="#{personalController.selected.sueldo}" title="#{bundle.EditPersonalTitle_sueldo}" required="true" requiredMessage="#{bundle.EditPersonalRequiredMessage_sueldo}"/>
+            <p:outputLabel value="#{bundle.EditPersonalLabel_tipoComision}" for="tipoComision" />
+            <p:selectOneMenu id="tipoComision" 
+                             value="#{personalController.selected.tipoComision}"
+                              required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_cargo}">
+              <f:selectItem itemLabel="Porcentaje" itemValue="PORCENTAJE" />
+              <f:selectItem itemLabel="Monto" itemValue="MONTO" />
+              <f:selectItem itemLabel="N/A" itemValue="N/A" />
+            </p:selectOneMenu>
+            <p:outputLabel value="#{bundle.EditPersonalLabel_comision}" for="comision" />
+            <p:inputText id="comision" value="#{personalController.selected.comision}" title="#{bundle.EditPersonalTitle_comision}" />
             <p:outputLabel value="#{bundle.EditPersonalLabel_especialidad}" for="especialidad" />
             <p:inputText id="especialidad" value="#{personalController.selected.especialidad}" title="#{bundle.EditPersonalTitle_especialidad}" />
             <p:outputLabel value="#{bundle.EditPersonalLabel_correo}" for="correo" />
@@ -36,7 +52,11 @@
             <p:outputLabel value="#{bundle.EditPersonalLabel_celular}" for="celular" />
             <p:inputText id="celular" value="#{personalController.selected.celular}" title="#{bundle.EditPersonalTitle_celular}" />
             <p:outputLabel value="#{bundle.EditPersonalLabel_sexo}" for="sexo" />
-            <p:inputText id="sexo" value="#{personalController.selected.sexo}" title="#{bundle.EditPersonalTitle_sexo}" />
+            <p:selectOneRadio id="sexo" 
+                              value="#{personalController.selected.sexo}">
+              <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+              <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+            </p:selectOneRadio>
             
             
           </p:panelGrid>

@@ -30,7 +30,7 @@
           <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
           <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-          <p:column>
+          <p:column filterBy="#{item.idCuota}" sortBy="#{item.idCuota}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListCreditoTitle_idCuota}"/>
             </f:facet>
@@ -48,7 +48,7 @@
             </f:facet>
             <h:outputText value="#{item.cuotaspagado}"/>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.fechaHora}" sortBy="#{item.fechaHora}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListCreditoTitle_fechaHora}"/>
             </f:facet>
@@ -56,7 +56,7 @@
               <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
             </h:outputText>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.plazo}" sortBy="#{item.plazo}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListCreditoTitle_plazo}"/>
             </f:facet>
@@ -75,6 +75,12 @@
             <h:outputText value="#{item.importe}"/>
           </p:column>
           <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListCreditoTitle_observacion}"/>
+            </f:facet>
+            <h:outputText value="#{item.observacion}"/>
+          </p:column>
+          <p:column filterBy="#{item.idVenta}" sortBy="#{item.idVenta}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListCreditoTitle_idVenta}"/>
             </f:facet>

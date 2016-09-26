@@ -263,7 +263,7 @@ WHERE
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Importe]]></text>
+				<text><![CDATA[Monto]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="170" y="54" width="100" height="20" uuid="4f4c2885-4bd0-4b74-9d08-368960726ab9"/>

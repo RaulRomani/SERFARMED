@@ -32,37 +32,37 @@
             <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
             <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-            <p:column>
+            <p:column filterBy="#{item.idCliente}" sortBy="#{item.idCliente}">
               <f:facet name="header">
                 <h:outputText value="#{bundle.ListClienteTitle_idCliente}"/>
               </f:facet>
               <h:outputText value="#{item.idCliente}"/>
             </p:column>
-            <p:column>
+            <p:column filterBy="#{item.nombre}" sortBy="#{item.nombre}">
               <f:facet name="header">
                 <h:outputText value="#{bundle.ListClienteTitle_nombre}"/>
               </f:facet>
               <h:outputText value="#{item.nombre}"/>
             </p:column>
-            <p:column>
+            <p:column filterBy="#{item.apellido}" sortBy="#{item.apellido}">
               <f:facet name="header">
                 <h:outputText value="#{bundle.ListClienteTitle_apellido}"/>
               </f:facet>
               <h:outputText value="#{item.apellido}"/>
             </p:column>
-            <p:column>
+            <p:column filterBy="#{item.dni}" sortBy="#{item.dni}">
               <f:facet name="header">
                 <h:outputText value="#{bundle.ListClienteTitle_dni}"/>
               </f:facet>
               <h:outputText value="#{item.dni}"/>
             </p:column>
-            <p:column>
+            <p:column filterBy="#{item.ruc}" sortBy="#{item.ruc}">
               <f:facet name="header">
                 <h:outputText value="#{bundle.ListClienteTitle_ruc}"/>
               </f:facet>
               <h:outputText value="#{item.ruc}"/>
             </p:column>
-            <p:column>
+            <p:column filterBy="#{item.codAsegurado}" sortBy="#{item.codAsegurado}">
               <f:facet name="header">
                 <h:outputText value="#{bundle.ListClienteTitle_codAsegurado}"/>
               </f:facet>

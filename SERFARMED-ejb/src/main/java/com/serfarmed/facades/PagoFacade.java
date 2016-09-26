@@ -8,10 +8,12 @@ package com.serfarmed.facades;
 import com.serfarmed.entities.Pago;
 import com.serfarmed.entities.Personal;
 import com.serfarmed.entities.Pago;
+import com.serfarmed.entities.util.EjbUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -40,6 +42,116 @@ public class PagoFacade extends AbstractFacade<Pago> implements PagoFacadeLocal 
     super(Pago.class);
   }
   
+  
+  @Override
+  public List<Pago> findPagoDoctorHoy(Date fecha) {
+
+    TypedQuery<Pago> q = getEntityManager().createNamedQuery("Pago.findPagoDoctorHoy", Pago.class);
+    
+    SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+    SimpleDateFormat fechaFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+    
+    String startDate = fechaFormat.format(fecha) + " 00:00:01";
+    String endDate = fechaFormat.format(fecha) + " 23:59:59";
+    
+    List<Pago> list;
+    try {
+      q.setParameter("startDate", dtFormat.parse(startDate) , TemporalType.TIMESTAMP );
+      q.setParameter("endDate", dtFormat.parse(endDate) , TemporalType.TIMESTAMP );
+    } catch ( ParseException e) {
+      System.out.println(e.getMessage());
+    }
+    
+    list = q.getResultList();
+    return list;
+  }          
+  
+  @Override
+  public List<Pago> findPagoDoctorMes(Date fecha) {
+
+    TypedQuery<Pago> q = getEntityManager().createNamedQuery("Pago.findPagoDoctorMes", Pago.class);
+    
+    SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+    Map<String, String> parametro = EjbUtil.getStartEndMonth(fecha);
+    
+    try {
+      q.setParameter("startDate", dtFormat.parse(parametro.get("startDate")) , TemporalType.TIMESTAMP );
+      q.setParameter("endDate", dtFormat.parse(parametro.get("endDate")) , TemporalType.TIMESTAMP );
+      
+    } catch (ParseException ex) {
+      System.out.println(ex.getMessage());
+    }
+    
+    List<Pago> list = q.getResultList();
+    return list;
+  }
+  
+  @Override
+  public List<Pago> findPagoByDoctorMes(Personal doctor, Date fecha) {
+
+    TypedQuery<Pago> q = getEntityManager().createNamedQuery("Pago.findPagoByDoctorMes", Pago.class);
+    
+    SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+    Map<String, String> parametro = EjbUtil.getStartEndMonth(fecha);
+    
+    try {
+      q.setParameter("startDate", dtFormat.parse(parametro.get("startDate")) , TemporalType.TIMESTAMP );
+      q.setParameter("endDate", dtFormat.parse(parametro.get("endDate")) , TemporalType.TIMESTAMP );
+      q.setParameter("doctor", doctor);
+      
+    } catch (ParseException ex) {
+      System.out.println(ex.getMessage());
+    }
+    
+    List<Pago> list = q.getResultList();
+    return list;
+  }
+  
+  @Override
+  public List<Pago> findAdelantosByFecha(Date fecha) {
+
+    TypedQuery<Pago> q = getEntityManager().createNamedQuery("Pago.findAdelantosByFecha", Pago.class);
+    
+    SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+    SimpleDateFormat fechaFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+    
+    String startDate = fechaFormat.format(fecha) + " 00:00:01";
+    String endDate = fechaFormat.format(fecha) + " 23:59:59";
+    
+    try {
+      q.setParameter("startDate", dtFormat.parse(startDate) , TemporalType.TIMESTAMP );
+      q.setParameter("endDate", dtFormat.parse(endDate) , TemporalType.TIMESTAMP );
+      
+    } catch (ParseException ex) {
+      System.out.println(ex.getMessage());
+    }
+    
+    List<Pago> list;
+    list = q.getResultList();
+    return list;
+  }
+  
+  @Override
+  public List<Pago> findAdelantosMes(Date fecha) {
+
+    TypedQuery<Pago> q = getEntityManager().createNamedQuery("Pago.findAdelantosByFecha", Pago.class);
+    
+    SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+    Map<String, String> parametro = EjbUtil.getStartEndMonth(fecha);
+    
+    try {
+      q.setParameter("startDate", dtFormat.parse(parametro.get("startDate")) , TemporalType.TIMESTAMP );
+      q.setParameter("endDate", dtFormat.parse(parametro.get("endDate")) , TemporalType.TIMESTAMP );
+      
+    } catch (ParseException ex) {
+      System.out.println(ex.getMessage());
+    }
+    
+    List<Pago> list;
+    list = q.getResultList();
+    return list;
+  }
+  
   @Override
   public List<Pago> findByFecha(Date fecha) {
 
@@ -51,30 +163,22 @@ public class PagoFacade extends AbstractFacade<Pago> implements PagoFacadeLocal 
     String startDate = fechaFormat.format(fecha) + " 00:00:01";
     String endDate = fechaFormat.format(fecha) + " 23:59:59";
     
-    
-    
     try {
       q.setParameter("startDate", dtFormat.parse(startDate) , TemporalType.TIMESTAMP );
       q.setParameter("endDate", dtFormat.parse(endDate) , TemporalType.TIMESTAMP );
       
-      System.out.println(startDate);
-      System.out.println(endDate);
     } catch (ParseException ex) {
       System.out.println(ex.getMessage());
     }
     
     List<Pago> list;
-    try {
-      list = q.getResultList();
-    } catch (NoResultException e) {
-      list = null;
-    }
+    list = q.getResultList();
     return list;
   }
   
   @Override
-  public List<Pago> findByPersonal(Personal personal, String mes) {
-    TypedQuery<Pago> q = getEntityManager().createNamedQuery("Pago.findByPersonal", Pago.class);
+  public List<Pago> findAdelantosByPersonal(Personal personal, String mes) {
+    TypedQuery<Pago> q = getEntityManager().createNamedQuery("Pago.findAdelantosByPersonal", Pago.class);
     q.setParameter("idPersonal", personal);
     Date fecha = new Date();
     
@@ -84,8 +188,12 @@ public class PagoFacade extends AbstractFacade<Pago> implements PagoFacadeLocal 
     
     Integer endMes =Integer.parseInt(mes) + 1;
     String endDate;
-    if(endMes != 10 && endMes != 11 && endMes != 12)
-      endDate = yearFormat.format(fecha) + "-0" +  endMes +"-01 00:00:01";
+    if(endMes != 10 && endMes != 11 && endMes != 12 && endMes != 13)
+      if ( endMes == 13){
+        endDate = yearFormat.format(fecha) + "-12-31 23:59:59";
+      } else {
+        endDate = yearFormat.format(fecha) + "-0" +  endMes +"-01 00:00:01";
+      }
     else
       endDate = yearFormat.format(fecha) + "-" +  endMes +"-01 00:00:01";
     
@@ -99,20 +207,8 @@ public class PagoFacade extends AbstractFacade<Pago> implements PagoFacadeLocal 
       System.out.println(ex.getMessage());
     }
     
-    
-//    Date fecha = new Date();
-//    Query q = em.createNativeQuery("SELECT * FROM pago WHERE fechaHora LIKE '%" + fecha.getYear() + "-" + mes + "%'");
-    
     List<Pago> list;
-    try {
-      list = q.getResultList();
-    } catch (NoResultException e) {
-      list = null;
-      System.out.println("NO HAY PAGOS REGISTRADOS");
-    }
-    if(list.isEmpty())
-      list = null;
-    System.out.println("FIND PAGO BY PERSONAL OK");
+    list = q.getResultList();
     return list;
   }
   

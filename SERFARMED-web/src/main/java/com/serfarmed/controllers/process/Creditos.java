@@ -6,6 +6,7 @@
 package com.serfarmed.controllers.process;
 
 import com.serfarmed.controllers.util.AccesoDB;
+import com.serfarmed.controllers.util.CantidadLetras;
 import com.serfarmed.controllers.util.JsfUtil;
 import com.serfarmed.controllers.util.Log4jConfig;
 import com.serfarmed.entities.Credito;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +63,7 @@ public class Creditos implements Serializable{
   private Cliente clienteSelected;
   private Venta ventaSelected;
   private Credito creditoSelected;
-  private Integer cuotas;
+  private Integer cuotaAPagar;
   
   @edu.umd.cs.findbugs.annotations.SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
   private transient final org.slf4j.Logger logger = LoggerFactory.getLogger(Creditos.class);
@@ -71,7 +73,7 @@ public class Creditos implements Serializable{
     clienteSelected = new Cliente();
     ventaSelected = new Venta();
     creditoSelected = new Credito();
-    cuotas = 1;
+    cuotaAPagar = 1;
     logger.info("INIT COBROS");
   }
   
@@ -85,11 +87,11 @@ public class Creditos implements Serializable{
   
   public List<Venta> getVentaList() {
     if (ventaList == null) {
-      ventaList = ejbFacadeVenta.findByFormaPagoCliente(clienteSelected,"CUOTAS");
+      ventaList = ejbFacadeVenta.findByFormaPagoCliente(clienteSelected,"CREDITO");
       logger.info("getVentas, cliente="+ clienteSelected.getNombre());
       logger.info("getVentas, idCliente="+ clienteSelected.getIdCliente());
     }
-    logger.info("Get Ventas CUOTAS :" + ventaList.size());
+    logger.info("Get Ventas CREDITO :" + ventaList.size());
     return ventaList;
   }
   
@@ -97,7 +99,7 @@ public class Creditos implements Serializable{
     creditoSelected = ventaSelected.getCreditoList().get(0);
   }
   public void loadCreditos(){
-    ventaList = ejbFacadeVenta.findByFormaPagoCliente(clienteSelected,"CUOTAS");
+    ventaList = ejbFacadeVenta.findByFormaPagoCliente(clienteSelected,"CREDITO");
     
     ventaSelected = null;
     creditoSelected = null;
@@ -105,13 +107,27 @@ public class Creditos implements Serializable{
   
   public void Save() throws JRException, IOException, NamingException, SQLException, Exception {
     
-    creditoSelected.setCuotaspagado(creditoSelected.getCuotaspagado() + cuotas);
     
-    persist(JsfUtil.PersistAction.CREATE, "Guardado correctamente");
-    if (!JsfUtil.isValidationFailed()) { //Si la transaccion tuvo exito.
+    
+    //Si se pago todas las cuotas, registrar/imprimir comprobante
+    if(creditoSelected.getCuotaspagado() == creditoSelected.getTotalcuotas() && !ventaSelected.getComprobante().isEmpty()){
       
+//      venta.setComprobante(comprobante);
+//      venta.setNroComprobante(nroComprobante);
+//      venta.setSerie(serie);
+      ventaSelected.setEstado("CANCELADO");
+      ventaSelected.setFechaHora(new Date());
+      persistVenta(ventaSelected,JsfUtil.PersistAction.UPDATE, "La venta se guardó correctamente");
+      
+      
+    } else {
+      creditoSelected.setCuotaspagado(creditoSelected.getCuotaspagado() + cuotaAPagar);
+      persist(JsfUtil.PersistAction.CREATE, "El cobro se guardó correctamente");
+      
+      reporteCobroCreditos();
+      cuotaAPagar = 0;
     }
-    reporteCobroCreditos();
+    
   }
   
   public void reporteCobroCreditos() throws JRException, IOException, NamingException, SQLException, Exception {
@@ -136,7 +152,7 @@ public class Creditos implements Serializable{
 
     JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
     //JasperExportManager.exportReportToPdfFile(jasperPrint, "D://clientes.pdf");
-    JasperPrintManager.printReport(jasperPrint, false);
+    //JasperPrintManager.printReport(jasperPrint, false);
     
     stream.flush();
     stream.close();
@@ -152,6 +168,33 @@ public class Creditos implements Serializable{
           ejbFacadeCredito.edit(creditoSelected);
         } else {
           ejbFacadeCredito.remove(creditoSelected);
+        }
+        JsfUtil.addSuccessMessage(successMessage);
+      } catch (EJBException ex) {
+        String msg = "";
+        Throwable cause = ex.getCause();
+        if (cause != null) {
+          msg = cause.getLocalizedMessage();
+        }
+        if (msg.length() > 0) {
+          JsfUtil.addErrorMessage(msg);
+        } else {
+          JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+        }
+      } catch (Exception ex) {
+        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+      }
+    }
+  }
+  
+  private void persistVenta(Venta venta, JsfUtil.PersistAction persistAction, String successMessage) {
+    if (venta != null) {
+      try {
+        if (persistAction != JsfUtil.PersistAction.DELETE) {
+          ejbFacadeVenta.edit(venta);
+        } else {
+          ejbFacadeVenta.remove(venta);
         }
         JsfUtil.addSuccessMessage(successMessage);
       } catch (EJBException ex) {
@@ -201,17 +244,10 @@ public class Creditos implements Serializable{
   }
 
   public Integer getCreditos() {
-    return cuotas;
+    return cuotaAPagar;
   }
 
-  public void setCreditos(Integer cuotas) {
-    this.cuotas = cuotas;
+  public void setCreditos(Integer cuotaAPagar) {
+    this.cuotaAPagar = cuotaAPagar;
   }
-  
-  
-
-  
-
-
-  
 }

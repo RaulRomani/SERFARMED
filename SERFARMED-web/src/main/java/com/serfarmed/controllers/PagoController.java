@@ -7,8 +7,6 @@ import com.serfarmed.controllers.util.JsfUtil.PersistAction;
 import com.serfarmed.facades.PagoFacadeLocal;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -31,8 +29,6 @@ public class PagoController implements Serializable {
   private com.serfarmed.facades.PagoFacadeLocal ejbFacade;
   private List<Pago> items = null;
   private Pago selected;
-  
-  private List<Pago> pagoListHoy;
   
   @edu.umd.cs.findbugs.annotations.SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
   private transient final org.slf4j.Logger logger = LoggerFactory.getLogger(Pagos.class);
@@ -58,19 +54,6 @@ public class PagoController implements Serializable {
     return ejbFacade;
   }
   
-  public List<Pago> getPagoListHoy(){
-    pagoListHoy = getFacade().findByFecha(new Date());
-    return pagoListHoy;
-  }
-  
-  public BigDecimal getTotalPagosHoy(){
-    BigDecimal total = BigDecimal.ZERO ;
-    for (Pago item : pagoListHoy) {
-      total = total.add(item.getMonto());
-    }
-    return total;
-  }
-
   public Pago prepareCreate() {
     selected = new Pago();
     initializeEmbeddableKey();

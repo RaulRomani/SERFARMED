@@ -20,7 +20,7 @@
           <p:dataTable id="datalist" 
                        value="#{ventas.doctorList}" 
                        var="item"
-                       rowKey="#{item.idComision}"
+                       rowKey="#{item.idPersonal}"
                        selectionMode="single" 
                        selection="#{ventas.doctorSelected}"
                        emptyMessage="No hay registros"
@@ -44,14 +44,6 @@
             </p:column>
             <p:column headerText="#{bundle.ListPersonalTitle_apellido}" filterBy="#{item.apellido}" sortBy="#{item.apellido}" filterMatchMode="contains">
               <h:outputText value="#{item.apellido}"/>
-            </p:column>
-
-            <p:column headerText="#{bundle.ListComisionTitle_comision}" filterBy="#{item.comision}" sortBy="#{item.nota}" filterMatchMode="contains">
-              <h:outputText value="#{item.comision}"/>
-            </p:column>
-            
-            <p:column headerText="#{bundle.ListComisionTitle_nota}" filterBy="#{item.nota}" sortBy="#{item.nota}" filterMatchMode="contains">
-              <h:outputText value="#{item.nota}"/>
             </p:column>
 
             <f:facet name="footer">

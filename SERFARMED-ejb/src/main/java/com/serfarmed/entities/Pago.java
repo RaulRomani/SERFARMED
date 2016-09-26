@@ -41,8 +41,12 @@ import javax.xml.bind.annotation.XmlRootElement;
   @NamedQuery(name = "Pago.findByMonto", query = "SELECT p FROM Pago p WHERE p.monto = :monto"),
   @NamedQuery(name = "Pago.findByFechaHora", query = "SELECT p FROM Pago p WHERE p.fechaHora = :fechaHora"),
   @NamedQuery(name = "Pago.findByTipo", query = "SELECT p FROM Pago p WHERE p.tipo = :tipo"),
-  @NamedQuery(name = "Pago.findByPersonal", query = "SELECT p FROM Pago p WHERE p.idPersonal = :idPersonal and p.fechaHora BETWEEN :startDate AND :endDate"),
-  @NamedQuery(name = "Pago.findByFecha", query = "SELECT p FROM Pago p WHERE p.fechaHora BETWEEN :startDate AND :endDate")})
+  @NamedQuery(name = "Pago.findAdelantosByPersonal", query = "SELECT p FROM Pago p WHERE p.tipo = 'ADELANTO' AND  p.idPersonal = :idPersonal and p.fechaHora BETWEEN :startDate AND :endDate"),
+  @NamedQuery(name = "Pago.findByFecha", query = "SELECT p FROM Pago p WHERE p.fechaHora BETWEEN :startDate AND :endDate"),
+  @NamedQuery(name = "Pago.findAdelantosByFecha", query = "SELECT p FROM Pago p WHERE p.tipo = 'ADELANTO' AND p.fechaHora BETWEEN :startDate AND :endDate"),
+  @NamedQuery(name = "Pago.findPagoDoctorHoy", query = "SELECT p FROM Pago p WHERE p.tipo = 'PAGODOCTOR' AND p.fechaHora BETWEEN :startDate AND :endDate"),
+  @NamedQuery(name = "Pago.findPagoDoctorMes", query = "SELECT p FROM Pago p WHERE p.tipo = 'PAGODOCTOR' AND p.fechaHora BETWEEN :startDate AND :endDate"),
+  @NamedQuery(name = "Pago.findPagoByDoctorMes", query = "SELECT p FROM Pago p WHERE p.tipo = 'PAGODOCTOR' AND p.idPersonal = :doctor AND p.fechaHora BETWEEN :startDate AND :endDate")})
 public class Pago implements Serializable {
   private static final long serialVersionUID = 1L;
   @Id

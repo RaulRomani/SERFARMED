@@ -30,13 +30,13 @@
           <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
           <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-          <p:column>
+          <p:column filterBy="#{item.idServicio}" sortBy="#{item.idServicio}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListServicioTitle_idServicio}"/>
             </f:facet>
             <h:outputText value="#{item.idServicio}"/>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.nombre}" sortBy="#{item.nombre}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListServicioTitle_nombre}"/>
             </f:facet>
@@ -54,7 +54,7 @@
             </f:facet>
             <h:outputText value="#{item.descripcion}"/>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.idCategoria}" sortBy="#{item.idCategoria}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListServicioTitle_idCategoria}"/>
             </f:facet>

@@ -1,0 +1,438 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+  <ui:composition template="/templates/templateCool.xhtml">
+    <ui:define name="resources">
+      <h:outputScript name="/js/crud.js"/>
+    </ui:define>
+
+    <ui:define name="body">
+
+      <f:view>
+        <f:event type="preRenderView" listener="#{resumenMes.init()}"/>
+      </f:view>
+      <div class="container">
+
+        <h1 class="row" style="color: #269abc">Resumen Mensual</h1>
+
+
+
+        <div class="row">
+
+
+          <h:form id="resumenMesForm" >  
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group row">
+                  <div class="col-sm-4">
+                    <p:outputLabel class="form-control-label" value="Fecha"  />
+                  </div>
+                  <div class="col-sm-8">
+                    <p:calendar pattern="dd/MM/yyyy" value="#{resumenMes.fecha}"  showOn="button" navigator="true"  yearRange="c-15:c+15"> 
+                      <!---<p:ajax event="change" update="resumenMesForm"/>  -->
+                    </p:calendar>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-sm-4">
+                    <p:outputLabel class="form-control-label" value=""  />
+                  </div>
+                  <div class="col-sm-8">
+                    <p:commandButton  value="Consultar" update="resumenMesForm" styleClass="ui" 
+                                      class="btn btn-success"/>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-offset-8"/>
+
+            </div>
+
+            <div >
+              <h2>Ventas</h2>
+
+              <p:dataTable id="ventasDatalist" value="#{resumenMes.ventaListMensual}" var="venta" emptyMessage="No hay registros">
+                
+                <p:columnGroup type="header">
+                  <p:row>
+                    <p:column rowspan="2" headerText="Comprobante" />
+                    <p:column rowspan="2" headerText="Serie" />
+                    <p:column rowspan="2" headerText="Nº comprobante" />
+                    <p:column rowspan="2" headerText="Estado" />
+                    <!--<p:column rowspan="2" headerText="Total" />-->
+
+                    <p:column colspan="7" headerText="Detalle" />
+                  </p:row>
+                  <p:row>
+                    <p:column headerText="Cant." style="text-align: center; width: 60px;" />
+                    <p:column headerText="Servicio" />
+                    <p:column headerText="Precio" />
+                    <p:column headerText="Importe" />
+                    <p:column headerText="cClínica" />
+                    <p:column headerText="cMédico" />
+                    <p:column headerText="Doctor" />
+                  </p:row>
+                </p:columnGroup>
+
+                <p:subTable value="#{venta.productoventaList}" var="detalle">
+                  <f:facet name="header">
+                    Código: 
+                    <h:outputText value="#{venta.idVenta}"  > <!--  serie + nro -->
+                      <f:convertNumber pattern="000000" />
+                    </h:outputText>
+                  </f:facet>
+
+                  <p:column headerText="Comprobante">
+                    #{venta.comprobante}
+                  </p:column>
+                  
+                  <p:column headerText="Serie">
+                    #{venta.serie}
+                  </p:column>
+                  
+                  <p:column headerText="Nº Comprobante">
+                    #{venta.nroComprobante}
+                  </p:column>
+
+                  <p:column headerText="Estado">
+                    #{venta.estado}
+                  </p:column>
+
+                  <!--<p:column headerText="Total">
+                    #venta.total}
+                  </p:column>-->
+
+                  <p:column headerText="Cant." style="text-align: center; width: 60px;">
+                    #{detalle.cantidad}
+                  </p:column>
+
+                  <p:column headerText="Servicio">
+                    #{detalle.idServicio.nombre}
+                  </p:column>
+
+                  <p:column headerText="Precio">
+                    #{detalle.precio}
+                  </p:column>
+
+                  <p:column headerText="Importe" style="text-align:right">
+                    <h:outputText value="#{detalle.importe}" />
+                  </p:column>
+
+                  <p:column style="text-align:right">
+                    <h:outputText value="#{detalle.comisionClinica}"/>
+                  </p:column>
+                  
+                  <p:column style="text-align:right">
+                    <h:outputText value="#{detalle.comisionMedico}"/>
+                  </p:column>
+
+                  <p:column headerText="Doctor">
+                    #{detalle.idPersonal.nombreCompleto}
+                  </p:column>
+
+                </p:subTable>
+                <p:columnGroup type="footer">
+                  <p:row>
+                    <p:column colspan="7" style="text-align:right" footerText="Total:"/>
+                    <p:column style="text-align:right" footerText="S/. #{resumenMes.totalVentasContadoMensual}"/>
+                    <p:column style="text-align:right" footerText="S/. #{resumenMes.comisionClinicaMensual}"/>
+                    <p:column footerText=""/>
+                    <p:column footerText=""/>
+                  </p:row>
+                </p:columnGroup>
+                
+              </p:dataTable>
+            </div>
+              
+              <div class="ingresos">
+              <h2>Ingresos</h2>
+
+              <p:dataTable id="ingresosDatalist" value="#{resumenMes.ingresoListMensual}" var="ingreso" emptyMessage="No hay registros">
+                <p:column headerText="Comprobante">
+                  #{ingreso.comprobante}
+                </p:column>
+
+                <p:column headerText="Nº de comprobante">
+                  <h:outputText value="#{ingreso.serie} - #{ingreso.nroComprobante}" />
+                </p:column>
+
+                <p:column headerText="Descripción">
+                  #{ingreso.descripcion}
+                </p:column>
+
+                <p:column headerText="Monto">
+                  #{ingreso.monto}
+                </p:column>
+                
+                <p:columnGroup type="footer">
+                  <p:row>
+                    <p:column colspan="3" style="text-align:right" footerText="Total:"/>
+                    <p:column footerText="S/. #{resumenMes.totalIngresosMensual}"/>
+                  </p:row>
+                </p:columnGroup>
+              </p:dataTable>
+            </div>
+
+            <div class="egresos">
+              <h2>Egresos</h2>
+
+              <p:dataTable id="egresosDatalist" value="#{resumenMes.egresoListMensual}" var="egreso" emptyMessage="No hay registros">
+
+                <p:column headerText="Comprobante">
+                  #{egreso.comprobante}
+                </p:column>
+
+                <p:column headerText="Nº de comprobante">
+                  <h:outputText value="#{egreso.serie} - #{egreso.nroComprobante}" />
+                </p:column>
+
+                <p:column headerText="Descripción">
+                  #{egreso.descripcion}
+                </p:column>
+
+                <p:column headerText="Monto">
+                  #{egreso.monto}
+                </p:column>
+                
+                <p:columnGroup type="footer">
+                  <p:row>
+                    <p:column colspan="3" style="text-align:right" footerText="Total:"/>
+                    <p:column footerText="S/. #{resumenMes.totalEgresosMensual}"/>
+                  </p:row>
+                </p:columnGroup>
+              </p:dataTable>
+            </div>
+
+
+            <div class="adelantos">
+              <h2>Adelantos</h2>
+
+              <p:dataTable id="adelantosDatalist" value="#{resumenMes.adelantoListMensual}" var="pago" emptyMessage="No hay registros">
+                <p:column headerText="Nº comprobante">
+                  #{pago.idPago}
+                </p:column>
+                <p:column headerText="Fecha">
+                  <h:outputText value="#{pago.fechaHora}">
+                    <f:convertDateTime pattern="dd/MM//yyyy HH:mm:ss" />
+                  </h:outputText>
+                </p:column>
+                
+                <p:column headerText="Descripción">
+                  #{pago.descripcion}
+                </p:column>
+
+                <p:column headerText="Monto">
+                  #{pago.monto}
+                </p:column>
+                
+                <p:columnGroup type="footer">
+                  <p:row>
+                    <p:column colspan="3" style="text-align:right" footerText="Total:"/>
+                    <p:column footerText="S/. #{resumenMes.totalAdelantosMensual}"/>
+                  </p:row>
+                </p:columnGroup>
+
+              </p:dataTable>
+            </div>
+              
+            <div class="pago-doctor">
+              <h2>Pagos a doctores</h2>
+
+              <p:dataTable id="pagoDoctorDatalist" 
+                           value="#{resumenMes.pagoDoctorListMensual}" 
+                           var="item" 
+                           emptyMessage="No hay registros">
+
+                
+                <p:column headerText="Nº comprobante">
+                  <h:outputText value="#{item.idPago}" >
+                    <f:convertNumber pattern="000000" />
+                  </h:outputText>
+                </p:column>
+                <p:column headerText="Fecha">
+                  <h:outputText value="#{item.fechaHora}">
+                    <f:convertDateTime pattern="dd/MM//yyyy HH:mm:ss" />
+                  </h:outputText>
+                </p:column>
+                <p:column headerText="Doctor">
+                  #{item.idPersonal.nombreCompleto}
+                </p:column>
+                <p:column headerText="Descripción">
+                  <h:outputText value="#{item.descripcion}" />
+                </p:column>
+                <p:column headerText="Monto">
+                  <h:outputText value="#{item.monto}"/>
+                </p:column>
+                <p:column style="text-align: center; width: 60px;">
+                  <p:commandLink class="btn btn-sm btn-warning action-btn"
+                                 actionListener="#{resumenMes.imprimirPagoDoctor(item)}"
+                                 ajax="false">
+                    <i class="fa fa-print"></i>
+                  </p:commandLink>
+                </p:column>
+                
+                <p:columnGroup type="footer">
+                  <p:row>
+                    <p:column colspan="4" style="text-align:right" footerText="Total:"/>
+                    <p:column footerText="S/. #{resumenMes.totalPagosDoctorMensual}"/>
+                    <p:column footerText="" />
+                  </p:row>
+                </p:columnGroup>
+              </p:dataTable>
+            </div>
+
+            <div class="deuda-doctor">
+              <h2>Deuda a doctores</h2>
+
+
+              <p:dataTable id="deudaDoctorDatalist" 
+                           value="#{resumenMes.deudaPagoDoctorListMensual}" 
+                           var="item" 
+                           emptyMessage="No hay registros">
+
+                <p:column headerText="Código">
+                  <h:outputText value="#{item.idPago}" >
+                    <f:convertNumber pattern="000000" />
+                  </h:outputText>
+                </p:column>
+                <p:column headerText="Fecha">
+                  <h:outputText value="#{item.fechaHora}">
+                    <f:convertDateTime pattern="dd/MM//yyyy HH:mm:ss" />
+                  </h:outputText>
+                </p:column>
+                <p:column headerText="Doctor">
+                  #{item.idPersonal.nombreCompleto}
+                </p:column>
+                <p:column headerText="Descripción">
+                  <h:inputText value="#{item.descripcion}" rendered="#{!resumenMes.checkVentasNoPagadasMensual()}"/>
+                  <h:outputText value="#{item.descripcion}" rendered="#{resumenMes.checkVentasNoPagadasMensual()}"/>
+                </p:column>
+                <p:column headerText="Monto">
+                  <h:outputText value="#{item.monto}"/>
+                </p:column>
+                <p:column style="text-align: center; width: 60px;" rendered="#{resumenMes.checkVentasNoPagadasMensual()}">
+                  <p:commandLink class="btn btn-sm btn-warning action-btn"
+                                 actionListener="#{resumenMes.imprimirPagoDoctor(item)}" >
+                    <i class="fa fa-print"></i>
+                  </p:commandLink>
+                </p:column>
+                
+                <p:columnGroup type="footer">
+                  <p:row>
+                    <p:column colspan="4" style="text-align:right" footerText="Total:"/>
+                    <p:column footerText="S/. #{resumenMes.totalDeudasDoctorMensual}"/>
+                    <p:column footerText="" rendered="#{resumenMes.checkVentasNoPagadasMensual()}"/>
+                  </p:row>
+                </p:columnGroup>
+              </p:dataTable>
+
+              <p:commandButton value="Generar pagos" actionListener="#{resumenMes.generarPagoDoctor()}" 
+                               onclick="setTimeout('this.disabled = true;', 50);"
+                               disabled="#{resumenMes.checkVentasNoPagadasMensual()}"
+                               update=":resumenMesForm:deudaDoctorDatalist, :resumenMesForm:pagoDoctorDatalist, :growl, @this"/>
+            </div>
+
+            <div class="resumenMes">
+              <h2>Resumen</h2>
+
+              <div class="col-lg-6">
+
+                <div class="form-group row">
+                  <div class="col-sm-5">
+                    <p:outputLabel class="form-control-label" value="Salgo inicial"  />
+                  </div>
+                  <div class="col-sm-7">
+                    <h:outputText value="#{resumenMes.totalSaldoInicialMensual}" />
+                  </div>
+                </div>
+                
+                <div class="form-group row">
+                  <div class="col-sm-5">
+                    <p:outputLabel class="form-control-label" value="Ventas"  />
+                  </div>
+                  <div class="col-sm-7">
+                    <h:outputText value="#{resumenMes.totalVentasContadoMensual}" />
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-sm-5">
+                    <p:outputLabel class="form-control-label" value="Ingresos"  />
+                  </div>
+                  <div class="col-sm-7">
+                    <h:outputText value="#{resumenMes.totalIngresosMensual}" />
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-sm-5">
+                    <p:outputLabel class="form-control-label" value="Egresos"  />
+                  </div>
+                  <div class="col-sm-7">
+                    <h:outputText value="#{resumenMes.totalEgresosMensual}" />
+                  </div>
+                </div>
+                
+                <div class="form-group row">
+                  <div class="col-sm-5">
+                    <p:outputLabel class="form-control-label" value="Adelantos"  />
+                  </div>
+                  <div class="col-sm-7">
+                    <h:outputText value="#{resumenMes.totalAdelantosMensual}" />
+                  </div>
+                </div>
+                
+                <div class="form-group row">
+                  <div class="col-sm-5">
+                    <p:outputLabel class="form-control-label" value="Pago a Doctores"  />
+                  </div>
+                  <div class="col-sm-7">
+                    <h:outputText value="#{resumenMes.totalPagosDoctorMensual}" />
+                  </div>
+                </div>
+                
+                <div class="form-group row">
+                  <div class="col-sm-5">
+                    <p:outputLabel class="form-control-label" value="Comisión Clínica"  />
+                  </div>
+                  <div class="col-sm-7">
+                    <h:outputText value="#{resumenMes.comisionClinicaMensual}" />
+                  </div>
+                </div>
+                
+                <div class="form-group row">
+                  <div class="col-sm-5">
+                    <p:outputLabel class="form-control-label" value="Saldo efectivo"  />
+                  </div>
+                  <div class="col-sm-7">
+                    <h:outputText id="saldo-efectivo" value="#{resumenMes.totalVentasContadoMensual + resumenMes.totalIngresosMensual + resumenMes.totalSaldoInicialMensual
+                                           - resumenMes.totalEgresosMensual - resumenMes.totalAdelantosMensual - resumenMes.totalPagosDoctorMensual}" />
+                    <p:tooltip for="saldo-efectivo" value="Saldo efectivo = SaldoInicial + Ventas + Ingreso - Egresos - Adelantos - Pago a doctores" trackMouse="true" />
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-sm-5">
+                    <p:outputLabel class="form-control-label" value="Op. a crédito"  />
+                  </div>
+                  <div class="col-sm-7">
+                    <h:outputText value="#{resumenMes.totalVentasCreditoMensual}" />
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </h:form>
+        </div>
+      </div>
+
+    </ui:define>
+  </ui:composition>
+</html>
+

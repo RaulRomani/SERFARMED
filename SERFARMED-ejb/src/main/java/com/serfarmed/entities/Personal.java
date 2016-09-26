@@ -44,6 +44,8 @@ import javax.xml.bind.annotation.XmlTransient;
   @NamedQuery(name = "Personal.findByCargo", query = "SELECT p FROM Personal p WHERE p.cargo = :cargo"),
   @NamedQuery(name = "Personal.findByDni", query = "SELECT p FROM Personal p WHERE p.dni = :dni"),
   @NamedQuery(name = "Personal.findBySueldo", query = "SELECT p FROM Personal p WHERE p.sueldo = :sueldo"),
+  @NamedQuery(name = "Personal.findByTipoComision", query = "SELECT p FROM Personal p WHERE p.tipoComision = :tipoComision"),
+  @NamedQuery(name = "Personal.findByComision", query = "SELECT p FROM Personal p WHERE p.comision = :comision"),
   @NamedQuery(name = "Personal.findByEspecialidad", query = "SELECT p FROM Personal p WHERE p.especialidad = :especialidad"),
   @NamedQuery(name = "Personal.findByCorreo", query = "SELECT p FROM Personal p WHERE p.correo = :correo"),
   @NamedQuery(name = "Personal.findByDireccion", query = "SELECT p FROM Personal p WHERE p.direccion = :direccion"),
@@ -85,6 +87,11 @@ public class Personal implements Serializable {
   @NotNull
   @Column(name = "sueldo")
   private BigDecimal sueldo;
+  @Size(max = 50)
+  @Column(name = "tipoComision")
+  private String tipoComision;
+  @Column(name = "comision")
+  private BigDecimal comision;
   @Size(max = 100)
   @Column(name = "especialidad")
   private String especialidad;
@@ -118,10 +125,6 @@ public class Personal implements Serializable {
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersonal")
   private List<Usuario> usuarioList;
   
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersonal")
-  private List<Comision> comisionList;
-  
-
   public Personal() {
   }
 
@@ -129,13 +132,12 @@ public class Personal implements Serializable {
     this.idPersonal = idPersonal;
   }
 
-  public Personal(Integer idPersonal, String nombre, String apellido, String cargo, String dni, BigDecimal sueldo, Date fechaCreacion) {
+  public Personal(Integer idPersonal, String nombre, String apellido, String cargo, String dni, Date fechaCreacion) {
     this.idPersonal = idPersonal;
     this.nombre = nombre;
     this.apellido = apellido;
     this.cargo = cargo;
     this.dni = dni;
-    this.sueldo = sueldo;
     this.fechaCreacion = fechaCreacion;
   }
 
@@ -189,6 +191,22 @@ public class Personal implements Serializable {
 
   public void setSueldo(BigDecimal sueldo) {
     this.sueldo = sueldo;
+  }
+  
+  public String getTipoComision() {
+    return tipoComision;
+  }
+
+  public void setTipoComision(String tipoComision) {
+    this.tipoComision = tipoComision;
+  }
+
+  public BigDecimal getComision() {
+    return comision;
+  }
+
+  public void setComision(BigDecimal comision) {
+    this.comision = comision;
   }
 
   public String getEspecialidad() {
@@ -279,15 +297,6 @@ public class Personal implements Serializable {
 
   public void setUsuarioList(List<Usuario> usuarioList) {
     this.usuarioList = usuarioList;
-  }
-
-  @XmlTransient
-  public List<Comision> getComisionList() {
-    return comisionList;
-  }
-
-  public void setComisionList(List<Comision> comisionList) {
-    this.comisionList = comisionList;
   }
 
   @Override

@@ -116,13 +116,13 @@
               <h:panelGroup rendered="#{loginController.usuario.authority.equals('ROLE_ADMIN')||loginController.usuario.authority.equals('ROLE_CAJERO')}">  
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" 
-                     aria-expanded="false"><i class="fa fa-fw fa-money"></i> Egresos <span class="caret"></span></a>
+                     aria-expanded="false"><i class="fa fa-fw fa-money"></i> Operaciones <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li class="#{view.viewId eq '/modulos/egresos/pago.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/egresos/pago"><i class="fa fa-fw fa-money  "></i> Adelantos</h:link>
+                    <li class="#{view.viewId eq '/modulos/operaciones/pago.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/operaciones/pago"><i class="fa fa-fw fa-money  "></i> Adelantos</h:link>
                     </li>
-                    <li class="#{view.viewId eq '/modulos/egresos/egresos.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/egresos/egresos"><i class="fa fa-fw fa-money  "></i> Egresos</h:link>
+                    <li class="#{view.viewId eq '/modulos/operaciones/operaciones.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/operaciones/operaciones"><i class="fa fa-fw fa-money  "></i> Operaciones</h:link>
                     </li>
                   </ul>
                 </li>
@@ -134,8 +134,12 @@
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" 
                      aria-expanded="false"><i class="fa fa-fw fa-file-text"></i> Reportes <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li class="#{view.viewId eq '/modulos/reportes/resuumen.xhtml' ? 'active' : ''}">
+                    <li class="#{view.viewId eq '/modulos/reportes/resumen.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/reportes/resumen"><i class="fa fa-fw fa-file-text  "></i> Resumen del día</h:link>
+                    </li>
+                    
+                    <li class="#{view.viewId eq '/modulos/reportes/resumenMensual.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/reportes/resumenMensual"><i class="fa fa-fw fa-file-text  "></i> Resumen del mes</h:link>
                     </li>
 
                     <li class="#{view.viewId eq '/modulos/reportes/estadisticaMensualServicio.xhtml' ? 'active' : ''}">
@@ -144,6 +148,9 @@
                     
                     <li class="#{view.viewId eq '/modulos/reportes/estadisticaMensualServicioDoctor.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/reportes/estadisticaMensualServicioDoctor"><i class="fa fa-fw fa-bar-chart"></i> Estadística Mensual por servicio y doctor</h:link>
+                    </li>
+                    <li class="#{view.viewId eq '/modulos/reportes/estadisticaMensualPagoDoctor.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/reportes/estadisticaMensualPagoDoctor"><i class="fa fa-fw fa-bar-chart"></i> Estadística Mensual de pagos por doctor</h:link>
                     </li>
 
                   </ul>
@@ -166,21 +173,22 @@
 
                   <h:panelGroup rendered="#{loginController.usuario.authority.equals('ROLE_ADMIN')}"> 
 
-                    <li class="#{view.viewId eq '/modulos/mantenimiento/comision/List.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/mantenimiento/comision/List">Comisión</h:link>
-                    </li>
                     <li class="#{view.viewId eq '/modulos/mantenimiento/compra/List.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/mantenimiento/compra/List">Compra</h:link>
                     </li>
                     <li class="#{view.viewId eq '/modulos/mantenimiento/credito/List.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/mantenimiento/credito/List">Crédito</h:link>
+                    </li>  
+                      
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/operacion/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/operacion/List">Operación (ingreso/egreso)</h:link>
                     </li>
                     <li class="#{view.viewId eq '/modulos/mantenimiento/pago/List.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/mantenimiento/pago/List">Adelantos</h:link>
+                      <h:link outcome="/modulos/mantenimiento/pago/List">Pagos</h:link>
                     </li>
 
                     <li class="#{view.viewId eq '/modulos/mantenimiento/detallecompra/List.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/mantenimiento/detallecompra/List">DetalleCompra</h:link>
+                      <h:link outcome="/modulos/mantenimiento/detallecompra/List">Detalle deCompra</h:link>
                     </li>
                     <li class="#{view.viewId eq '/modulos/mantenimiento/personal/List.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/mantenimiento/personal/List">Personal</h:link>
@@ -202,7 +210,7 @@
                       <h:link outcome="/modulos/mantenimiento/servicio/List">Servicios</h:link>
                     </li>
                     <li class="#{view.viewId eq '/modulos/mantenimiento/servicioventa/List.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/mantenimiento/servicioventa/List">ServicioVenta</h:link>
+                      <h:link outcome="/modulos/mantenimiento/servicioventa/List">Detalle de Venta</h:link>
                     </li>
 
                     <li class="#{view.viewId eq '/modulos/mantenimiento/usuario/List.xhtml' ? 'active' : ''}">
@@ -216,10 +224,7 @@
                       <h:link outcome="/modulos/mantenimiento/saldoinicial/List">Saldo inicial</h:link>
                     </li>
 
-                    <li class="#{view.viewId eq '/modulos/mantenimiento/egresos/List.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/mantenimiento/egresos/List">Egresos</h:link>
-                    </li>
-
+                    
                   </h:panelGroup>
 
                 </ul>

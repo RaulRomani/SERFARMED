@@ -66,12 +66,13 @@
      servicio.`idServicio` AS servicio_idServicio,
      servicio.`idCategoria` AS servicio_idCategoria,
      servicio.`nombre` AS servicio_nombre,
-     servicio.`precio` AS servicio_precio,
-     servicio.`descripcion` AS servicio_descripcion
+     servicio.`descripcion` AS servicio_descripcion,
+     servicioventa.`precio` AS servicioventa_precio
 FROM
      `venta` venta INNER JOIN `servicioventa` servicioventa ON venta.`idVenta` = servicioventa.`idVenta`
      INNER JOIN `servicio` servicio ON servicioventa.`idServicio` = servicio.`idServicio`
-WHERE venta.`idVenta`  = $P{idVenta}]]>
+WHERE
+     venta.`idVenta` = $P{idVenta}]]>
 		</queryString>
 		<field name="venta_idVenta" class="java.lang.Long"/>
 		<field name="venta_idUsuario" class="java.lang.Long"/>
@@ -85,8 +86,8 @@ WHERE venta.`idVenta`  = $P{idVenta}]]>
 		<field name="servicio_idServicio" class="java.lang.Long"/>
 		<field name="servicio_idCategoria" class="java.lang.Long"/>
 		<field name="servicio_nombre" class="java.lang.String"/>
-		<field name="servicio_precio" class="java.math.BigDecimal"/>
 		<field name="servicio_descripcion" class="java.lang.String"/>
+		<field name="servicioventa_precio" class="java.math.BigDecimal"/>
 		<variable name="total" class="java.lang.Float" calculation="Sum">
 			<variableExpression><![CDATA[$F{servicioventa_importe}]]></variableExpression>
 		</variable>
@@ -250,10 +251,10 @@ WHERE
 									<text><![CDATA[CANT.]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:columnFooter height="31" rowSpan="1"/>
-							<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<jr:columnFooter height="25" rowSpan="1"/>
+							<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="1" width="47" height="20" uuid="bb9e00b7-af96-4429-ac54-2c9949ca4352"/>
+									<reportElement x="0" y="1" width="47" height="19" uuid="bb9e00b7-af96-4429-ac54-2c9949ca4352"/>
 									<textElement textAlignment="Center"/>
 									<textFieldExpression><![CDATA[$F{servicioventa_cantidad}]]></textFieldExpression>
 								</textField>
@@ -269,8 +270,8 @@ WHERE
 									<text><![CDATA[DESCRIPCIÓN]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:columnFooter height="31" rowSpan="1"/>
-							<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<jr:columnFooter height="25" rowSpan="1"/>
+							<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 								<textField>
 									<reportElement x="0" y="0" width="305" height="20" uuid="7d67a1fc-ad2b-4f24-9e4f-0a78674b14e7"/>
 									<textFieldExpression><![CDATA[$F{servicio_nombre}]]></textFieldExpression>
@@ -289,20 +290,20 @@ WHERE
 								<text><![CDATA[P. UNIT.]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter style="table 2_CH" height="31" rowSpan="1">
+						<jr:columnFooter style="table 2_CH" height="25" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="92" height="30" forecolor="#FFFFFF" uuid="c9b9b3fc-85db-4ee2-9f20-20f439316bad"/>
+								<reportElement x="0" y="0" width="92" height="25" forecolor="#FFFFFF" uuid="c9b9b3fc-85db-4ee2-9f20-20f439316bad"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font isBold="true"/>
 								</textElement>
 								<text><![CDATA[Total]]></text>
 							</staticText>
 						</jr:columnFooter>
-						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="61" height="20" uuid="97f9a05b-d3c2-4923-90cb-44f096088bfc"/>
 								<textElement textAlignment="Right"/>
-								<textFieldExpression><![CDATA[$F{servicio_precio}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{servicioventa_importe}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -317,18 +318,18 @@ WHERE
 								<text><![CDATA[IMPORTE]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter style="table 2_CH" height="31" rowSpan="1">
+						<jr:columnFooter style="table 2_CH" height="25" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="63" height="30" forecolor="#FFFFFF" uuid="25478aba-127d-4529-9d9d-aa014d79a8fb"/>
+								<reportElement x="0" y="0" width="63" height="25" forecolor="#FFFFFF" uuid="25478aba-127d-4529-9d9d-aa014d79a8fb"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA["S/. " + new java.text.DecimalFormat("#,##0.00").format(Double.valueOf($V{total}))]]></textFieldExpression>
 							</textField>
 						</jr:columnFooter>
-						<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="63" height="20" uuid="27506bc2-ee97-4a56-ab4f-1a7b009f4ccc"/>
 								<textElement textAlignment="Right"/>
-								<textFieldExpression><![CDATA[$F{servicioventa_importe}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{servicioventa_precio}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

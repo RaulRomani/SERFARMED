@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="8ea5f271-b3a6-4d4f-9e25-16a1b8af86c4">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="15"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#F1F1F1"/>
+		</conditionalStyle>
+	</style>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="idPago" class="java.lang.Integer"/>
+	<parameter name="montoLetras" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     pago.`idPago` AS pago_idPago,
+     pago.`idUsuario` AS pago_idUsuario,
+     pago.`idPersonal` AS pago_idPersonal,
+     pago.`monto` AS pago_monto,
+     pago.`descripcion` AS pago_descripcion,
+     pago.`fechaHora` AS pago_fechaHora,
+     pago.`tipo` AS pago_tipo,
+     personal.`idPersonal` AS personal_idPersonal,
+     personal.`nombre` AS personal_nombre,
+     personal.`apellido` AS personal_apellido,
+     personal.`DNI` AS personal_DNI
+FROM
+     `personal` personal INNER JOIN `pago` pago ON personal.`idPersonal` = pago.`idPersonal`
+WHERE
+     pago.`idPago` = $P{idPago}]]>
+	</queryString>
+	<field name="pago_idPago" class="java.lang.Long"/>
+	<field name="pago_idUsuario" class="java.lang.Long"/>
+	<field name="pago_idPersonal" class="java.lang.Long"/>
+	<field name="pago_monto" class="java.math.BigDecimal"/>
+	<field name="pago_descripcion" class="java.lang.String"/>
+	<field name="pago_fechaHora" class="java.sql.Timestamp"/>
+	<field name="pago_tipo" class="java.lang.String"/>
+	<field name="personal_idPersonal" class="java.lang.Long"/>
+	<field name="personal_nombre" class="java.lang.String"/>
+	<field name="personal_apellido" class="java.lang.String"/>
+	<field name="personal_DNI" class="java.lang.String"/>
+	<title>
+		<band height="362" splitType="Stretch">
+			<staticText>
+				<reportElement x="6" y="151" width="64" height="20" uuid="1bd88f2a-801a-43c4-81ca-bee32d784f39"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[La suma de:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="17" width="33" height="30" uuid="e155ba7c-d71e-4d38-9230-87cdf72d98c6"/>
+				<textElement>
+					<font fontName="Times New Roman" size="25" isBold="true"/>
+				</textElement>
+				<text><![CDATA[S/.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="131" width="55" height="20" uuid="61b0bed6-8079-4e9a-bec3-cc9d834f2a7c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Recibí de:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="55" width="33" height="33" forecolor="#FF0000" uuid="6f77b32e-d7fb-4c5e-9021-f2312c7ffa2f"/>
+				<textElement>
+					<font fontName="Times New Roman" size="25" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+			<image>
+				<reportElement x="6" y="0" width="123" height="101" uuid="f3e9c13a-7590-4ced-b089-964d8d174508"/>
+				<imageExpression><![CDATA["logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="76" y="14" width="285" height="23" uuid="87c02d08-d95a-4027-8393-33c408721879"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Narrow" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SERVICIOS GENERALES SERFARMED S.Y.S. S.A.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="76" y="38" width="285" height="17" uuid="07f8c12a-799e-4c11-99d2-73a572d769f4"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Av. Saenz Peña Nº 165 - Pucallpa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="76" y="55" width="285" height="16" uuid="773160ee-fd85-4cf8-ab08-1a58930fb966"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Telefax: 061-579327 - Cel. 961969042 - RPM. #717918]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="76" y="71" width="285" height="17" uuid="764535a3-3c8a-4835-a462-6cda36b19d69"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[UCAYALI - CORONEL PORTILLO - PUCALLPA]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement x="413" y="17" width="105" height="30" uuid="fefb7583-8c67-46e9-b057-1794fcef986f"/>
+			</rectangle>
+			<textField>
+				<reportElement x="413" y="17" width="105" height="30" uuid="d58f90b5-957f-4bd9-8bbd-6c59bcebe9d9"/>
+				<textElement textAlignment="Center" markup="none">
+					<font fontName="Times New Roman" size="25"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pago_monto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="76" y="101" width="270" height="23" uuid="d3cbb00c-9d28-45bd-ae36-d098178138f9"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECIBO DE EGRESO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="171" width="88" height="20" uuid="0bfd24a3-8187-4f03-9e48-d75df8a66e72"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Por concepto de:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="292" width="137" height="20" uuid="b5278479-dc88-4405-a74d-2f4bc9c299f7"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[VºBº]]></text>
+			</staticText>
+			<line>
+				<reportElement x="29" y="290" width="137" height="2" uuid="5547ff89-3719-42ea-8eee-29d95a964227"/>
+			</line>
+			<staticText>
+				<reportElement x="354" y="212" width="37" height="20" uuid="d3237444-bd30-4ecd-8da8-39874af1f0e6"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="391" y="212" width="144" height="20" uuid="a7e01874-2e26-4150-9fd3-9afea847d9ef"/>
+				<textFieldExpression><![CDATA[$F{pago_fechaHora}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="336" y="292" width="137" height="2" uuid="698a3a8e-f11d-449f-80ae-31ba94f18cfd"/>
+			</line>
+			<staticText>
+				<reportElement x="337" y="294" width="137" height="20" uuid="cd92e5bb-7ab6-408b-adbf-54444438b620"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[FIRMA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="283" y="322" width="29" height="20" uuid="0fe088b5-6cb8-4f4d-ae51-8c7e7bc21df4"/>
+				<text><![CDATA[DNI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="283" y="342" width="53" height="20" uuid="23859b2f-2da5-4915-8d83-f0760c2d8cf1"/>
+				<text><![CDATA[NOMBRE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="336" y="322" width="10" height="20" uuid="c51332f5-69fc-45c7-b2c0-c8b60c46a64e"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="336" y="342" width="10" height="20" uuid="879092d6-d376-4225-b0be-b657535134f5"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="346" y="342" width="189" height="20" uuid="fcb62560-1cf0-4c31-8386-b24b4a5b8828"/>
+				<textFieldExpression><![CDATA[$F{personal_nombre} + " " + $F{personal_apellido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="346" y="322" width="189" height="20" uuid="7fcc5c09-eb4c-4ab7-9205-6d8701ffa40c"/>
+				<textFieldExpression><![CDATA[$F{personal_DNI}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="416" y="55" width="105" height="33" forecolor="#FF0000" uuid="1fd2006e-2aa1-4866-9119-38c022eef6ca"/>
+				<textElement>
+					<font fontName="Times New Roman" size="25" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[String.format("%06d", Long.valueOf( $F{pago_idPago} ))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="151" width="465" height="20" uuid="9b1caf96-206a-4f07-b005-dcaccd3bcc15"/>
+				<textFieldExpression><![CDATA[$P{montoLetras}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="61" y="131" width="474" height="20" uuid="19429071-6eb3-4508-a5b7-a47df934fb26"/>
+				<text><![CDATA[SERVICIOS GENERALES SERFARMED S.Y.S. S.A.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="94" y="171" width="441" height="35" uuid="73f37077-def3-4c1e-88d7-d5f28b63a84a"/>
+				<textFieldExpression><![CDATA[$F{pago_descripcion} == null ? "Pago de personal" : $F{pago_descripcion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+</jasperReport>

@@ -161,6 +161,11 @@ h2{
 */
 /********* PRIMEFACES CSS ******/
 
+.ui-tooltip {
+  background-color: rgb(32,40,43);
+  color: white;
+}
+
 .ui-widget-header{
   border: none;
   background: none;

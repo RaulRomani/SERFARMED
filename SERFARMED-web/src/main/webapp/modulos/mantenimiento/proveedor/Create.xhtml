@@ -28,8 +28,6 @@
             <p:inputText id="correo" value="#{proveedorController.selected.correo}" title="#{bundle.CreateProveedorTitle_correo}" />
             <p:outputLabel value="#{bundle.CreateProveedorLabel_paginaWeb}" for="paginaWeb" />
             <p:inputText id="paginaWeb" value="#{proveedorController.selected.paginaWeb}" title="#{bundle.CreateProveedorTitle_paginaWeb}" />
-            <p:outputLabel value="#{bundle.CreateProveedorLabel_fechaCreacion}" for="fechaCreacion" />
-            <p:calendar id="fechaCreacion" pattern="MM/dd/yyyy HH:mm:ss" value="#{proveedorController.selected.fechaCreacion}" title="#{bundle.EditProveedorTitle_fechaCreacion}" required="true" requiredMessage="#{bundle.EditProveedorRequiredMessage_fechaCreacion}" showOn="button"/>
             <p:outputLabel value="#{bundle.CreateProveedorLabel_nota}" for="nota" />
             <p:inputText id="nota" value="#{proveedorController.selected.nota}" title="#{bundle.CreateProveedorTitle_nota}" />
           </p:panelGrid>

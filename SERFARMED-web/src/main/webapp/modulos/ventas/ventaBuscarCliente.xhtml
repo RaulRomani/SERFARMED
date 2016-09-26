@@ -129,8 +129,15 @@
                 <!--<p:resetInput target=":DatosCarrito:diente" />-->
               </p:commandButton>
               <p:commandButton id="crearCliente" icon="ui-icon-plus"
-                               action="/modulos/mantenimiento/cliente/List?faces-redirect=true"
-                               value="Nuevo Cliente"/>
+                               actionListener="#{ventas.prepareCliente()}" 
+                               update=":ClienteCreateForm" 
+                               oncomplete="PF('ClienteCreateDialog').show()"
+                               value="#{bundle.Create}"/>
+              
+              <p:commandButton id="editCliente"   
+                               icon="ui-icon-pencil" 
+                               value="#{bundle.Edit}" update=":ClienteEditForm" 
+                               oncomplete="PF('ClienteEditDialog').show()" />
 
             </f:facet>
           </p:dataTable>

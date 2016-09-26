@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <!--
+    lazy="true"
+                       paginator="true"
+                       paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                       rows="10"
+                       rowsPerPageTemplate="10,20,30,40,50"-->
+    <p:dialog id="DoctorSearchDlg" widgetVar="DoctorSearchDialog" modal="true" resizable="false" appendTo="@(body)" header="Buscar doctor" showEffect="blind" hideEffect="explode">
+      <h:form id="DoctorSearchForm" onkeypress="if (event.keyCode == 13) { return false; }" >
+        <h:panelGroup id="display">
+          <p:dataTable id="datalist" 
+                       value="#{reportes.doctorList}" 
+                       var="item"
+                       rowKey="#{item.idPersonal}"
+                       selectionMode="single" 
+                       selection="#{reportes.doctorSelected}"
+                       emptyMessage="No hay registros"
+                       widgetVar="doctorsTable"
+                       style="width: 700px"
+                       paginator="true"
+                       rows="10"
+                       rowsPerPageTemplate="10,20,30,40,50,60,70,80,90,100"
+                       >
+            
+            <p:ajax event="rowSelect"   update="agregar"/>
+            <p:ajax event="rowUnselect" update="agregar"/>
+            
+            <f:facet name="header">
+              <p:outputPanel>
+                <h:outputText value="Buscar por todos los campos:" />
+                <p:inputText id="globalFilter" 
+                             onkeyup="PF('doctorsTable').filter(); " 
+                             style="width:150px" 
+                             placeholder="Palabra clave" />
+              </p:outputPanel>
+            </f:facet>
+            
+            
+
+            <p:column headerText="#{bundle.ListPersonalTitle_nombre}" filterBy="#{item.nombre}" sortBy="#{item.nombre}" filterMatchMode="contains">
+              ${item.nombre}
+            </p:column>
+            
+            <p:column headerText="#{bundle.ListPersonalTitle_apellido}" filterBy="#{item.apellido}" sortBy="#{item.apellido}" filterMatchMode="contains">
+              ${item.apellido}
+            </p:column>
+            
+            <p:column headerText="#{bundle.ListPersonalTitle_dni}" filterBy="#{item.dni}" sortBy="#{item.dni}" filterMatchMode="contains">
+              ${item.dni}
+            </p:column>
+            
+            <f:facet name="footer">
+              <p:commandButton value="Aceptar" id="agregar"
+                               oncomplete="PF('DoctorSearchDialog').hide()" 
+                               update=":reporte, :doctor :growl"
+                               actionListener="#{reportes.reporteMensualPagoDoctor()}"
+                               disabled="#{empty reportes.doctorSelected ? true:false }">
+                <!--<p:resetInput target=":DatosCarrito:diente" />-->
+              </p:commandButton>
+            </f:facet>
+          </p:dataTable>
+
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

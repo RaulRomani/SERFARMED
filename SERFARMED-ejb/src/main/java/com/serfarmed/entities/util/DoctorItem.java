@@ -13,22 +13,21 @@ import java.math.BigDecimal;
  */
 public class DoctorItem {
 
-  private Integer idComision;
+  private Integer idDoctor;
   private String nombre;
   private String apellido;
   private String DNI;
+  private String tipoComision;
   private BigDecimal comision;
   private String nota;
 
-  public Integer getIdComision() {
-    return idComision;
+  public Integer getIdDoctor() {
+    return idDoctor;
   }
 
-  public void setIdComision(Integer idComision) {
-    this.idComision = idComision;
+  public void setIdDoctor(Integer idDoctor) {
+    this.idDoctor = idDoctor;
   }
-
-  
 
   public String getNombre() {
     return nombre;
@@ -38,6 +37,14 @@ public class DoctorItem {
     this.nombre = nombre;
   }
 
+  public String getTipoComision() {
+    return tipoComision;
+  }
+
+  public void setTipoComision(String tipoComision) {
+    this.tipoComision = tipoComision;
+  }
+  
   public String getApellido() {
     return apellido;
   }

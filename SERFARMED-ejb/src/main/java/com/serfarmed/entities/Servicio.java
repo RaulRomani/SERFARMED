@@ -52,8 +52,6 @@ public class Servicio implements Serializable {
   @Column(name = "nombre")
   private String nombre;
   // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-  @Basic(optional = false)
-  @NotNull
   @Column(name = "precio")
   private BigDecimal precio;
   @Size(max = 200)
@@ -72,10 +70,9 @@ public class Servicio implements Serializable {
     this.idServicio = idServicio;
   }
 
-  public Servicio(Integer idServicio, String nombre, BigDecimal precio) {
+  public Servicio(Integer idServicio, String nombre) {
     this.idServicio = idServicio;
     this.nombre = nombre;
-    this.precio = precio;
   }
 
   public Integer getIdServicio() {
@@ -93,7 +90,7 @@ public class Servicio implements Serializable {
   public void setNombre(String nombre) {
     this.nombre = nombre;
   }
-
+  
   public BigDecimal getPrecio() {
     return precio;
   }

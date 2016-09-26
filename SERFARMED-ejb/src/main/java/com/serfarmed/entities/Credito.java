@@ -40,7 +40,8 @@ import javax.xml.bind.annotation.XmlRootElement;
   @NamedQuery(name = "Credito.findByFechaHora", query = "SELECT c FROM Credito c WHERE c.fechaHora = :fechaHora"),
   @NamedQuery(name = "Credito.findByPlazo", query = "SELECT c FROM Credito c WHERE c.plazo = :plazo"),
   @NamedQuery(name = "Credito.findByInicial", query = "SELECT c FROM Credito c WHERE c.inicial = :inicial"),
-  @NamedQuery(name = "Credito.findByImporte", query = "SELECT c FROM Credito c WHERE c.importe = :importe")})
+  @NamedQuery(name = "Credito.findByImporte", query = "SELECT c FROM Credito c WHERE c.importe = :importe"),
+  @NamedQuery(name = "Credito.findByObservacion", query = "SELECT c FROM Credito c WHERE c.observacion = :observacion")})
 public class Credito implements Serializable {
   private static final long serialVersionUID = 1L;
   @Id
@@ -74,6 +75,10 @@ public class Credito implements Serializable {
   @NotNull
   @Column(name = "importe")
   private BigDecimal importe;
+  @Basic(optional = false)
+  @Size(max = 150 )
+  @Column(name = "observacion")
+  private String observacion;
   @JoinColumn(name = "IdVenta", referencedColumnName = "idVenta")
   @ManyToOne(optional = false)
   private Venta idVenta;
@@ -85,7 +90,7 @@ public class Credito implements Serializable {
     this.idCuota = idCuota;
   }
 
-  public Credito(Integer idCuota, int totalcuotas, int cuotaspagado, Date fechaHora, String plazo, BigDecimal inicial, BigDecimal importe) {
+  public Credito(Integer idCuota, int totalcuotas, int cuotaspagado, Date fechaHora, String plazo, BigDecimal inicial, BigDecimal importe, String observacion) {
     this.idCuota = idCuota;
     this.totalcuotas = totalcuotas;
     this.cuotaspagado = cuotaspagado;
@@ -93,6 +98,7 @@ public class Credito implements Serializable {
     this.plazo = plazo;
     this.inicial = inicial;
     this.importe = importe;
+    this.observacion = observacion;
   }
 
   public Integer getIdCuota() {
@@ -151,6 +157,14 @@ public class Credito implements Serializable {
     this.importe = importe;
   }
 
+  public String getObservacion() {
+    return observacion;
+  }
+
+  public void setObservacion(String observacion) {
+    this.observacion = observacion;
+  }
+  
   public Venta getIdVenta() {
     return idVenta;
   }

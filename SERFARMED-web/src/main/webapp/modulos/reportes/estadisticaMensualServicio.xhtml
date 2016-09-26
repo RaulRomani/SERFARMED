@@ -20,28 +20,59 @@
 
 
         <div class="row">
-          <h:form id="resultsForm" >
-            <div class="row" align="center">
-              <p:chart type="pie" model="#{reportes.pieServicioTotal}" style="width:900px;height:900px" />
-            </div>
+          <h:form id="datosForm" >
 
-            <div class="row" align="center">
-              <!--<h2>Egresos</h2>-->
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group row">
+                  <div class="col-sm-4">
+                    <p:outputLabel class="form-control-label" value="Fecha"  />
+                  </div>
+                  <div class="col-sm-8">
+                    <p:calendar id="fechaMensual" pattern="dd/MM/yyyy" value="#{reportes.fechaServicio}"  showOn="button" navigator="true"  yearRange="c-15:c+15"> 
+                      <p:ajax event="change" oncomplete="fechaMensual()"/> 
+                    </p:calendar>
+                  </div>
+                </div>
 
-              <div style="width: 500px">
-                <p:dataTable id="resultsDatalist" value="#{reportes.servicioTotalList}" var="item" emptyMessage="No hay registros" rowIndexVar="rowIndex">
-                  <p:column headerText="Nº">
-                    #{rowIndex+1}
-                  </p:column>
-                  <p:column headerText="Servicio">
-                    #{item[0]}
-                  </p:column>
-                  <p:column headerText="Total (S/.)" >
-                    <p style="float: right">#{item[1]}</p> 
-                  </p:column>
-                </p:dataTable>
+                <div class="form-group row">
+                  <div class="col-sm-4">
+                    <p:outputLabel class="form-control-label" value=""  />
+                  </div>
+                  <div class="col-sm-8">
+                    <p:commandButton  value="Consultar" update=":resultsForm" styleClass="ui" 
+                                      actionListener="#{reportes.reporteMensualServicio()}"
+                                      class="btn btn-success"/>
+                  </div>
+                </div>
               </div>
+              <div class="col-lg-offset-8"/>
+
             </div>
+          </h:form>
+          <h:form id="resultsForm" >
+
+                <div class="row" align="center">
+                  <p:chart type="pie" model="#{reportes.pieServicioTotal}" style="width:900px;height:900px" rendered="#{!empty reportes.pieServicioTotal}" />
+                </div>
+
+                <div class="row" align="center">
+                  <!--<h2>Egresos</h2>-->
+
+                  <div style="width: 500px">
+                    <p:dataTable id="resultsDatalist" value="#{reportes.servicioTotalList}" var="item" emptyMessage="No hay registros" rowIndexVar="rowIndex">
+                      <p:column headerText="Nº">
+                        #{rowIndex+1}
+                      </p:column>
+                      <p:column headerText="Servicio">
+                        #{item[0]}
+                      </p:column>
+                      <p:column headerText="Total (S/.)" >
+                        <p style="float: right">#{item[1]}</p> 
+                      </p:column>
+                    </p:dataTable>
+                  </div>
+                </div>
           </h:form>
         </div>
       </div>

@@ -13,4 +13,16 @@
     }
   }
   
+  $("#datosForm\\:fechaMensual_input").change(function () {
+    var fechaMensual = $("#datosForm\\:fechaMensual").val();
+    $("#datosForm\\:fechaMensual_input").val(fechaMensual.substring(2,9));
+  });
+  
+  
+  var fechaMensual = function() {
+    var fechaMensual = $("#datosForm\\:fechaMensual").val();
+    $("#datosForm\\:fechaMensual_input").val(fechaMensual.substring(2,9));
+  }
+  
+  
 //});

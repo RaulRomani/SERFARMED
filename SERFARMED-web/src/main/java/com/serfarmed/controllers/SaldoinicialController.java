@@ -83,7 +83,7 @@ public class SaldoinicialController implements Serializable {
   
   public void checkSaldoInicialHoy() {
     
-    selected = ejbFacade.findByFechaHoy();
+    selected = ejbFacade.findByFecha( new Date());
     if (selected == null)
       selected = new Saldoinicial();
 //    

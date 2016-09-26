@@ -19,7 +19,6 @@
       <div class="container">
         <h1 class="row" style="color: #269abc">Ventas</h1>
 
-
         <div class="row">
           <h:form id="DatosCarrito" >
             <div class="col-sm-3 ventas-left">
@@ -48,17 +47,23 @@
 
               </h:panelGroup>
 
-
-
-
               <div class="form-group row">
                 <div class="col-sm-3">
                   <!--<p:outputLabel class="form-control-label" for="buscarProducto" value="Producto:  " />-->
                 </div>
                 <div class="col-sm-9">
-                  <p:commandButton id="buscarServicio" icon="ui-icon-search"   
+                  <!--<p:commandButton id="buscarServicio" icon="ui-icon-search"   
                                    value="Buscar Servicio"
-                                   oncomplete="PF('ServicioSearchDialog').show()"/>
+                                   oncomplete="PF('ServicioSearchDialog').show()"/>-->
+                  <p:selectOneMenu id="buscarServicio" value="#{ventas.servicioSelected}" panelStyle="width:180px"
+                                   effect="fade" var="s" style="width:160px" filter="true" filterMatchMode="startsWith" >
+                    <f:selectItems value="#{ventas.servicioList}" var="servicio" itemLabel="#{servicio.nombre}" itemValue="#{servicio}" />
+                    <p:column>
+                      <h:outputText value="#{s.nombre}" />
+                    </p:column>
+                    <p:ajax event="change" 
+                            update=":DatosCarrito" />
+                  </p:selectOneMenu>
                 </div>
               </div>
 
@@ -74,8 +79,8 @@
                   </div>
                 </div>
               </h:panelGroup>
-              
-              
+
+
               <div class="form-group row">
                 <div class="col-sm-3">
                   <!--<p:outputLabel class="form-control-label" for="buscarProducto" value="Producto:  " />-->
@@ -100,7 +105,7 @@
                   </div>
                 </div>
               </h:panelGroup>
-              
+
               <div class="form-group row">
                 <div class="col-sm-3">
                 </div>
@@ -112,6 +117,7 @@
               </div>
             </div>
           </h:form>
+
 
           <h:form id="CarritoListForm" onkeypress="if (event.keyCode == 13) {
                 return false;
@@ -127,7 +133,7 @@
                     <p:ajax event="keyup" 
                             delay="300"
                             listener="#{ventas.handleChangeCantidad(item)}" 
-                            update="CarritoListForm:datalist, CarritoListForm:total" />
+                            update="datalist:precio, datalist:importe, CarritoListForm:total" />
                     <f:validateLength maximum="2" minimum="1" />
                   </p:inputText>
                 </p:column>
@@ -137,23 +143,57 @@
                   </f:facet>
                   <h:outputText value="#{item.nombreProducto}"/>
                 </p:column>
+                <p:column headerText="Precio" >
+                  <p:inputText id="precio" value="#{item.precioProducto}" style="width: 80px;"> 
+                    <p:ajax event="keyup" 
+                            delay="300"
+                            listener="#{ventas.handleChangeCantidad(item)}" 
+                            update="datalist:cantidad, datalist:importe, CarritoListForm:total, datalist:cMedico, datalist:cClinica" />
+                  </p:inputText>
+                </p:column>
                 <p:column>
                   <f:facet name="header">
                     <h:outputText value="Doctor" />
                   </f:facet>
                   <h:outputText value="#{item.nombreDoctor}"/>
                 </p:column>
-                <p:column>
-                  <f:facet name="header">
-                    <h:outputText value="Precio"/>
-                  </f:facet>
-                  <h:outputText value="#{item.precioProducto}"/>
+                <p:column headerText="TipoComision">
+                  <p:selectOneMenu id="tipoComision" 
+                                   value="#{item.tipoComision}">
+                    <f:selectItem itemLabel="%" itemValue="PORCENTAJE" />
+                    <f:selectItem itemLabel="M" itemValue="MONTO" />
+                    <f:selectItem itemLabel="N/A" itemValue="N/A" />
+                    <p:ajax event="change" 
+                            update="datalist:comision, datalist:cMedico, datalist:cClinica"/>
+                  </p:selectOneMenu>
+                </p:column>
+                <p:column headerText="Comision">
+                  <h:panelGroup id="comision">
+                    <p:inputText value="#{item.comision}" style="width: 60px;" required="true" requiredMessage="Ingrese una comisión" >
+                      <p:ajax event="keyup" 
+                              update="datalist:cMedico, datalist:cClinica"/>
+                    </p:inputText>
+                  </h:panelGroup>
+                </p:column>
+                <p:column headerText="cMédico" >
+                  <h:outputText value="#{item.comisionMedico}" id="cMedico"/>
+                </p:column>
+                <p:column headerText="cClínica" >
+                  <h:outputText value="#{item.comisionClinica}" id="cClinica"/>
                 </p:column>
                 <p:column>
                   <f:facet name="header">
                     <h:outputText value="Importe"/>
                   </f:facet>
                   <h:outputText id="importe" value="#{item.importe}"/>
+                </p:column>
+                <p:column headerText="sePago?">
+                  <p:selectOneMenu id="sePago" 
+                                   value="#{item.sePago}">
+                    <f:selectItem itemLabel="Si" itemValue="SI" />
+                    <f:selectItem itemLabel="No" itemValue="NO" />
+                    <f:selectItem itemLabel="N/A" itemValue="N/A" />
+                  </p:selectOneMenu>
                 </p:column>
                 <p:column style="text-align: center; width: 60px;">
                   <p:commandLink actionListener="#{ventas.eliminarServicio(item)}" 
@@ -185,6 +225,27 @@
 
               <div class="row forma-pago">
                 <div class="col-lg-6">
+
+                  <div class="form-group row">
+                    <p:outputLabel class="col-sm-5 form-control-label" value="serie" for="serie" />
+                    <div class="col-sm-7">
+                      <p:inputText class="form-control" 
+                                   id="serie" 
+                                   value="#{ventas.carrito.serie}"
+                                   />
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <p:outputLabel class="col-sm-5 form-control-label" value="NroComprobante" for="nroComprobante" />
+                    <div class="col-sm-7">
+                      <p:inputText class="form-control" 
+                                   id="nroComprobante" 
+                                   value="#{ventas.carrito.nroComprobante}" 
+                                   />
+                    </div>
+                  </div>
+                  
                   <h3>Forma de pago</h3>
 
                   <p:tabView id="tabs" dynamic="true" cache="true" >
@@ -207,6 +268,9 @@
 
                       <p:commandButton value="Guardar venta" 
                                        icon="fa fa-save"
+                                       widgetVar="ventaContado"
+                                       onclick="PF('ventaContado.disable())'"
+                                       oncomplete="PF('ventaContado.enable())'"
                                        actionListener="#{ventas.grabarVentaContado()}"
                                        update=":growl, CarritoListForm:datalist"
                                        ajax="false"/>
@@ -252,7 +316,7 @@
 
                       <div class="form-group row">
                         <div class="col-lg-3 form-control-label">
-                          <p:outputLabel  value="Credito a pagar" />
+                          <p:outputLabel  value="Monto de cuota" />
                         </div>
                         <div class="col-lg-9">
                           <div style="margin-bottom: 25px" class="input-group">
@@ -280,36 +344,48 @@
                       </div>
 
                       <div class="form-group row">
+                        <p:outputLabel class="col-sm-3 form-control-label" value="Observación" for="observación" />
+                        <div class="col-sm-9">
+                          <p:inputText class="form-control" 
+                                       id="observación" 
+                                       value="#{ventas.credito.observacion}" />
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
                         <div class="col-sm-3"/>
                         <div class="col-sm-9">
                           <p:commandButton value="Guardar venta" actionListener="#{ventas.grabarVentaCreditos()}"
                                            icon="fa fa-save"
+                                           widgetVar="ventaCredito"
+                                           onclick="PF('ventaCredito.disable()')"
+                                           oncomplete="PF('ventaCredito.enable()')"
                                            update=":growl, CarritoListForm:datalist" ajax="false"/>
                         </div>
                       </div>
 
 
-
+                      <!--
                       <div class="form-group row">
                         <p:outputLabel class="col-sm-5 form-control-label" for="comprobante-credito" value="Comprobante" />
                         <div class="col-sm-7">
-                          <p:inputSwitch value="#{ventas.comprobanteCredito}" id="comprobante-credito" onLabel="SI" offLabel="NO">
+                          <p:inputSwitch value="{ventas.comprobanteCredito}" id="comprobante-credito" onLabel="SI" offLabel="NO">
                             <p:ajax update="acciones" />
                           </p:inputSwitch>
                         </div>
                       </div>
 
                       <h:panelGroup id="acciones">
-                        <h:panelGroup rendered="#{ventas.comprobanteCredito==true}">
+                        <h:panelGroup rendered="{ventas.comprobanteCredito==true}">
                           <div class="form-group row">
                             <div class="col-sm-5">
 
                             </div>
                             <div class="col-sm-7">
                               <p:selectOneRadio id="comprobante-credito2" 
-                                                value="#{ventas.carrito.comprobante}"
-                                                rendered="#{ventas.comprobanteCredito==true}"
-                                                required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_comprobante}"
+                                                value="{ventas.carrito.comprobante}"
+                                                rendered="{ventas.comprobanteCredito==true}"
+                                                required="true" requiredMessage="{bundle.CreateVentaRequiredMessage_comprobante}"
                                                 >
                                 <f:selectItem itemLabel="Boleta" itemValue="BOLETA" />
                                 <f:selectItem itemLabel="Factura" itemValue="FACTURA" />
@@ -320,8 +396,11 @@
                           <div class="form-group row">
                             <div class="col-sm-5"/>
                             <div class="col-sm-7">
-                              <p:commandButton value="Imprimir" actionListener="#{ventas.imprimirComprobanteCredito}"
+                              <p:commandButton value="Imprimir" actionListener="{ventas.imprimirComprobanteCredito}"
                                                icon="fa fa-print"
+                                               widgetVar="imprimirComprobanteCredito"
+                                               onclick="PF('imprimirComprobanteCredito').disable()"
+                                               oncomplete="PF('imprimirComprobanteCredito').enable()"
                                                update=":growl" ajax="false"/>
                             </div>
                           </div>
@@ -329,19 +408,26 @@
 
 
                         </h:panelGroup>
-                      </h:panelGroup>
+                      </h:panelGroup>-->
                     </p:tab>
 
 
                     <p:tab title="Proforma" id="proforma">
                       <p:commandButton value="Imprimir" 
                                        icon="fa fa-print"
+                                       widgetVar="proforma"
+                                       onclick="PF('proforma').disable()"
+                                       oncomplete="PF('proforma').enable()"
                                        actionListener="#{ventas.imprimirProforma()}"
                                        update=":growl"
                                        ajax="false"/>
                     </p:tab>
                   </p:tabView>
-
+                  
+                  <p:commandButton value="Nueva venta" 
+                                   icon="fa fa-shopping-cart"
+                                   actionListener="#{ventas.nuevaVenta()}"
+                                   update=":DatosCarrito, CarritoListForm"/>
                 </div>
                 <div class="col-lg-offset-6" />
               </div>
@@ -354,6 +440,7 @@
       <ui:include src="ventaBuscarCliente.xhtml"/>
       <ui:include src="ventaBuscarServicio.xhtml"/>
       <ui:include src="ventaNuevoCliente.xhtml"/>
+      <ui:include src="ventaModificarCliente.xhtml"/>
       <ui:include src="ventaBuscarDoctor.xhtml"/>
     </ui:define>
   </ui:composition>

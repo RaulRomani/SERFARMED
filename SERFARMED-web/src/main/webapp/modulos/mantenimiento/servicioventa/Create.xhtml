@@ -16,8 +16,26 @@
             <p:inputText id="idServicioVenta" value="#{servicioventaController.selected.idServicioVenta}" title="#{bundle.CreateServicioventaTitle_idServicioVenta}" required="true" requiredMessage="#{bundle.CreateServicioventaRequiredMessage_idServicioVenta}"/>
             <p:outputLabel value="#{bundle.CreateServicioventaLabel_cantidad}" for="cantidad" />
             <p:inputText id="cantidad" value="#{servicioventaController.selected.cantidad}" title="#{bundle.CreateServicioventaTitle_cantidad}" required="true" requiredMessage="#{bundle.CreateServicioventaRequiredMessage_cantidad}"/>
+            <p:outputLabel value="#{bundle.CreateServicioventaLabel_precio}" for="precio" />
+            <p:inputText id="precio" value="#{servicioventaController.selected.precio}" title="#{bundle.CreateServicioventaTitle_precio}" required="true" requiredMessage="#{bundle.CreateServicioventaRequiredMessage_precio}"/>
             <p:outputLabel value="#{bundle.CreateServicioventaLabel_importe}" for="importe" />
             <p:inputText id="importe" value="#{servicioventaController.selected.importe}" title="#{bundle.CreateServicioventaTitle_importe}" required="true" requiredMessage="#{bundle.CreateServicioventaRequiredMessage_importe}"/>
+            <p:outputLabel value="#{bundle.CreateServicioventaLabel_tipoComision}" for="tipoComision" />
+            <p:selectOneRadio id="tipoComision" 
+                              value="#{servicioventaController.selected.tipoComision}">
+              <f:selectItem itemLabel="%" itemValue="PORCENTAJE" />
+              <f:selectItem itemLabel="M" itemValue="MONTO" />
+              <f:selectItem itemLabel="N/A" itemValue="N/A" />
+            </p:selectOneRadio>
+            <p:outputLabel value="#{bundle.CreateServicioventaLabel_comision}" for="comision" />
+            <p:inputText id="comision" value="#{servicioventaController.selected.comision}" title="#{bundle.CreateServicioventaTitle_comision}" />
+            <p:outputLabel value="#{bundle.CreateServicioventaLabel_sePago}" for="sePago" />
+            <p:selectOneRadio id="sePago" 
+                              value="#{servicioventaController.selected.sePago}">
+              <f:selectItem itemLabel="Si" itemValue="SI" />
+              <f:selectItem itemLabel="No" itemValue="NO" />
+              <f:selectItem itemLabel="N/A" itemValue="N/A" />
+            </p:selectOneRadio>
             <p:outputLabel value="#{bundle.CreateServicioventaLabel_idServicio}" for="idServicio" />
             <p:selectOneMenu id="idServicio" value="#{servicioventaController.selected.idServicio}" required="true" requiredMessage="#{bundle.EditServicioventaRequiredMessage_idServicio}">
               <f:selectItems value="#{servicioController.itemsAvailableSelectOne}"

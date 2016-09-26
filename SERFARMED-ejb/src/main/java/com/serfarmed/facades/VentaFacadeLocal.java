@@ -7,9 +7,11 @@ package com.serfarmed.facades;
 
 import com.serfarmed.entities.Cliente;
 import com.serfarmed.entities.Credito;
+import com.serfarmed.entities.Personal;
 import com.serfarmed.entities.Usuario;
 import com.serfarmed.entities.Venta;
 import com.serfarmed.entities.util.Carrito;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -40,7 +42,13 @@ public interface VentaFacadeLocal {
   public List<Venta> findByFormaPagoCliente(Cliente cliente, String formaPago);
   public List<Venta> findByFecha(Date fecha);
   
-  public List<Object[]> ventasMensualesByServicio(String año,String mes);
-  public List<Object[]> ventasMensualesByServicioDoctor(String servicio, String año,String mes);
+  public List<Object[]> ventasMensualesByServicio(Date fecha);
+  public List<Object[]> ventasMensualesByServicioDoctor(String servicio, Date fecha);
+  
+  public List<Object[]> findPagoDoctorHoy(Date fecha);
+  public List<Venta> findVentasMes(Date fecha);
+  public List<Object[]> findDeudaPagoDoctorMes(Date fecha);
+  public BigDecimal findTotalPagadoByDoctor(Personal doctor, Date fecha);
+  
   
 }

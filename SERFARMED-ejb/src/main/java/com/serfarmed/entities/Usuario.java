@@ -70,6 +70,8 @@ public class Usuario implements Serializable {
   @Column(name = "nota")
   private String nota;
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+  private List<Operacion> operacionList;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
   private List<Compra> compraList;
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
   private List<Pago> pagoList;
@@ -139,6 +141,15 @@ public class Usuario implements Serializable {
 
   public void setNota(String nota) {
     this.nota = nota;
+  }
+  
+  @XmlTransient
+  public List<Operacion> getOperacionList() {
+    return operacionList;
+  }
+
+  public void setOperacionList(List<Operacion> operacionList) {
+    this.operacionList = operacionList;
   }
 
   @XmlTransient

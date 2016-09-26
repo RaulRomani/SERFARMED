@@ -30,7 +30,7 @@
           <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
           <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-          <p:column>
+          <p:column filterBy="#{item.idCompra}" sortBy="#{item.idCompra}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListCompraTitle_idCompra}"/>
             </f:facet>
@@ -42,7 +42,7 @@
             </f:facet>
             <h:outputText value="#{item.total}"/>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.fechaHora}" sortBy="#{item.fechaHora}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListCompraTitle_fechaHora}"/>
             </f:facet>
@@ -50,37 +50,37 @@
               <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
             </h:outputText>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.comprobante}" sortBy="#{item.comprobante}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListCompraTitle_comprobante}"/>
             </f:facet>
             <h:outputText value="#{item.comprobante}"/>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.serie}" sortBy="#{item.serie}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListCompraTitle_serie}"/>
             </f:facet>
             <h:outputText value="#{item.serie}"/>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.nroComprobante}" sortBy="#{item.nroComprobante}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListCompraTitle_nroComprobante}"/>
             </f:facet>
             <h:outputText value="#{item.nroComprobante}"/>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.estado}" sortBy="#{item.estado}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListCompraTitle_estado}"/>
             </f:facet>
             <h:outputText value="#{item.estado}"/>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.idProveedor}" sortBy="#{item.idProveedor}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListCompraTitle_idProveedor}"/>
             </f:facet>
             <h:outputText value="#{item.idProveedor}"/>
           </p:column>
-          <p:column>
+          <p:column  filterBy="#{item.idUsuario}" sortBy="#{item.idUsuario}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListCompraTitle_idUsuario}"/>
             </f:facet>

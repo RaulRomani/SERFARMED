@@ -8,10 +8,19 @@
             <base-name>/Bundle</base-name>
             <var>bundle</var>
         </resource-bundle>
+        
+        <locale-config>
+          <default-locale>es_PE</default-locale>
+          <supported-locale>en_US</supported-locale>
+          <supported-locale>es</supported-locale>
+          <supported-locale>es_PE</supported-locale>
+        </locale-config>
     </application>
     
     <!-- for spring security -->
     <lifecycle>
         <phase-listener>com.serfarmed.controllers.util.LoginErrorPhaseListener</phase-listener>
     </lifecycle>
+    
+    
 </faces-config>

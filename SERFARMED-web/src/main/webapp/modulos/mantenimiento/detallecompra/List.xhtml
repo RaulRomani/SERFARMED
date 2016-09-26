@@ -30,13 +30,13 @@
           <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
           <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-          <p:column>
+          <p:column filterBy="#{item.idDetalleCompra}" sortBy="#{item.idDetalleCompra}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListDetallecompraTitle_idDetalleCompra}"/>
             </f:facet>
             <h:outputText value="#{item.idDetalleCompra}"/>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.idProducto}" sortBy="#{item.idProducto}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListDetallecompraTitle_idProducto}"/>
             </f:facet>
@@ -54,19 +54,13 @@
             </f:facet>
             <h:outputText value="#{item.importe}"/>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.recibido}" sortBy="#{item.recibido}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListDetallecompraTitle_recibido}"/>
             </f:facet>
             <p:selectBooleanCheckbox value="#{item.recibido}" disabled="true"/>
           </p:column>
-          <p:column>
-            <f:facet name="header">
-              <h:outputText value="#{bundle.ListDetallecompraTitle_idProducto}"/>
-            </f:facet>
-            <h:outputText value="#{item.idProducto}"/>
-          </p:column>
-          <p:column>
+          <p:column filterBy="#{item.idCompra}" sortBy="#{item.idCompra}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListDetallecompraTitle_idCompra}"/>
             </f:facet>

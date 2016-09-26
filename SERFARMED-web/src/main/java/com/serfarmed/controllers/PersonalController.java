@@ -7,6 +7,7 @@ import com.serfarmed.controllers.util.JsfUtil.PersistAction;
 import com.serfarmed.facades.PersonalFacadeLocal;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -61,6 +62,7 @@ public class PersonalController implements Serializable {
     if ( selected.getFechaNacimiento() != null)
       selected.setEdad(CalcularEdad.Calcular(selected.getFechaNacimiento()));
     
+    selected.setFechaCreacion(new Date());
     
     persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PersonalCreated"));
     if (!JsfUtil.isValidationFailed()) {

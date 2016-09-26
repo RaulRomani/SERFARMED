@@ -5,7 +5,6 @@ import com.serfarmed.controllers.util.CantidadLetras;
 import com.serfarmed.controllers.util.JsfUtil;
 import com.serfarmed.entities.Credito;
 import com.serfarmed.entities.Cliente;
-import com.serfarmed.entities.Comision;
 import com.serfarmed.entities.Personal;
 import com.serfarmed.entities.Servicio;
 import com.serfarmed.entities.Servicioventa;
@@ -17,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -27,11 +27,13 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.inject.Inject;
 import javax.naming.NamingException;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -75,13 +77,12 @@ public class Ventas implements Serializable {
   private List<Cliente> clienteList;
   private Cliente clienteSelected;
 
-  private List<DoctorItem> doctorList;
-  private DoctorItem doctorSelected;
+  private List<Personal> doctorList;
+  private Personal doctorSelected;
 
   private List<Servicio> servicioList;
   private Servicio servicioSelected = null;
 
-  private Servicioventa servicioVenta;
   private Credito credito;
 
   private Carrito carrito;
@@ -89,6 +90,9 @@ public class Ventas implements Serializable {
   private Venta venta;
   private boolean comprobanteCredito;
   private String tipoCliente;
+  private String claseCliente;
+  private BigDecimal comisionMedico;
+  private BigDecimal comisionDoctor;
 
   @edu.umd.cs.findbugs.annotations.SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
   private transient final org.slf4j.Logger logger = LoggerFactory.getLogger(Ventas.class);
@@ -97,21 +101,34 @@ public class Ventas implements Serializable {
   void init() {
 
     carrito = new Carrito();
-    servicioVenta = new Servicioventa();
     credito = new Credito();
     //Default values
     carrito.setComprobante("BOLETA");
     credito.setInicial(BigDecimal.ZERO);
     credito.setPlazo("MENSUAL");
     tipoCliente = "REGISTRADO";
-    clienteSelected = new Cliente();
+    claseCliente = "Persona";
     venta = new Venta();
 
   }
+  
+  public void nuevaVenta(){
+    init();
+    
+    clienteSelected = null;
+    servicioSelected = null;
+    doctorSelected = null;
+    
+  }
 
   public void agregarServicio() {
+    if (doctorSelected == null) {
+      JsfUtil.addWarnMessage("Primero elige un Doctor.");
+      return ;
+    }
     if (servicioSelected != null) {
 
+      //BigDecimal precio = servicioSelected.getPrecio();
       BigDecimal precio = servicioSelected.getPrecio();
 
       if (servicioSelected.getNombre().equals("Talonario Boleta")) {
@@ -121,9 +138,14 @@ public class Ventas implements Serializable {
 
       CarritoItem item = new CarritoItem();
       item.setIdProducto(servicioSelected.getIdServicio());
-      item.setIdComision(doctorSelected.getIdComision());
+      item.setIdPersonal(doctorSelected.getIdPersonal());
+      //item.setComision();
+      item.setTipoComision("PORCENTAJE");
       item.setNombreDoctor(doctorSelected.getNombreCompleto());
       item.setNombreProducto(servicioSelected.getNombre());
+      item.setPrecioProducto(servicioSelected.getPrecio());
+      item.setComision(doctorSelected.getComision());
+      item.setTipoComision(doctorSelected.getTipoComision());
 
       Integer cantidad = 1;
       BigDecimal importe;
@@ -158,13 +180,21 @@ public class Ventas implements Serializable {
 
   public void grabarVentaContado() throws JRException, IOException, NamingException, SQLException, Exception {
 
+    
+    if (clienteSelected == null) {
+      JsfUtil.addWarnMessage("Primero agregue un cliente.");
+      return ;
+    }
+    
     Integer idVenta;
     if (!carrito.getItems().isEmpty()) {
       idVenta = ejbFacadeVenta.grabarVentaContado(carrito, clienteSelected, personal.getUsuario());
-      reporteVentaContado(idVenta);
+      //reporteVentaContado(idVenta);
 
       //carrito = new Carrito();
+      nuevaVenta();
       JsfUtil.addSuccessMessage("La venta al contado se realizo correctamente.");
+      
       logger.info("SE AGREGO UNA VENTA Y SU DETALLE");
     } else {
       JsfUtil.addErrorMessage("Primero agregue servicios");
@@ -181,16 +211,17 @@ public class Ventas implements Serializable {
           reporteVentaCreditos(idVenta);
           venta.setIdVenta(idVenta);
 
+          nuevaVenta();
           JsfUtil.addSuccessMessage("La venta en cuotas se realizo correctamente.");
           logger.info("SE AGREGO UNA VENTA EN CUOTAS");
         } else {
-          JsfUtil.addErrorMessage("Ingreso un numero de cuotas");
+          JsfUtil.addWarnMessage("Ingreso un numero de cuotas");
         }
       } else {
-        JsfUtil.addErrorMessage("Agregue servicios");
+        JsfUtil.addWarnMessage("Agregue servicios");
       }
     } else {
-      JsfUtil.addErrorMessage("Seleccione un cliente registrado");
+      JsfUtil.addWarnMessage("Seleccione un cliente registrado");
     }
   }
 
@@ -290,7 +321,7 @@ public class Ventas implements Serializable {
     ServletOutputStream stream = response.getOutputStream();
 
     JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
-    JasperPrintManager.printReport(jasperPrint, false);
+    //JasperPrintManager.printReport(jasperPrint, false);
 
     stream.flush();
     stream.close();
@@ -323,7 +354,7 @@ public class Ventas implements Serializable {
   }
 
   public void prepareDoctor() {
-    doctorSelected = new DoctorItem();
+    doctorSelected = new Personal();
   }
 
   public void registrarCliente() {
@@ -333,6 +364,20 @@ public class Ventas implements Serializable {
       JsfUtil.addSuccessMessage("Cliente registrado exitosamente!");
     }
 
+  }
+  
+  public void crearCliente() {
+    ejbFacadeCliente.create(clienteSelected);
+    JsfUtil.addSuccessMessage("Cliente registrado exitosamente!");
+
+  }
+  public void modificarCliente() {
+    if (clienteSelected != null){
+      ejbFacadeCliente.edit(clienteSelected);
+      JsfUtil.addSuccessMessage("Cliente modificado exitosamente!");
+    } else {
+      JsfUtil.addSuccessMessage("Seleccione un cliente por favor!");
+    }
   }
 
   public Cliente getClienteSelected() {
@@ -354,23 +399,8 @@ public class Ventas implements Serializable {
     return servicioList;
   }
 
-  public List<DoctorItem> getDoctorList() {
-    List<Personal> doctores = ejbFacadePersonal.findByCargo("Doctor");
-
-    DoctorItem doctorItem;
-    doctorList = new ArrayList<>();
-    for (Personal doctor : doctores) {
-      for (Comision comision : doctor.getComisionList()) {
-        doctorItem = new DoctorItem();
-        doctorItem.setIdComision(comision.getIdComision());
-        doctorItem.setNombre(doctor.getNombre());
-        doctorItem.setApellido(doctor.getApellido());
-        doctorItem.setDNI(doctor.getDni());
-        doctorItem.setComision(comision.getComision());
-        doctorItem.setNota(comision.getNota());
-        doctorList.add(doctorItem);
-      }
-    }
+  public List<Personal> getDoctorList() {
+    doctorList = ejbFacadePersonal.findByCargo("Doctor");
     return doctorList;
   }
 
@@ -382,11 +412,11 @@ public class Ventas implements Serializable {
     this.servicioSelected = servicioSelected;
   }
 
-  public DoctorItem getDoctorSelected() {
+  public Personal getDoctorSelected() {
     return doctorSelected;
   }
 
-  public void setDoctorSelected(DoctorItem doctorSelected) {
+  public void setDoctorSelected(Personal doctorSelected) {
     this.doctorSelected = doctorSelected;
   }
 
@@ -396,14 +426,6 @@ public class Ventas implements Serializable {
 
   public void setPersonal(LoginController personal) {
     this.personal = personal;
-  }
-
-  public Servicioventa getServicioVenta() {
-    return servicioVenta;
-  }
-
-  public void setServicioVenta(Servicioventa servicioVenta) {
-    this.servicioVenta = servicioVenta;
   }
 
   public Credito getCredito() {
@@ -429,5 +451,15 @@ public class Ventas implements Serializable {
   public void setTipoCliente(String tipoCliente) {
     this.tipoCliente = tipoCliente;
   }
+
+  public String getClaseCliente() {
+    return claseCliente;
+  }
+
+  public void setClaseCliente(String claseCliente) {
+    this.claseCliente = claseCliente;
+  }
+  
+  
 
 }

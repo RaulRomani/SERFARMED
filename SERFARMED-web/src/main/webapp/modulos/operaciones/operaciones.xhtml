@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+  <ui:composition template="/templates/templateCool.xhtml">
+
+    <ui:define name="resources">
+      <h:outputScript name="/js/crud.js"/>
+    </ui:define>
+
+
+    <ui:define name="body">
+
+      <div style="display:none">#{operacionController.prepareCreate()}</div>
+
+      <div class="container">
+        <h1 class="row" style="color: #269abc">Operacion</h1>
+        <div class="row">
+          <h:form id="operacionForm" >
+            <div class="col-sm-6 pagos-left">
+              
+              <div class="form-group row">
+                <div class="col-sm-3">
+                  <p:outputLabel class="col-sm-5 form-control-label" value="#{bundle.CreateOperacionLabel_tipo}" for="tipo" />
+                </div>
+                <div class="col-sm-9">
+                  <p:selectOneRadio id="tipo" 
+                                    value="#{operacionController.selected.tipo}" >
+                    <f:selectItem itemLabel="Ingreso"
+                                  itemValue="INGRESO"/>
+                    <f:selectItem itemLabel="Egreso"
+                                  itemValue="EGRESO"/>
+                    <f:selectItem itemLabel="Gasto"
+                                  itemValue="GASTO"/>
+                  </p:selectOneRadio>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-3">
+                  <p:outputLabel class="col-sm-5 form-control-label" value="#{bundle.CreateOperacionLabel_comprobante}" for="comprobante" />
+                </div>
+                <div class="col-sm-9">
+                  <p:selectOneRadio id="comprobante" 
+                                    value="#{operacionController.selected.comprobante}" >
+                    <f:selectItem itemLabel="Factura"
+                                  itemValue="FACTURA"/>
+                    <f:selectItem itemLabel="Recibo de egreso"
+                                  itemValue="RECIBO DE EGRESO"/>
+                    <f:selectItem itemLabel="Voucher"
+                                  itemValue="VOUCHER"/>
+                  </p:selectOneRadio>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-3">
+                  <p:outputLabel class="col-sm-5 form-control-label" value="#{bundle.CreateOperacionLabel_serie}" for="serie" />
+                </div>
+                <div class="col-sm-9">
+                  <p:inputText class="form-control" id="serie" value="#{operacionController.selected.serie}" title="#{bundle.CreateOperacionTitle_serie}" />
+                </div>
+              </div>
+
+
+              <div class="form-group row">
+                <div class="col-sm-3">
+                  <p:outputLabel class="col-sm-5 form-control-label" value="#{bundle.CreateOperacionLabel_nroComprobante}" for="nroComprobante" />
+                </div>
+                <div class="col-sm-9">
+                  <p:inputText class="form-control" id="nroComprobante" value="#{operacionController.selected.nroComprobante}" title="#{bundle.CreateOperacionTitle_nroComprobante}" />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-3">
+                  <p:outputLabel class="col-sm-5 form-control-label" value="#{bundle.CreateOperacionLabel_descripcion}" for="descripcion" />
+                </div>
+                <div class="col-sm-9">
+                  <p:inputText class="form-control" id="descripcion" value="#{operacionController.selected.descripcion}" title="#{bundle.CreateOperacionTitle_descripcion}" />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-3">
+                  <p:outputLabel class="col-sm-5 form-control-label" value="#{bundle.CreateOperacionLabel_monto}" for="monto" />
+                </div>
+                <div class="col-sm-9">
+                  <div class="input-group">
+                    <span class="input-group-addon">S/.</span>
+                    <p:inputText class="form-control" id="monto" value="#{operacionController.selected.monto}" title="#{bundle.CreateOperacionTitle_monto}" required="true" requiredMessage="#{bundle.CreateOperacionRequiredMessage_monto}"/>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-3"/>
+                <div class="col-sm-9">
+                  <p:commandButton actionListener="#{operacionController.crear()}" 
+                                   icon="fa fa-save"
+                                   value="#{bundle.Save}" 
+                                   update=":operacionForm,:growl" 
+                                   />
+                </div>
+              </div>
+            </div>
+          </h:form>
+        </div>
+      </div>
+
+    </ui:define>
+  </ui:composition>
+</html>
+

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="OperacionViewDlg" widgetVar="OperacionViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewOperacionTitle}">
+      <h:form id="OperacionViewForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{operacionController.selected != null}">
+            <h:outputText value="#{bundle.ViewOperacionLabel_idOperacion}"/>
+            <h:outputText value="#{operacionController.selected.idOperacion}" title="#{bundle.ViewOperacionTitle_idOperacion}"/>
+            <h:outputText value="#{bundle.ViewOperacionLabel_tipo}"/>
+            <h:outputText value="#{operacionController.selected.tipo}" title="#{bundle.ViewOperacionTitle_tipo}"/>
+            <h:outputText value="#{bundle.ViewOperacionLabel_fechaHora}"/>
+            <h:outputText value="#{operacionController.selected.fechaHora}" title="#{bundle.ViewOperacionTitle_fechaHora}">
+              <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+            </h:outputText>
+            <h:outputText value="#{bundle.ViewOperacionLabel_comprobante}"/>
+            <h:outputText value="#{operacionController.selected.comprobante}" title="#{bundle.ViewOperacionTitle_comprobante}"/>
+            <h:outputText value="#{bundle.ViewOperacionLabel_serie}"/>
+            <h:outputText value="#{operacionController.selected.serie}" title="#{bundle.ViewOperacionTitle_serie}"/>
+            <h:outputText value="#{bundle.ViewOperacionLabel_nroComprobante}"/>
+            <h:outputText value="#{operacionController.selected.nroComprobante}" title="#{bundle.ViewOperacionTitle_nroComprobante}"/>
+            <h:outputText value="#{bundle.ViewOperacionLabel_descripcion}"/>
+            <h:outputText value="#{operacionController.selected.descripcion}" title="#{bundle.ViewOperacionTitle_descripcion}"/>
+            <h:outputText value="#{bundle.ViewOperacionLabel_monto}"/>
+            <h:outputText value="#{operacionController.selected.monto}" title="#{bundle.ViewOperacionTitle_monto}"/>
+            <h:outputText value="#{bundle.ViewOperacionLabel_idUsuario}"/>
+            <h:outputText value="#{operacionController.selected.idUsuario}" title="#{bundle.ViewOperacionTitle_idUsuario}"/>
+          </p:panelGrid>
+          <p:commandButton value="#{bundle.Close}" onclick="OperacionViewDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

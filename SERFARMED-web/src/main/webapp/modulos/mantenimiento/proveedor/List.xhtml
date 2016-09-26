@@ -30,19 +30,19 @@
           <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
           <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-          <p:column>
+          <p:column filterBy="#{item.idProveedor}" sortBy="#{item.idProveedor}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListProveedorTitle_idProveedor}"/>
             </f:facet>
             <h:outputText value="#{item.idProveedor}"/>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.razonSocial}" sortBy="#{item.razonSocial}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListProveedorTitle_razonSocial}"/>
             </f:facet>
             <h:outputText value="#{item.razonSocial}"/>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.ruc}" sortBy="#{item.ruc}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListProveedorTitle_ruc}"/>
             </f:facet>

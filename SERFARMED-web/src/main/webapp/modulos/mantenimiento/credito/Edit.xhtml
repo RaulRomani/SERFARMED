@@ -26,6 +26,8 @@
             <p:inputText id="inicial" value="#{creditoController.selected.inicial}" title="#{bundle.EditCreditoTitle_inicial}" required="true" requiredMessage="#{bundle.EditCreditoRequiredMessage_inicial}"/>
             <p:outputLabel value="#{bundle.EditCreditoLabel_importe}" for="importe" />
             <p:inputText id="importe" value="#{creditoController.selected.importe}" title="#{bundle.EditCreditoTitle_importe}" required="true" requiredMessage="#{bundle.EditCreditoRequiredMessage_importe}"/>
+            <p:outputLabel value="#{bundle.EditCreditoLabel_observacion}" for="observacion" />
+            <p:inputText id="observacion" value="#{creditoController.selected.observacion}" title="#{bundle.EditCreditoTitle_observacion}" required="true" requiredMessage="#{bundle.EditCreditoRequiredMessage_observacion}"/>
             <p:outputLabel value="#{bundle.EditCreditoLabel_idVenta}" for="idVenta" />
             <p:selectOneMenu id="idVenta" value="#{creditoController.selected.idVenta}" required="true" requiredMessage="#{bundle.EditCreditoRequiredMessage_idVenta}">
               <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>

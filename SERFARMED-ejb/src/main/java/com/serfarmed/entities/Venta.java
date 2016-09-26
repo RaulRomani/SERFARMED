@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import com.serfarmed.entities.Servicio;
 import com.serfarmed.entities.Servicioventa;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import javax.persistence.Transient;
 
 /**
@@ -51,11 +52,16 @@ import javax.persistence.Transient;
   @NamedQuery(name = "Venta.findByFechaHora", query = "SELECT v FROM Venta v WHERE v.fechaHora = :fechaHora"),
   @NamedQuery(name = "Venta.findByFormapago", query = "SELECT v FROM Venta v WHERE v.formapago = :formapago"),
   @NamedQuery(name = "Venta.findByComprobante", query = "SELECT v FROM Venta v WHERE v.comprobante = :comprobante"),
+  @NamedQuery(name = "Venta.findByNroComprobante", query = "SELECT v FROM Venta v WHERE v.nroComprobante = :nroComprobante"),
+  @NamedQuery(name = "Venta.findBySerie", query = "SELECT v FROM Venta v WHERE v.serie = :serie"),
   @NamedQuery(name = "Venta.findByEstado", query = "SELECT v FROM Venta v WHERE v.estado = :estado"),
   @NamedQuery(name = "Venta.findByformaPagoCliente", query = "SELECT v FROM Venta v WHERE v.formapago = :formapago AND v.idCliente = :idCliente"),
   @NamedQuery(name = "Venta.findByFecha", query = "SELECT v FROM Venta v WHERE v.fechaHora BETWEEN :startDate AND :endDate"),
   @NamedQuery(name = "Venta.findVentasMensualesByServicio", query = "SELECT s.nombre, SUM(sv.importe*sv.cantidad) FROM Venta v JOIN v.productoventaList sv JOIN sv.idServicio s WHERE v.estado = :estado AND v.fechaHora BETWEEN :startDate AND :endDate GROUP BY s.nombre"),
-  @NamedQuery(name = "Venta.findVentasMensualesByServicioDoctor", query = "SELECT sv.idComision, SUM(sv.importe*sv.cantidad) FROM Venta v JOIN v.productoventaList sv JOIN sv.idServicio s WHERE v.estado = :estado AND s.nombre = :servicio AND v.fechaHora BETWEEN :startDate AND :endDate GROUP BY sv.idComision")})
+  @NamedQuery(name = "Venta.findVentasMensualesByServicioDoctor", query = "SELECT sv.idPersonal, SUM(sv.importe*sv.cantidad) FROM Venta v JOIN v.productoventaList sv JOIN sv.idServicio s WHERE v.estado = :estado AND s.nombre = :servicio AND v.fechaHora BETWEEN :startDate AND :endDate GROUP BY sv.idPersonal"),
+  @NamedQuery(name = "Venta.findPagoDoctorHoy", query = "SELECT sv.idPersonal, SUM( CASE WHEN sv.tipoComision = 'PORCENTAJE' THEN sv.importe*sv.comision/100 WHEN sv.tipoComision = 'MONTO' THEN sv.comision ELSE 0 END ) FROM Venta v JOIN V.productoventaList sv WHERE v.estado != 'ANULADO' AND sv.tipoComision != 'N/A' AND sv.sePago = 'SI' AND sv.pagado = false AND v.fechaHora BETWEEN :startDate AND :endDate GROUP BY sv.idPersonal"),
+  @NamedQuery(name = "Venta.findDeudaPagoDoctorMes", query = "SELECT sv.idPersonal, SUM( CASE WHEN sv.tipoComision = 'PORCENTAJE' THEN sv.importe*sv.comision/100 WHEN sv.tipoComision = 'MONTO' THEN sv.comision ELSE 0 END ) FROM Venta v JOIN V.productoventaList sv WHERE v.estado != 'ANULADO' AND sv.tipoComision != 'N/A' AND sv.sePago = 'NO' AND sv.pagado = false AND v.fechaHora BETWEEN :startDate AND :endDate GROUP BY sv.idPersonal"),
+  @NamedQuery(name = "Venta.findTotalPagadoByDoctor", query = "SELECT SUM( CASE WHEN sv.tipoComision = 'PORCENTAJE' THEN sv.importe*(100 - sv.comision)/100 WHEN sv.tipoComision = 'MONTO' THEN sv.importe - sv.comision ELSE sv.importe END ) FROM Venta v JOIN V.productoventaList sv WHERE v.estado != 'ANULADO' AND sv.idPersonal = :doctor AND sv.sePago = 'SI' AND sv.pagado = TRUE AND v.fechaHora BETWEEN :startDate AND :endDate")})
 public class Venta implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -92,6 +98,14 @@ public class Venta implements Serializable {
   @Column(name = "comprobante")
   private String comprobante;
   @Basic(optional = false)
+  @Size(min = 1, max = 10)
+  @Column(name = "nroComprobante")
+  private String nroComprobante;
+  @Basic(optional = false)
+  @Size(min = 1, max = 4)
+  @Column(name = "serie")
+  private String serie;
+  @Basic(optional = false)
   @NotNull
   @Size(min = 1, max = 20)
   @Column(name = "estado")
@@ -120,7 +134,7 @@ public class Venta implements Serializable {
     this.idVenta = idVenta;
   }
 
-  public Venta(Integer idVenta, BigDecimal subtotal, BigDecimal descuento, BigDecimal total, Date fechaHora, String formapago, String comprobante, String estado) {
+  public Venta(Integer idVenta, BigDecimal subtotal, BigDecimal descuento, BigDecimal total, Date fechaHora, String formapago, String comprobante, String nroComprobante, String serie, String estado) {
     this.idVenta = idVenta;
     this.subtotal = subtotal;
     this.descuento = descuento;
@@ -128,6 +142,8 @@ public class Venta implements Serializable {
     this.fechaHora = fechaHora;
     this.formapago = formapago;
     this.comprobante = comprobante;
+    this.nroComprobante = nroComprobante;
+    this.serie = serie;
     this.estado = estado;
   }
 
@@ -155,7 +171,7 @@ public class Venta implements Serializable {
       comisionClinica = comisionClinica.add(productoventa.getComisionClinica());
     }
 
-    return comisionClinica;
+    return comisionClinica.setScale(2, RoundingMode.CEILING);
   }
 
   public void setComisionClinica(BigDecimal comisionClinica) {
@@ -169,7 +185,7 @@ public class Venta implements Serializable {
       comisionMedico = comisionMedico.add(productoventa.getComisionMedico());
     }
 
-    return comisionMedico;
+    return comisionMedico.setScale(2, RoundingMode.CEILING);
   }
 
   public void setComisionMedico(BigDecimal comisionMedico) {
@@ -215,6 +231,24 @@ public class Venta implements Serializable {
   public void setComprobante(String comprobante) {
     this.comprobante = comprobante;
   }
+  
+  public String getNroComprobante() {
+    return nroComprobante;
+  }
+
+  public void setNroComprobante(String nroComprobante) {
+    this.nroComprobante = nroComprobante;
+  }
+
+  public String getSerie() {
+    return serie;
+  }
+
+  public void setSerie(String serie) {
+    this.serie = serie;
+  }
+  
+  
 
   public String getEstado() {
     return estado;

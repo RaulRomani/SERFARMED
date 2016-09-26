@@ -22,12 +22,16 @@
             <h:outputText value="#{ventaController.selected.total}" title="#{bundle.ViewVentaTitle_total}"/>
             <h:outputText value="#{bundle.ViewVentaLabel_fechaHora}"/>
             <h:outputText value="#{ventaController.selected.fechaHora}" title="#{bundle.ViewVentaTitle_fechaHora}">
-              <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+              <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
             </h:outputText>
             <h:outputText value="#{bundle.ViewVentaLabel_formapago}"/>
             <h:outputText value="#{ventaController.selected.formapago}" title="#{bundle.ViewVentaTitle_formapago}"/>
             <h:outputText value="#{bundle.ViewVentaLabel_comprobante}"/>
             <h:outputText value="#{ventaController.selected.comprobante}" title="#{bundle.ViewVentaTitle_comprobante}"/>
+            <h:outputText value="#{bundle.ViewVentaLabel_nroComprobante}"/>
+            <h:outputText value="#{ventaController.selected.nroComprobante}" title="#{bundle.ViewVentaTitle_nroComprobante}"/>
+            <h:outputText value="#{bundle.ViewVentaLabel_serie}"/>
+            <h:outputText value="#{ventaController.selected.serie}" title="#{bundle.ViewVentaTitle_serie}"/>
             <h:outputText value="#{bundle.ViewVentaLabel_estado}"/>
             <h:outputText value="#{ventaController.selected.estado}" title="#{bundle.ViewVentaTitle_estado}"/>
             <h:outputText value="#{bundle.ViewVentaLabel_idCliente}"/>

@@ -6,13 +6,16 @@
 package com.serfarmed.controllers.process;
 
 import com.serfarmed.controllers.util.JsfUtil;
-import com.serfarmed.entities.Comision;
+import com.serfarmed.entities.Operacion;
+import com.serfarmed.entities.Pago;
+import com.serfarmed.entities.Personal;
 import com.serfarmed.entities.Servicio;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +45,17 @@ public class Reportes implements Serializable {
   @EJB
   private com.serfarmed.facades.ServicioFacadeLocal ejbFacadeServicio;
   
+  @EJB
+  private com.serfarmed.facades.PagoFacadeLocal ejbFacadePago;
+  
+  @EJB
+  private com.serfarmed.facades.PersonalFacadeLocal ejbFacadeDoctor;
+  
+  
+  private Personal doctorSelected;
+  private List<Pago> pagoDoctorList;
+  private List<Personal> doctorList;
+  
   private PieChartModel pieServicioTotal;
   private PieChartModel pieServicioDoctorTotal;
   
@@ -52,23 +66,25 @@ public class Reportes implements Serializable {
   private List<Servicio> servicioList = null;
   private Servicio servicioSelected;
   
+  private BigDecimal totalComisionClinica;
   
   Date fechaServicio;
   Date fechaServicioDoctor;
+  Date fechaPagoDoctor;
 
   @PostConstruct
   public void init() {
     
     fechaServicio = new Date();
     fechaServicioDoctor = new Date();
-    
+    fechaPagoDoctor = new Date();
   }
   
   public void reporteMensualServicioDoctor(){
     
     pieServicioDoctorTotal = null;
     
-    servicioDoctorTotalList = ejbFacadeVenta.ventasMensualesByServicioDoctor(servicioSelected.getNombre(), "2016", "08");
+    servicioDoctorTotalList = ejbFacadeVenta.ventasMensualesByServicioDoctor(servicioSelected.getNombre(), fechaServicioDoctor);
     
     if (servicioDoctorTotalList.isEmpty()){
       
@@ -79,15 +95,15 @@ public class Reportes implements Serializable {
     pieServicioDoctorTotal = new PieChartModel();
     
     Object[] result;
-    Comision comision;
+    Personal personal;
     for (int i = 0; i < servicioDoctorTotalList.size(); i++){
       
       result = servicioDoctorTotalList.get(i);
-      comision = (Comision) result[0];
-      pieServicioDoctorTotal.set(i+1 + " " + comision.getIdPersonal().getNombreCompleto() ,  (BigDecimal) result[1]);
+      personal = (Personal) result[0];
+      pieServicioDoctorTotal.set(i+1 + " " + personal.getNombreCompleto() ,  (BigDecimal) result[1]);
       
       //settear result
-      result[0] = comision.getIdPersonal().getNombreCompleto();
+      result[0] = personal.getNombreCompleto();
       servicioDoctorTotalList.set(i, result);
       //i++;
     }
@@ -99,10 +115,20 @@ public class Reportes implements Serializable {
   
   }
 
-  private void reporteMensualServicio() {
+  public void reporteMensualServicio() {
+    
+    pieServicioTotal = null;
+    
+    servicioTotalList = ejbFacadeVenta.ventasMensualesByServicio(fechaServicio);
+    
+    if (servicioTotalList.isEmpty()){
+      
+      JsfUtil.addErrorMessage("No hay registros, cambie los datos y vuelva a intentarlo");
+      return;
+    }
     pieServicioTotal = new PieChartModel();
     
-    servicioTotalList = ejbFacadeVenta.ventasMensualesByServicio("2016", "08");
+    
     
     int i = 1;
     for (Object[] result : servicioTotalList) {
@@ -130,14 +156,49 @@ public class Reportes implements Serializable {
     return servicioList;
   }
 
+  public void reporteMensualPagoDoctor(){
+    pagoDoctorList = ejbFacadePago.findPagoByDoctorMes(doctorSelected, fechaPagoDoctor);
+    if ( pagoDoctorList.isEmpty()){
+      JsfUtil.addSuccessMessage("Hoy hay registros, intente con otros datos");
+      return ;
+    }
+    totalComisionClinica = ejbFacadeVenta.findTotalPagadoByDoctor(doctorSelected, fechaPagoDoctor)
+                            .setScale(2, RoundingMode.CEILING);
+    if ( totalComisionClinica == null)
+      totalComisionClinica = new BigDecimal(BigInteger.ZERO).setScale(2, RoundingMode.CEILING);
+    
+  }
   
+  
+  public BigDecimal getTotalPagoDoctor() {
+    BigDecimal total = BigDecimal.ZERO;
+    if ( pagoDoctorList != null)
+      for (Pago item : pagoDoctorList) {
+        total = total.add(item.getMonto());
+      }
+    return total.setScale(2, RoundingMode.CEILING);
+  }
+
+  public List<Personal> getDoctorList() {
+    return doctorList = ejbFacadeDoctor.findByCargo("Doctor");
+  }
   
   
 
-  
+  public BigDecimal getTotalComisionClinica() {
+    return totalComisionClinica;
+  }
 
+  public void setTotalComisionClinica(BigDecimal totalComisionClinica) {
+    this.totalComisionClinica = totalComisionClinica;
+  }
+
+  
+  public List<Pago> getPagoDoctorList() {
+    return pagoDoctorList;
+  }
+  
   public List<Object[]> getServicioTotalList() {
-    reporteMensualServicio();
     return servicioTotalList;
   }
 
@@ -146,7 +207,6 @@ public class Reportes implements Serializable {
   }
   
   public PieChartModel getPieServicioTotal() {
-    reporteMensualServicio();
     return pieServicioTotal;
   }
 
@@ -161,6 +221,41 @@ public class Reportes implements Serializable {
   public void setServicioSelected(Servicio servicioSelected) {
     this.servicioSelected = servicioSelected;
   }
+
+  public Date getFechaServicio() {
+    return fechaServicio;
+  }
+
+  public void setFechaServicio(Date fechaServicio) {
+    this.fechaServicio = fechaServicio;
+  }
+
+  public Date getFechaServicioDoctor() {
+    return fechaServicioDoctor;
+  }
+
+  public void setFechaServicioDoctor(Date fechaServicioDoctor) {
+    this.fechaServicioDoctor = fechaServicioDoctor;
+  }
+
+  public Personal getDoctorSelected() {
+    return doctorSelected;
+  }
+
+  public void setDoctorSelected(Personal doctorSelected) {
+    this.doctorSelected = doctorSelected;
+  }
+
+  public Date getFechaPagoDoctor() {
+    return fechaPagoDoctor;
+  }
+
+  public void setFechaPagoDoctor(Date fechaPagoDoctor) {
+    this.fechaPagoDoctor = fechaPagoDoctor;
+  }
+  
+  
+  
 
 
 }

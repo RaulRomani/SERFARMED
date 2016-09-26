@@ -12,12 +12,12 @@
       <h:form id="PersonalCreateForm">
         <h:panelGroup id="display">
           <p:panelGrid columns="2" rendered="#{personalController.selected != null}">
-            
+
             <p:outputLabel value="#{bundle.CreatePersonalLabel_nombre}" for="nombre" />
             <p:inputText id="nombre" value="#{personalController.selected.nombre}" title="#{bundle.CreatePersonalTitle_nombre}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_nombre}"/>
             <p:outputLabel value="#{bundle.CreatePersonalLabel_apellido}" for="apellido" />
             <p:inputText id="apellido" value="#{personalController.selected.apellido}" title="#{bundle.CreatePersonalTitle_apellido}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_apellido}"/>
-            <p:outputLabel value="#{bundle.CreatePersonalLabel_cargo}" for="cargo" />
+            <p:outputLabel value="rol" for="cargo" />
             <p:selectOneRadio id="cargo" 
                               value="#{personalController.selected.cargo}"
                               required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_cargo}">
@@ -29,6 +29,16 @@
             <p:inputText id="dni" value="#{personalController.selected.dni}" title="#{bundle.CreatePersonalTitle_dni}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_dni}"/>
             <p:outputLabel value="#{bundle.CreatePersonalLabel_sueldo}" for="sueldo" />
             <p:inputText id="sueldo" value="#{personalController.selected.sueldo}" title="#{bundle.CreatePersonalTitle_sueldo}" required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_sueldo}"/>
+            <p:outputLabel value="#{bundle.CreatePersonalLabel_tipoComision}" for="tipoComision" />
+            <p:selectOneMenu id="tipoComision" 
+                             value="#{personalController.selected.tipoComision}"
+                              required="true" requiredMessage="#{bundle.CreatePersonalRequiredMessage_cargo}">
+              <f:selectItem itemLabel="Porcentaje" itemValue="PORCENTAJE" />
+              <f:selectItem itemLabel="Monto" itemValue="MONTO" />
+              <f:selectItem itemLabel="N/A" itemValue="N/A" />
+            </p:selectOneMenu>
+            <p:outputLabel value="#{bundle.CreatePersonalLabel_comision}" for="comision" />
+            <p:inputText id="comision" value="#{personalController.selected.comision}" title="#{bundle.CreatePersonalTitle_comision}" />
             <p:outputLabel value="#{bundle.CreatePersonalLabel_especialidad}" for="especialidad" />
             <p:inputText id="especialidad" value="#{personalController.selected.especialidad}" title="#{bundle.CreatePersonalTitle_especialidad}" />
             <p:outputLabel value="#{bundle.CreatePersonalLabel_correo}" for="correo" />
@@ -39,13 +49,17 @@
             <p:inputText id="lugarNacimiento" value="#{personalController.selected.lugarNacimiento}" title="#{bundle.CreatePersonalTitle_lugarNacimiento}" />
             <p:outputLabel value="#{bundle.CreatePersonalLabel_fechaNacimiento}" for="fechaNacimiento" />
             <p:calendar id="fechaNacimiento" pattern="dd/MM/yyyy" value="#{personalController.selected.fechaNacimiento}" title="#{bundle.EditPersonalTitle_fechaNacimiento}" navigator="true" yearRange="c-70:c+10"  showOn="button"/>
-            
+
             <p:outputLabel value="#{bundle.CreatePersonalLabel_celular}" for="celular" />
             <p:inputText id="celular" value="#{personalController.selected.celular}" title="#{bundle.CreatePersonalTitle_celular}" />
             <p:outputLabel value="#{bundle.CreatePersonalLabel_sexo}" for="sexo" />
-            <p:inputText id="sexo" value="#{personalController.selected.sexo}" title="#{bundle.CreatePersonalTitle_sexo}" />
-            
-            
+            <p:selectOneRadio id="sexo" 
+                              value="#{personalController.selected.sexo}">
+              <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+              <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+            </p:selectOneRadio>
+
+
           </p:panelGrid>
           <p:commandButton actionListener="#{personalController.create}" value="#{bundle.Save}" update="display,:PersonalListForm:datalist,:growl" oncomplete="handleSubmit(args,'PersonalCreateDialog');"/>
           <p:commandButton value="#{bundle.Cancel}" onclick="PersonalCreateDialog.hide()"/>

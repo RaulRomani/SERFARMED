@@ -12,25 +12,40 @@
     <ui:define name="title">
       <h:outputText value="#{bundle.ListVentaTitle}"></h:outputText>
     </ui:define>
-    
+
     <ui:define name="resources">
       <h:outputScript name="/js/crud.js"/>
     </ui:define>
 
     <ui:define name="body">
       <h:form id="VentaListForm">
+
+
+
         <p:dataTable id="datalist" value="#{ventaController.items}" var="item"
                      selectionMode="single" selection="#{ventaController.selected}"
                      paginator="true"
                      rowKey="#{item.idVenta}"
                      rows="10"
                      rowsPerPageTemplate="10,20,30,40,50"
+                     widgetVar="ventas"
                      >
 
           <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
           <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+          
+          <!--<f:facet name="header" >			 
+            <p:calendar value="#{ventaController.fechaInicio}" pattern="dd/MM/yyyy HH:mm:ss" showOn="button">			 
+                <p:ajax event="dateSelect" update="datalist" />			 
+              </p:calendar>					 
+              <h:outputText value="Inicio" />
+              <p:calendar value="#{ventaController.fechaFin}" pattern="dd/MM/yyyy HH:mm:ss" showOn="button">			 
+                <p:ajax event="dateSelect" update="datalist" />			 
+              </p:calendar>					 
+              <h:outputText value="Fin" />			 
+          </f:facet>-->
 
-          <p:column>
+          <p:column filterBy="#{item.idVenta}" sortBy="#{item.idVenta}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListVentaTitle_idVenta}"/>
             </f:facet>
@@ -54,28 +69,45 @@
             </f:facet>
             <h:outputText value="#{item.total}"/>
           </p:column>
-          
-          <p:column>
+
+          <p:column filterBy="#{item.fechaHora}" sortBy="#{item.fechaHora}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListVentaTitle_fechaHora}"/>
             </f:facet>
+            <f:facet name="filter">
+              <p:calendar  pattern="dd/MM/yyyy HH:mm:ss">
+                <p:ajax event="dateSelect"  oncomplete="PF('ventas').filter()"/>
+              </p:calendar>
+            </f:facet>
             <h:outputText value="#{item.fechaHora}">
-              <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+              <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
             </h:outputText>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.formapago}" sortBy="#{item.formapago}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListVentaTitle_formapago}"/>
             </f:facet>
             <h:outputText value="#{item.formapago}"/>
           </p:column>
-          <p:column>
+          <p:column filterBy="#{item.comprobante}" sortBy="#{item.comprobante}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListVentaTitle_comprobante}"/>
             </f:facet>
             <h:outputText value="#{item.comprobante}"/>
           </p:column>
           <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListVentaTitle_nroComprobante}"/>
+            </f:facet>
+            <h:outputText value="#{item.nroComprobante}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListVentaTitle_serie}"/>
+            </f:facet>
+            <h:outputText value="#{item.serie}"/>
+          </p:column>
+          <p:column filterBy="#{item.estado}" sortBy="#{item.estado}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListVentaTitle_estado}"/>
             </f:facet>

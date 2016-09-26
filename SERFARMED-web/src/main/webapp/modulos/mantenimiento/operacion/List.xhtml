@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition template="/templates/templateCool.xhtml">
+    
+    <ui:define name="resources">
+      <h:outputScript name="/js/crud.js"/>
+    </ui:define>
+
+    <ui:define name="title">
+      <h:outputText value="#{bundle.ListOperacionTitle}"></h:outputText>
+    </ui:define>
+
+    <ui:define name="body">
+      <h:form id="OperacionListForm">
+        <p:dataTable id="datalist" value="#{operacionController.items}" var="item"
+                     selectionMode="single" selection="#{operacionController.selected}"
+                     paginator="true"
+                     rowKey="#{item.idOperacion}"
+                     rows="10"
+                     rowsPerPageTemplate="10,20,30,40,50"
+                     >
+
+          <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+          <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+          <p:column filterBy="#{item.idOperacion}" sortBy="#{item.idOperacion}">
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListOperacionTitle_idOperacion}"/>
+            </f:facet>
+            <h:outputText value="#{item.idOperacion}"/>
+          </p:column>
+          <p:column filterBy="#{item.tipo}" sortBy="#{item.tipo}">
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListOperacionTitle_tipo}"/>
+            </f:facet>
+            <h:outputText value="#{item.tipo}"/>
+          </p:column>
+          <p:column filterBy="#{item.fechaHora}" sortBy="#{item.fechaHora}">
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListOperacionTitle_fechaHora}"/>
+            </f:facet>
+            <h:outputText value="#{item.fechaHora}">
+              <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+            </h:outputText>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListOperacionTitle_comprobante}"/>
+            </f:facet>
+            <h:outputText value="#{item.comprobante}"/>
+          </p:column>
+          <p:column filterBy="#{item.serie}" sortBy="#{item.serie}">
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListOperacionTitle_serie}"/>
+            </f:facet>
+            <h:outputText value="#{item.serie}"/>
+          </p:column>
+          <p:column filterBy="#{item.nroComprobante}" sortBy="#{item.nroComprobante}">
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListOperacionTitle_nroComprobante}"/>
+            </f:facet>
+            <h:outputText value="#{item.nroComprobante}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListOperacionTitle_descripcion}"/>
+            </f:facet>
+            <h:outputText value="#{item.descripcion}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListOperacionTitle_monto}"/>
+            </f:facet>
+            <h:outputText value="#{item.monto}"/>
+          </p:column>
+          <p:column filterBy="#{item.idUsuario}" sortBy="#{item.idUsuario}">
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListOperacionTitle_idUsuario}"/>
+            </f:facet>
+            <h:outputText value="#{item.idUsuario}"/>
+          </p:column>
+          <f:facet name="footer">
+            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{operacionController.prepareCreate}" update=":OperacionCreateForm" oncomplete="PF('OperacionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":OperacionViewForm" oncomplete="PF('OperacionViewDialog').show()" disabled="#{empty operacionController.selected}"/>
+            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":OperacionEditForm" oncomplete="PF('OperacionEditDialog').show()" disabled="#{empty operacionController.selected}"/>
+            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{operacionController.destroy}" update=":growl,datalist" disabled="#{empty operacionController.selected}"/>
+          </f:facet>
+        </p:dataTable>
+      </h:form>
+
+      <ui:include src="Create.xhtml"/>
+      <ui:include src="Edit.xhtml"/>
+      <ui:include src="View.xhtml"/>
+    </ui:define>
+  </ui:composition>
+
+</html>

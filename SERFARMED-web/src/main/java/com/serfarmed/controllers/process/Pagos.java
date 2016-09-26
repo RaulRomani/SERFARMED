@@ -123,7 +123,7 @@ public class Pagos implements Serializable {
   public void loadAdelantos() {
 
     if (personalSelected.getIdPersonal() != null) {
-      pagoList = ejbFacadePago.findByPersonal(personalSelected, mes);
+      pagoList = ejbFacadePago.findAdelantosByPersonal(personalSelected, mes);
       //logger.info("GET PAGO LIST OK" + pagoList + " size:" +pagoList.size());
       logger.info("GET PAGO LIST OK");
     } else {
@@ -148,7 +148,7 @@ public class Pagos implements Serializable {
     if (!JsfUtil.isValidationFailed()) {
       // pagoList = null;    // Invalidate list of items to trigger re-query.
 
-      pagoList = ejbFacadePago.findByPersonal(personalSelected, mes);
+      pagoList = ejbFacadePago.findAdelantosByPersonal(personalSelected, mes);
       logger.info("Invalidate list of items to trigger re-query.");
 
     }
@@ -233,7 +233,7 @@ public class Pagos implements Serializable {
 
     persistPago(pago, JsfUtil.PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PagoCreated"));
     if (!JsfUtil.isValidationFailed()) {
-      pagoList = ejbFacadePago.findByPersonal(personalSelected, mes);
+      pagoList = ejbFacadePago.findAdelantosByPersonal(personalSelected, mes);
       logger.info("Invalidate list of items to trigger re-query.");
     }
     //loadAdelantos();

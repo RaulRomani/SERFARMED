@@ -17,37 +17,50 @@
 
         <h1 class="row" style="color: #269abc">Estadística Mensual por servicio y doctor</h1>
 
-        <div class="row">
-          <div class="col-sm-3 reportes-left">
+        <h:form id="datosReporteMesForm">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group row">
+                <div class="col-sm-4">
+                  <p:outputLabel class="form-control-label" value="Fecha"  />
+                </div>
+                <div class="col-sm-8">
+                  <p:calendar id="fechaMensual" pattern="dd/MM/yyyy" value="#{reportes.fechaServicioDoctor}"  showOn="button" navigator="true"  yearRange="c-15:c+15"> 
+                  </p:calendar>
+                </div>
+              </div>
 
-            <div class="form-group row">
-              <div class="col-sm-3"/>
-              <div class="col-sm-9">
-                <h:form>
+              <div class="form-group row">
+                <div class="col-sm-4"/>
+                <div class="col-sm-8">
                   <p:commandButton id="buscarServicio" icon="ui-icon-search"   
                                    value="Buscar Servicio"
                                    oncomplete="PF('ServicioSearchDialog').show()"/>
-
-                </h:form>
+                </div>
               </div>
-            </div>
 
-            <h:panelGroup id="servicio" >
-              <h:panelGroup rendered="#{reportes.servicioSelected!=null}">
+            </div>
+            <div class="col-lg-offset-8"/>
+          </div>
+
+
+        </h:form>
+        <div class="row">
+          <h:panelGroup id="servicio" >
+            <h:panelGroup rendered="#{reportes.servicioSelected!=null}">
+              <div class="col-lg-4">
                 <div class="form-group row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-4">
                     <p:outputLabel class="form-control-label"  value="Servicio" />
                   </div>
-                  <div class="col-sm-9">
+                  <div class="col-sm-8">
                     <h:outputText value="#{reportes.servicioSelected.nombre}"/>
                   </div>
                 </div>
-              </h:panelGroup>
+              </div>
+              <div class="col-lg-offset-8"/>
             </h:panelGroup>
-
-          </div>
-          <div class="col-sm-9" />
-
+          </h:panelGroup>
         </div>
 
         <h:panelGroup id="reporte">

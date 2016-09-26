@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+  <ui:composition>
+
+    <p:dialog id="OperacionEditDlg" widgetVar="OperacionEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditOperacionTitle}">
+      <h:form id="OperacionEditForm">
+        <h:panelGroup id="display">
+          <p:panelGrid columns="2" rendered="#{operacionController.selected != null}">
+            
+            <p:outputLabel value="#{bundle.EditOperacionLabel_tipo}" for="tipo" />
+            <p:inputText id="tipo" value="#{operacionController.selected.tipo}" title="#{bundle.EditOperacionTitle_tipo}" />
+            <p:outputLabel value="#{bundle.EditOperacionLabel_fechaHora}" for="fechaHora" />
+            <p:calendar id="fechaHora" pattern="MM/dd/yyyy HH:mm:ss" value="#{operacionController.selected.fechaHora}" title="#{bundle.EditOperacionTitle_fechaHora}" required="true" requiredMessage="#{bundle.EditOperacionRequiredMessage_fechaHora}" showOn="button"/>
+            <p:outputLabel value="#{bundle.EditOperacionLabel_comprobante}" for="comprobante" />
+            <p:inputText id="comprobante" value="#{operacionController.selected.comprobante}" title="#{bundle.EditOperacionTitle_comprobante}" />
+            <p:outputLabel value="#{bundle.EditOperacionLabel_serie}" for="serie" />
+            <p:inputText id="serie" value="#{operacionController.selected.serie}" title="#{bundle.EditOperacionTitle_serie}" />
+            <p:outputLabel value="#{bundle.EditOperacionLabel_nroComprobante}" for="nroComprobante" />
+            <p:inputText id="nroComprobante" value="#{operacionController.selected.nroComprobante}" title="#{bundle.EditOperacionTitle_nroComprobante}" />
+            <p:outputLabel value="#{bundle.EditOperacionLabel_descripcion}" for="descripcion" />
+            <p:inputText id="descripcion" value="#{operacionController.selected.descripcion}" title="#{bundle.EditOperacionTitle_descripcion}" />
+            <p:outputLabel value="#{bundle.EditOperacionLabel_monto}" for="monto" />
+            <p:inputText id="monto" value="#{operacionController.selected.monto}" title="#{bundle.EditOperacionTitle_monto}" required="true" requiredMessage="#{bundle.EditOperacionRequiredMessage_monto}"/>
+            <p:outputLabel value="#{bundle.EditOperacionLabel_idUsuario}" for="idUsuario" />
+            <p:selectOneMenu id="idUsuario" value="#{operacionController.selected.idUsuario}" required="true" requiredMessage="#{bundle.EditOperacionRequiredMessage_idUsuario}">
+              <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+              <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
+                             var="idUsuarioItem"
+                             itemValue="#{idUsuarioItem}"/>
+            </p:selectOneMenu>
+          </p:panelGrid>
+          <p:commandButton actionListener="#{operacionController.update}" value="#{bundle.Save}" update="display,:OperacionListForm:datalist,:growl" oncomplete="handleSubmit(args, 'OperacionEditDialog');"/>
+          <p:commandButton value="#{bundle.Cancel}" onclick="OperacionEditDialog.hide()"/>
+        </h:panelGroup>
+      </h:form>
+    </p:dialog>
+
+  </ui:composition>
+</html>

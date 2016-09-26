@@ -26,8 +26,18 @@
             <p:inputText id="formapago" value="#{ventaController.selected.formapago}" title="#{bundle.CreateVentaTitle_formapago}" required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_formapago}"/>
             <p:outputLabel value="#{bundle.CreateVentaLabel_comprobante}" for="comprobante" />
             <p:inputText id="comprobante" value="#{ventaController.selected.comprobante}" title="#{bundle.CreateVentaTitle_comprobante}" required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_comprobante}"/>
+            <p:outputLabel value="#{bundle.CreateVentaLabel_nroComprobante}" for="nroComprobante" />
+            <p:inputText id="nroComprobante" value="#{ventaController.selected.nroComprobante}" title="#{bundle.CreateVentaTitle_nroComprobante}"/>
+            <p:outputLabel value="#{bundle.CreateVentaLabel_serie}" for="serie" />
+            <p:inputText id="serie" value="#{ventaController.selected.serie}" title="#{bundle.CreateVentaTitle_serie}"/>
             <p:outputLabel value="#{bundle.CreateVentaLabel_estado}" for="estado" />
-            <p:inputText id="estado" value="#{ventaController.selected.estado}" title="#{bundle.CreateVentaTitle_estado}" required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_estado}"/>
+            <p:selectOneMenu id="estado" 
+                             value="#{ventaController.selected.estado}"
+                             required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_estado}">
+              <f:selectItem itemLabel="CANCELADO" itemValue="CANCELADO" />
+              <f:selectItem itemLabel="CREDITO" itemValue="CREDITO" />
+              <f:selectItem itemLabel="ANULADO" itemValue="ANULADO" />
+            </p:selectOneMenu>
             <p:outputLabel value="#{bundle.CreateVentaLabel_idCliente}" for="idCliente" />
             <p:selectOneMenu id="idCliente" value="#{ventaController.selected.idCliente}" required="true" requiredMessage="#{bundle.EditVentaRequiredMessage_idCliente}">
               <f:selectItems value="#{clienteController.itemsAvailableSelectOne}"
