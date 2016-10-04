@@ -14,6 +14,8 @@
           <p:panelGrid columns="2" rendered="#{pagoController.selected != null}">
             <h:outputText value="#{bundle.ViewPagoLabel_idPago}"/>
             <h:outputText value="#{pagoController.selected.idPago}" title="#{bundle.ViewPagoTitle_idPago}"/>
+            <h:outputText value="#{bundle.ViewPagoLabel_nroComprobante}"/>
+            <h:outputText value="#{pagoController.selected.nroComprobante}" title="#{bundle.ViewPagoTitle_nroComprobante}"/>
             <h:outputText value="#{bundle.ViewPagoLabel_descripcion}"/>
             <h:outputText value="#{pagoController.selected.descripcion}" title="#{bundle.ViewPagoTitle_descripcion}"/>
             <h:outputText value="#{bundle.ViewPagoLabel_monto}"/>

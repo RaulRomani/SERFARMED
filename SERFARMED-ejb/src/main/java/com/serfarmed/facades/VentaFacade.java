@@ -194,16 +194,18 @@ public class VentaFacade extends AbstractFacade<Venta> implements VentaFacadeLoc
   }
   
   @Override
-  public List<Object[]> findDeudaPagoDoctorMes(Date fecha) {
+  public List<Object[]> findDeudaAntPagoDoctor(Date fecha) {
 
-    TypedQuery<Object[]> q = getEntityManager().createNamedQuery("Venta.findDeudaPagoDoctorMes", Object[].class);
+    TypedQuery<Object[]> q = getEntityManager().createNamedQuery("Venta.findDeudaAntPagoDoctor", Object[].class);
     
     SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-    Map<String, String> parametro = EjbUtil.getStartEndMonth(fecha);
+    SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy"); 
+    
+    String startDate = yearFormat.format(fecha) + "-01-01 00:00:01";
     
     try {
-      q.setParameter("startDate", dtFormat.parse(parametro.get("startDate")) , TemporalType.TIMESTAMP );
-      q.setParameter("endDate", dtFormat.parse(parametro.get("endDate")) , TemporalType.TIMESTAMP );
+      q.setParameter("startDate", dtFormat.parse(startDate) , TemporalType.TIMESTAMP );
+      q.setParameter("endDate", new Date() , TemporalType.TIMESTAMP );
       
     } catch (ParseException ex) {
       System.out.println(ex.getMessage());

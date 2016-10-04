@@ -8,6 +8,15 @@
 
   <h:body>
     <ui:composition template="/templates/templateCool.xhtml">
+
+      <ui:define name="title">
+        <h:outputText value="Cobras cuotas"></h:outputText>
+      </ui:define>
+
+      <ui:define name="resources">
+        <h:outputScript name="/js/crud.js"/>
+      </ui:define>
+
       <ui:define name="body">
 
 
@@ -124,63 +133,63 @@
                 <div class="col-sm-4"/>
                 <h:panelGroup id="registrarComprobante" rendered="#{creditos.creditoSelected.totalcuotas == creditos.creditoSelected.cuotaspagado}">
                   <div class="row">
-                  <div class="col-sm-4">
-                    <div class="form-group row">
-                      <div class="col-sm-5">
-                        <p:outputLabel class="form-control-label" value="#{bundle.ListVentaTitle_comprobante}" for="comprobante" />
+                    <div class="col-sm-4">
+                      <div class="form-group row">
+                        <div class="col-sm-5">
+                          <p:outputLabel class="form-control-label" value="#{bundle.ListVentaTitle_comprobante}" for="comprobante" />
+                        </div>
+                        <div class="col-sm-7">
+                          <p:selectOneRadio id="comprobante" 
+                                            value="#{creditos.ventaSelected.comprobante}"
+                                            required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_comprobante}"
+                                            >
+                            <f:selectItem itemLabel="Boleta" itemValue="BOLETA" />
+                            <f:selectItem itemLabel="Factura" itemValue="FACTURA" />
+                          </p:selectOneRadio>
+                        </div>
                       </div>
-                      <div class="col-sm-7">
-                        <p:selectOneRadio id="comprobante" 
-                                          value="#{creditos.ventaSelected.comprobante}"
-                                          required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_comprobante}"
-                                          >
-                          <f:selectItem itemLabel="Boleta" itemValue="BOLETA" />
-                          <f:selectItem itemLabel="Factura" itemValue="FACTURA" />
-                        </p:selectOneRadio>
+                      <div class="form-group row">
+                        <p:outputLabel class="col-sm-5 form-control-label" value="serie" for="serie" />
+                        <div class="col-sm-7">
+                          <p:inputText class="form-control" 
+                                       id="serie" 
+                                       required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_comprobante}"
+                                       value="#{creditos.ventaSelected.serie}"
+                                       />
+                        </div>
                       </div>
-                    </div>
-                    <div class="form-group row">
-                      <p:outputLabel class="col-sm-5 form-control-label" value="serie" for="serie" />
-                      <div class="col-sm-7">
-                        <p:inputText class="form-control" 
-                                     id="serie" 
-                                     required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_comprobante}"
-                                     value="#{creditos.ventaSelected.serie}"
-                                     />
-                      </div>
-                    </div>
 
-                    <div class="form-group row">
-                      <p:outputLabel class="col-sm-5 form-control-label" value="NroComprobante" for="nroComprobante" />
-                      <div class="col-sm-7">
-                        <p:inputText class="form-control" 
-                                     id="nroComprobante" 
-                                     required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_comprobante}"
-                                     value="#{creditos.ventaSelected.nroComprobante}" 
-                                     />
+                      <div class="form-group row">
+                        <p:outputLabel class="col-sm-5 form-control-label" value="NroComprobante" for="nroComprobante" />
+                        <div class="col-sm-7">
+                          <p:inputText class="form-control" 
+                                       id="nroComprobante" 
+                                       required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_comprobante}"
+                                       value="#{creditos.ventaSelected.nroComprobante}" 
+                                       />
+                        </div>
                       </div>
                     </div>
+                    <div class="col-sm-offset-8"/>
                   </div>
-                  <div class="col-sm-offset-8"/>
-                </div>
-                
+
                 </h:panelGroup>
 
 
                 <div class="col-sm-12" align="center">
-                  <p:commandButton actionListener="#{creditos.Save}" 
+                  <p:commandButton actionListener="#{creditos.save}" 
                                    value="Guardar" icon="fa fa-floppy-o" 
                                    update="CobrosForm,:growl"
                                    ajax="false"/>
-                  
+
                   <a href="cobros.xhtml" class="btn btn-default"><i class="fa fa-refresh" aria-hidden="true"/> Actualizar</a>
-                  
+
                   <!--<p:commandLink action="cobros" 
                                  ajax="false"
                                  value="Actualizar"
                                    >
                   </p:commandLink>-->
-                                   
+
                 </div>
 
 

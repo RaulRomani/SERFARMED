@@ -47,7 +47,7 @@ public interface VentaFacadeLocal {
   
   public List<Object[]> findPagoDoctorHoy(Date fecha);
   public List<Venta> findVentasMes(Date fecha);
-  public List<Object[]> findDeudaPagoDoctorMes(Date fecha);
+  public List<Object[]> findDeudaAntPagoDoctor(Date fecha);
   public BigDecimal findTotalPagadoByDoctor(Personal doctor, Date fecha);
   
   

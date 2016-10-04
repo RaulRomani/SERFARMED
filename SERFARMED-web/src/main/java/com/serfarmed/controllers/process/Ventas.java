@@ -208,7 +208,7 @@ public class Ventas implements Serializable {
       if (!carrito.getItems().isEmpty()) {
         if (credito.getTotalcuotas() != 0) {
           idVenta = ejbFacadeVenta.grabarVentaCreditos(carrito, clienteSelected, personal.getUsuario(), credito);
-          reporteVentaCreditos(idVenta);
+          //reporteVentaCreditos(idVenta);
           venta.setIdVenta(idVenta);
 
           nuevaVenta();

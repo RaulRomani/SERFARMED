@@ -105,16 +105,11 @@ public class Creditos implements Serializable{
     creditoSelected = null;
   }
   
-  public void Save() throws JRException, IOException, NamingException, SQLException, Exception {
-    
-    
+  public void save() throws JRException, IOException, NamingException, SQLException, Exception {
     
     //Si se pago todas las cuotas, registrar/imprimir comprobante
     if(creditoSelected.getCuotaspagado() == creditoSelected.getTotalcuotas() && !ventaSelected.getComprobante().isEmpty()){
       
-//      venta.setComprobante(comprobante);
-//      venta.setNroComprobante(nroComprobante);
-//      venta.setSerie(serie);
       ventaSelected.setEstado("CANCELADO");
       ventaSelected.setFechaHora(new Date());
       persistVenta(ventaSelected,JsfUtil.PersistAction.UPDATE, "La venta se guardó correctamente");
@@ -124,10 +119,9 @@ public class Creditos implements Serializable{
       creditoSelected.setCuotaspagado(creditoSelected.getCuotaspagado() + cuotaAPagar);
       persist(JsfUtil.PersistAction.CREATE, "El cobro se guardó correctamente");
       
-      reporteCobroCreditos();
+      //reporteCobroCreditos();
       cuotaAPagar = 0;
     }
-    
   }
   
   public void reporteCobroCreditos() throws JRException, IOException, NamingException, SQLException, Exception {

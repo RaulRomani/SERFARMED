@@ -10,6 +10,10 @@
     <ui:define name="resources">
       <h:outputScript name="/js/crud.js"/>
     </ui:define>
+    
+    <ui:define name="title">
+      <h:outputText value="Resumen del día"/>
+    </ui:define>
 
     <ui:define name="body">
 
@@ -264,6 +268,9 @@
                     <f:convertNumber pattern="000000" />
                   </h:outputText>
                 </p:column>
+                <p:column headerText="Nº Comprobante">
+                  <h:outputText value="#{item.nroComprobante}" />
+                </p:column>
                 <p:column headerText="Fecha">
                   <h:outputText value="#{item.fechaHora}">
                     <f:convertDateTime pattern="dd/MM//yyyy HH:mm:ss" />
@@ -281,148 +288,12 @@
 
                 <p:columnGroup type="footer">
                   <p:row>
-                    <p:column colspan="4" style="text-align:right" footerText="Total:"/>
+                    <p:column colspan="5" style="text-align:right" footerText="Total:"/>
                     <p:column footerText="S/. #{resumen.totalPagosDoctorHoy}"/>
                   </p:row>
                 </p:columnGroup>
               </p:dataTable>
-
-
             </div>
-
-
-            <div class="deuda-doctor">
-              <h2>Deuda a doctores</h2>
-
-              <p:dataTable id="deudaDoctorDatalist" 
-                           value="#{resumen.deudaDoctorListHoy}" 
-                           var="item" 
-                           selectionMode="single"
-                           rowKey="#{item.idPersonal}"
-                           selection="#{resumen.deudaDoctorSelectedHoy}"
-                           emptyMessage="No hay registros">
-
-                <p:column headerText="Fecha">
-                  <h:outputText value="#{item.fechaHora}">
-                    <f:convertDateTime pattern="dd/MM//yyyy HH:mm:ss" />
-                  </h:outputText>
-                </p:column>
-                <p:column headerText="Doctor">
-                  #{item.idPersonal.nombreCompleto}
-                </p:column>
-                <p:column headerText="Descripción">
-                  <p:inputText value="#{item.descripcion}"/>
-                </p:column>
-                <p:column headerText="Monto">
-                  <h:outputText value="#{item.monto}"/>
-                </p:column>
-                <p:column style="text-align: center; width: 60px;">
-                  <p:commandLink class="btn btn-sm btn-success action-btn"
-                                 actionListener="#{resumen.pagarDoctor(item)}" 
-                                 update=":resumenForm:pagoDoctorDatalist, :resumenForm:deudaDoctorDatalist :growl"
-                                 id="pagarDoctor">
-                    <i class="fa fa-dollar"></i>
-                    <p:confirm header="Confirmación" message="¿Estas seguro(a) de realizar el pago del doctor: #{item.idPersonal.nombreCompleto} ?" icon="ui-icon-alert"/>
-                    <p:tooltip for="pagarDoctor" value="Realizar pago" trackMouse="true" />
-                  </p:commandLink>
-                  <p:confirmDialog global="true">
-                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
-                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
-                  </p:confirmDialog>
-                </p:column>
-                <p:column style="text-align: center; width: 60px;">
-                  <p:commandLink class="btn btn-sm btn-warning action-btn"
-                                 update=":resumenForm:detalleDeudaSection"
-                                 id="verDetalle">
-                    <i class="fa fa-bars"></i>
-                    <p:tooltip for="verDetalle" value="Ver detalle de deuda" trackMouse="true" />
-                  </p:commandLink>
-
-                </p:column>
-                <p:column style="text-align: center; width: 60px;">
-                  <p:commandLink class="btn btn-sm btn-warning action-btn"
-                                 update=":resumenForm:detalleDeudaSection"
-                                 actionListener="#{resumen.posponerPagoDoctor(item)}"
-                                 id="posponerPago">
-                    <i class="fa fa-arrow-circle-right"></i>
-                    <p:tooltip for="posponerPago" value="Posponer pago" trackMouse="true" />
-                    <p:confirm header="Confirmación" message="¿Estas seguro(a) de posponer el pago del doctor: #{item.idPersonal.nombreCompleto} ?" icon="ui-icon-alert"/>
-                  </p:commandLink>
-                  <p:confirmDialog global="true">
-                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
-                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
-                  </p:confirmDialog>
-
-                </p:column>
-                <!--<p:columnGroup type="footer">
-                  <p:row>
-                    <p:column colspan="4" style="text-align:right" footerText="Total:"/>
-                  </p:row>
-                </p:columnGroup>-->
-              </p:dataTable>
-
-            </div>
-
-            <h:panelGroup id="detalleDeudaSection" >
-
-              <h:panelGroup rendered="#{resumen.deudaDoctorSelectedHoy != null}" >
-                <div class="deuda-doctor">
-                  <h2>Detalle de deuda</h2>
-
-                  <p:dataTable id="detalleDeudaDoctorDatalist" 
-                               value="#{resumen.detalleDeudaDoctorListHoy}" 
-                               var="item" 
-                               emptyMessage="No hay registros">
-
-                    <p:column headerText="Cod. Venta">
-                      #{item.idVenta.idVenta}
-                    </p:column>
-                    <p:column headerText="comprobante">
-                      #{item.idVenta.comprobante}
-                    </p:column>
-                    <p:column headerText="Nº comprobante">
-                      <h:outputText value="#{item.idVenta.serie} #{item.idVenta.nroComprobante}" />
-                    </p:column>
-                    <p:column headerText="Fecha">
-                      <h:outputText value="#{item.idVenta.fechaHora}">
-                        <f:convertDateTime pattern="dd/MM//yyyy HH:mm:ss" />
-                      </h:outputText>
-                    </p:column>
-                    <p:column headerText="Servicio">
-                      #{item.idServicio.nombre}
-                    </p:column>
-                    <p:column headerText="Cantidad">
-                      #{item.cantidad}
-                    </p:column>
-
-                    <p:column headerText="Precio">
-                      #{item.precio}
-                    </p:column>
-
-                    <p:column headerText="Importe">
-                      #{item.importe}
-                    </p:column>
-
-                    <p:column headerText="Comisión">
-                      #{item.comision}
-                      <h:outputText value="%" rendered="#{item.tipoComision.equals('PORCENTAJE')}"/>
-                    </p:column>
-                    <p:column headerText="cMédico">
-                      #{item.comisionMedico}
-                    </p:column>
-
-
-                    <!--<p:columnGroup type="footer">
-                      <p:row>
-                        <p:column colspan="4" style="text-align:right" footerText="Total:"/>
-                      </p:row>
-                    </p:columnGroup>-->
-                  </p:dataTable>
-
-                </div>
-
-              </h:panelGroup>
-            </h:panelGroup>
 
             <div class="resumen">
               <h2>Resumen</h2>
@@ -496,13 +367,14 @@
 
                 <div class="form-group row">
                   <div class="col-sm-5">
-                    <p:outputLabel class="form-control-label" value="Saldo efectivo"  />
+                    <p:outputLabel class="form-control-label" value="Saldo efectivo" id="saldoEfect" />
+                    <p:tooltip for="saldoEfect" value="Saldo efectivo = SaldoInicial + Ventas + Ingreso - Egresos - Adelantos - Pago a doctores" />
                   </div>
                   <div class="col-sm-7">
-                    <h:outputText id="saldo-efectivo" value="#{resumen.totalVentasContadoHoy + resumen.totalIngresosHoy + resumen.saldoInicialHoy 
+                    <h:outputText id="saldoEfectivo" value="#{resumen.totalVentasContadoHoy + resumen.totalIngresosHoy + resumen.saldoInicialHoy 
                                                                - resumen.totalEgresosHoy - resumen.totalAdelantosHoy - resumen.totalPagosDoctorHoy}" >
                     </h:outputText>
-                    <p:tooltip for="saldo-efectivo" value="Saldo efectivo = SaldoInicial + Ventas + Ingreso - Egresos - Adelantos - Pago a doctores" trackMouse="true" />
+                    <p:tooltip for="saldoEfectivo" value="Saldo efectivo = SaldoInicial + Ventas + Ingreso - Egresos - Adelantos - Pago a doctores" />
 
                   </div>
                 </div>

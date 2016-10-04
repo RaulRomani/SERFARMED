@@ -12,8 +12,8 @@
       <h:form id="PagoCreateForm">
         <h:panelGroup id="display">
           <p:panelGrid columns="2" rendered="#{pagoController.selected != null}">
-            <p:outputLabel value="#{bundle.CreatePagoLabel_idPago}" for="idPago" />
-            <p:inputText id="idPago" value="#{pagoController.selected.idPago}" title="#{bundle.CreatePagoTitle_idPago}" required="true" requiredMessage="#{bundle.CreatePagoRequiredMessage_idPago}"/>
+            <p:outputLabel value="#{bundle.CreatePagoLabel_nroComprobante}" for="nroComprobante" />
+            <p:inputText id="nroComprobante" value="#{pagoController.selected.nroComprobante}" title="#{bundle.CreatePagoTitle_nroComprobante}" />
             <p:outputLabel value="#{bundle.CreatePagoLabel_descripcion}" for="descripcion" />
             <p:inputText id="descripcion" value="#{pagoController.selected.descripcion}" title="#{bundle.CreatePagoTitle_descripcion}" />
             <p:outputLabel value="#{bundle.CreatePagoLabel_monto}" for="monto" />

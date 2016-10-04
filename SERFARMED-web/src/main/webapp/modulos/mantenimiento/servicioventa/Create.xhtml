@@ -36,6 +36,13 @@
               <f:selectItem itemLabel="No" itemValue="NO" />
               <f:selectItem itemLabel="N/A" itemValue="N/A" />
             </p:selectOneRadio>
+            
+            <p:outputLabel value="#{bundle.CreateServicioventaLabel_idPago}" for="idPago" />
+            <p:selectOneMenu id="idPago" value="#{servicioventaController.selected.idPago}" >
+              <f:selectItems value="#{pagoController.itemsAvailableSelectOne}"
+                             var="idPagoItem"
+                             itemValue="#{idPagoItem}"/>
+            </p:selectOneMenu>
             <p:outputLabel value="#{bundle.CreateServicioventaLabel_idServicio}" for="idServicio" />
             <p:selectOneMenu id="idServicio" value="#{servicioventaController.selected.idServicio}" required="true" requiredMessage="#{bundle.EditServicioventaRequiredMessage_idServicio}">
               <f:selectItems value="#{servicioController.itemsAvailableSelectOne}"

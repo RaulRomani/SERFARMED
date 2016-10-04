@@ -12,8 +12,8 @@
       <h:form id="PagoEditForm">
         <h:panelGroup id="display">
           <p:panelGrid columns="2" rendered="#{pagoController.selected != null}">
-            <p:outputLabel value="#{bundle.EditPagoLabel_idPago}" for="idPago" />
-            <p:inputText id="idPago" value="#{pagoController.selected.idPago}" title="#{bundle.EditPagoTitle_idPago}" required="true" requiredMessage="#{bundle.EditPagoRequiredMessage_idPago}"/>
+            <p:outputLabel value="#{bundle.EditPagoLabel_nroComprobante}" for="nroComprobante" />
+            <p:inputText id="nroComprobante" value="#{pagoController.selected.nroComprobante}" title="#{bundle.EditPagoTitle_nroComprobante}" />
             <p:outputLabel value="#{bundle.EditPagoLabel_descripcion}" for="descripcion" />
             <p:inputText id="descripcion" value="#{pagoController.selected.descripcion}" title="#{bundle.EditPagoTitle_descripcion}" />
             <p:outputLabel value="#{bundle.EditPagoLabel_monto}" for="monto" />

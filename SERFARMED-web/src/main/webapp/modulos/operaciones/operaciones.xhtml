@@ -12,6 +12,10 @@
     <ui:define name="resources">
       <h:outputScript name="/js/crud.js"/>
     </ui:define>
+    
+    <ui:define name="title">
+      <h:outputText value="Operaciones"/>
+    </ui:define>
 
 
     <ui:define name="body">
@@ -30,7 +34,8 @@
                 </div>
                 <div class="col-sm-9">
                   <p:selectOneRadio id="tipo" 
-                                    value="#{operacionController.selected.tipo}" >
+                                    required="true"
+                                    value="#{operacionController.selected.tipo} *" >
                     <f:selectItem itemLabel="Ingreso"
                                   itemValue="INGRESO"/>
                     <f:selectItem itemLabel="Egreso"
@@ -47,7 +52,8 @@
                 </div>
                 <div class="col-sm-9">
                   <p:selectOneRadio id="comprobante" 
-                                    value="#{operacionController.selected.comprobante}" >
+                                    required="true"
+                                    value="#{operacionController.selected.comprobante} *" >
                     <f:selectItem itemLabel="Factura"
                                   itemValue="FACTURA"/>
                     <f:selectItem itemLabel="Recibo de egreso"

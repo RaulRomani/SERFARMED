@@ -8,6 +8,10 @@
 
 
   <ui:composition template="/templates/templateCool.xhtml">
+    
+    <ui:define name="title">
+      <h:outputText value="Ventas"></h:outputText>
+    </ui:define>
 
     <ui:define name="resources">
       <h:outputScript name="/js/crud.js"/>
@@ -273,7 +277,7 @@
                                        oncomplete="PF('ventaContado.enable())'"
                                        actionListener="#{ventas.grabarVentaContado()}"
                                        update=":growl, CarritoListForm:datalist"
-                                       ajax="false"/>
+                                       />
                     </p:tab>
 
 
@@ -360,7 +364,7 @@
                                            widgetVar="ventaCredito"
                                            onclick="PF('ventaCredito.disable()')"
                                            oncomplete="PF('ventaCredito.enable()')"
-                                           update=":growl, CarritoListForm:datalist" ajax="false"/>
+                                           update=":growl, CarritoListForm:datalist" />
                         </div>
                       </div>
 

@@ -12,12 +12,16 @@
     <ui:define name="resources">
       <h:outputScript name="/js/crud.js"/>
     </ui:define>
+    
+    <ui:define name="title">
+      <h:outputText value="Adelantos"/>
+    </ui:define>
 
 
     <ui:define name="body">
 
       <div class="container">
-        <h1 class="row" style="color: #269abc">Pagos</h1>
+        <h1 class="row" style="color: #269abc">Adelantos</h1>
         <div class="row">
           <h:form id="DatosPersonal" >
             <div class="col-sm-3 pagos-left">
@@ -74,6 +78,11 @@
                     <p:column headerText="#{bundle.ListPagoTitle_descripcion}">
                       <h:outputText value="#{item.descripcion}"/>
                     </p:column>
+                    
+                    <p:column headerText="#{bundle.ListPagoTitle_nroComprobante}">
+                      <h:outputText value="#{item.nroComprobante}"/>
+                    </p:column>
+                    
                     <p:column headerText="#{bundle.ListPagoTitle_monto}">
                       <h:outputText value="#{item.monto}"/>
                     </p:column>
@@ -87,7 +96,7 @@
                     </p:column>
 
                     <p:summaryRow>
-                      <p:column colspan="2" style="text-align:right">
+                      <p:column colspan="3" style="text-align:right">
                         <h:outputText value="Total:" />
                       </p:column>
                       <p:column colspan="3" style="text-align:left">

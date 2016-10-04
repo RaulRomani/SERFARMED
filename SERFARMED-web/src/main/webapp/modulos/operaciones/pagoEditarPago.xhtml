@@ -14,6 +14,8 @@
           <p:panelGrid columns="2" rendered="#{pagos.pagoSelected != null}">
             <p:outputLabel value="#{bundle.EditPagoLabel_descripcion}" for="descripcion" />
             <p:inputText id="descripcion" value="#{pagos.pagoSelected.descripcion}" title="#{bundle.EditPagoTitle_descripcion}" />
+            <p:outputLabel value="#{bundle.EditPagoLabel_nroComprobante}" for="comprobante" />
+            <p:inputText id="comprobante" value="#{pagos.pagoSelected.nroComprobante}" title="#{bundle.EditPagoTitle_nroComprobante}" />
             <p:outputLabel value="#{bundle.EditPagoLabel_monto}" for="monto" />
             <p:inputText id="monto" value="#{pagos.pagoSelected.monto}" title="#{bundle.EditPagoTitle_monto}" required="true" requiredMessage="#{bundle.EditPagoRequiredMessage_monto}"/>
             <p:outputLabel value="#{bundle.EditPagoLabel_tipo}" for="tipo" />

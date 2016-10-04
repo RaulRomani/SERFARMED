@@ -39,10 +39,12 @@ import javax.xml.bind.annotation.XmlRootElement;
   @NamedQuery(name = "Servicioventa.findByIdServicioVenta", query = "SELECT s FROM Servicioventa s WHERE s.idServicioVenta = :idServicioVenta"),
   @NamedQuery(name = "Servicioventa.findByCantidad", query = "SELECT s FROM Servicioventa s WHERE s.cantidad = :cantidad"),
   @NamedQuery(name = "Servicioventa.findByImporte", query = "SELECT s FROM Servicioventa s WHERE s.importe = :importe"),
-  @NamedQuery(name = "Servicioventa.updatePagoDoctorHoy", query = "SELECT sv FROM Venta v JOIN V.productoventaList sv WHERE sv.sePago = 'SI' AND sv.pagado = false AND v.fechaHora BETWEEN :startDate AND :endDate"),
-  @NamedQuery(name = "Servicioventa.updatePagoByDoctorHoy", query = "SELECT sv FROM Venta v JOIN V.productoventaList sv WHERE sv.idPersonal = :idPersonal AND sv.sePago = 'SI' AND sv.pagado = false AND v.fechaHora BETWEEN :startDate AND :endDate"),
-  @NamedQuery(name = "Servicioventa.findDetallePagoByDoctorHoy", query = "SELECT sv FROM Venta v JOIN V.productoventaList sv WHERE sv.idPersonal = :idPersonal AND sv.sePago = 'SI' AND sv.pagado = false AND v.fechaHora BETWEEN :startDate AND :endDate"),
-  @NamedQuery(name = "Servicioventa.updatePagoDoctorMes", query = "SELECT sv FROM Venta v JOIN V.productoventaList sv WHERE sv.sePago = 'NO' AND sv.pagado = false AND v.fechaHora BETWEEN :startDate AND :endDate")})
+  @NamedQuery(name = "Servicioventa.updatePagoDoctorHoy", query = "SELECT sv FROM Venta v JOIN V.productoventaList sv WHERE v.estado != 'ANULADO' AND sv.sePago = 'SI' AND sv.pagado = false AND v.fechaHora BETWEEN :startDate AND :endDate"),
+  @NamedQuery(name = "Servicioventa.updatePagoByDoctorHoy",      query = "SELECT sv FROM Venta v JOIN V.productoventaList sv WHERE sv.idPersonal = :idPersonal AND v.estado != 'ANULADO' AND sv.sePago = 'SI' AND sv.pagado = false AND v.fechaHora BETWEEN :startDate AND :endDate"),
+  @NamedQuery(name = "Servicioventa.findDetallePagoByDoctorHoy", query = "SELECT sv FROM Venta v JOIN V.productoventaList sv WHERE sv.idPersonal = :idPersonal AND v.estado != 'ANULADO' AND sv.sePago = 'SI' AND sv.pagado = false AND v.fechaHora BETWEEN :startDate AND :endDate"),
+  @NamedQuery(name = "Servicioventa.findDetallePagoHoy", query = "SELECT sv FROM Venta v JOIN V.productoventaList sv WHERE sv.idPago = :idPago AND v.estado != 'ANULADO' AND sv.sePago = 'SI' AND sv.pagado = true AND v.fechaHora BETWEEN :startDate AND :endDate"),
+  @NamedQuery(name = "Servicioventa.findPagoAnteriorByDoctor", query = "SELECT sv FROM Venta v JOIN V.productoventaList sv WHERE sv.idPersonal = :idPersonal AND v.estado != 'ANULADO' AND sv.tipoComision != 'N/A' AND sv.sePago = 'NO' AND sv.pagado = false AND v.fechaHora BETWEEN :startDate AND :endDate")})
+
 public class Servicioventa implements Serializable {
   private static final long serialVersionUID = 1L;
   @Id
@@ -74,6 +76,9 @@ public class Servicioventa implements Serializable {
   private String sePago;
   @Column(name = "pagado")
   private Boolean pagado;
+  @JoinColumn(name = "idPago", referencedColumnName = "idPago")
+  @ManyToOne
+  private Pago idPago;
   @JoinColumn(name = "idPersonal", referencedColumnName = "idPersonal")
   @ManyToOne(optional = false)
   private Personal idPersonal;
@@ -172,6 +177,14 @@ public class Servicioventa implements Serializable {
 
   public void setImporte(BigDecimal importe) {
     this.importe = importe;
+  }
+  
+  public Pago getIdPago() {
+    return idPago;
+  }
+
+  public void setIdPago(Pago idPago) {
+    this.idPago = idPago;
   }
 
   public BigDecimal getComisionClinica() {

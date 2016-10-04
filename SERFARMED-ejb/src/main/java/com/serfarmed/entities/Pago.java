@@ -8,6 +8,7 @@ package com.serfarmed.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -19,12 +20,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -37,6 +40,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
   @NamedQuery(name = "Pago.findAll", query = "SELECT p FROM Pago p"),
   @NamedQuery(name = "Pago.findByIdPago", query = "SELECT p FROM Pago p WHERE p.idPago = :idPago"),
+  @NamedQuery(name = "Pago.findByNroComprobante", query = "SELECT p FROM Pago p WHERE p.nroComprobante = :nroComprobante"),
   @NamedQuery(name = "Pago.findByDescripcion", query = "SELECT p FROM Pago p WHERE p.descripcion = :descripcion"),
   @NamedQuery(name = "Pago.findByMonto", query = "SELECT p FROM Pago p WHERE p.monto = :monto"),
   @NamedQuery(name = "Pago.findByFechaHora", query = "SELECT p FROM Pago p WHERE p.fechaHora = :fechaHora"),
@@ -54,6 +58,9 @@ public class Pago implements Serializable {
   @Basic(optional = false)
   @Column(name = "idPago")
   private Integer idPago;
+  @Size(max = 10)
+  @Column(name = "nroComprobante")
+  private String nroComprobante;
   @Size(max = 200)
   @Column(name = "descripcion")
   private String descripcion;
@@ -77,6 +84,8 @@ public class Pago implements Serializable {
   @JoinColumn(name = "idPersonal", referencedColumnName = "idPersonal")
   @ManyToOne(optional = false)
   private Personal idPersonal;
+  @OneToMany(mappedBy = "idPago")
+  private List<Servicioventa> servicioventaList;
 
   public Pago() {
   }
@@ -98,6 +107,14 @@ public class Pago implements Serializable {
 
   public void setIdPago(Integer idPago) {
     this.idPago = idPago;
+  }
+  
+  public String getNroComprobante() {
+    return nroComprobante;
+  }
+
+  public void setNroComprobante(String nroComprobante) {
+    this.nroComprobante = nroComprobante;
   }
 
   public String getDescripcion() {
@@ -146,6 +163,15 @@ public class Pago implements Serializable {
 
   public void setIdPersonal(Personal idPersonal) {
     this.idPersonal = idPersonal;
+  }
+  
+  @XmlTransient
+  public List<Servicioventa> getServicioventaList() {
+    return servicioventaList;
+  }
+
+  public void setServicioventaList(List<Servicioventa> servicioventaList) {
+    this.servicioventaList = servicioventaList;
   }
 
   @Override

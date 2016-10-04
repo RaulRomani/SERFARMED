@@ -46,6 +46,8 @@ public class UsuarioController implements Serializable {
   private UploadedFile file;
   private StreamedContent image;
   private String pathImage;
+  private String password1;
+  private String password2;
   
   @edu.umd.cs.findbugs.annotations.SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
   private transient final org.slf4j.Logger logger = LoggerFactory.getLogger(LoginController.class);
@@ -182,14 +184,21 @@ public class UsuarioController implements Serializable {
   }
   
   public void updateCredentials() throws FileNotFoundException {
-    
-    String password =selected.getPassword();
+  if (password1.equals(password2)){  
+    selected.setPassword(password1);
+    String password = selected.getPassword();
     String salt = selected.getUsername();
     selected.setPassword(sha512(password,salt));
 //    if (file != null) 
 //      uploadFoto();
     
     persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
+    password1= "";
+    password2= "";
+    
+  } else {
+    JsfUtil.addWarnMessage("Las claves no coinciden, intente denuevo.");
+  }
   }
   
   public StreamedContent getImage() {
@@ -215,6 +224,24 @@ public class UsuarioController implements Serializable {
   public void setFile(UploadedFile file) {
     this.file = file;
   }
+
+  public String getPassword1() {
+    return password1;
+  }
+
+  public void setPassword1(String password1) {
+    this.password1 = password1;
+  }
+
+  public String getPassword2() {
+    return password2;
+  }
+
+  public void setPassword2(String password2) {
+    this.password2 = password2;
+  }
+  
+  
   
   
   

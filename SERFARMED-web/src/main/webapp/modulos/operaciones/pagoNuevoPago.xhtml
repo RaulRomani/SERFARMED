@@ -22,6 +22,8 @@
                               >
               <f:selectItem itemLabel="Adelanto" itemValue="ADELANTO" />
             </p:selectOneRadio>
+            <p:outputLabel value="#{bundle.CreatePagoLabel_nroComprobante}" for="comprobante" />
+            <p:inputText id="comprobante" value="#{pagos.pagoSelected.nroComprobante}" title="#{bundle.CreatePagoTitle_nroComprobante}" />
             
             <p:outputLabel value="#{bundle.CreatePagoLabel_descripcion}" for="descripcion" />
             <p:inputText id="descripcion" value="#{pagos.pagoSelected.descripcion}" title="#{bundle.CreatePagoTitle_descripcion}" />

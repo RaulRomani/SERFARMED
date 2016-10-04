@@ -98,7 +98,6 @@ public class ResumenMensual implements Serializable{
     getEgresoListMensual();
     getIngresoListMensual();
     getAdelantoListMensual();
-    getDeudaPagoDoctorListMensual();
     getPagoDoctorListMensual();
     getSaldoInicialListMensual();
   }
@@ -161,14 +160,6 @@ public class ResumenMensual implements Serializable{
     return adelantoListMensual;
   }
   
-  public boolean checkVentasNoPagadasMensual(){
-    List<Object[]> ventasMensual  = ejbFacadeVenta.findDeudaPagoDoctorMes(fecha); //Ventas por doctor, pagado = false and pagarMensual = 'SI'
-    if(ventasMensual.isEmpty())
-      return true;
-    else
-      return false;
-  }
-  
   public List<Pago> getPagoDoctorListMensual() {
     pagoDoctorListMensual = ejbFacadePago.findPagoDoctorMes(fecha);
     return pagoDoctorListMensual;
@@ -184,37 +175,6 @@ public class ResumenMensual implements Serializable{
   }
   
   
-  
-  public List<Pago> getDeudaPagoDoctorListMensual() {
-    
-    List<Object[]> ventasMensual  = ejbFacadeVenta.findDeudaPagoDoctorMes(fecha); //Ventas por doctor, pagado = false and pagarMensual = 'SI'
-    
-    Object[] result;
-    Personal doctor;
-    BigDecimal monto;
-    Date fecha = new Date();
-    Pago pagoDoctor;
-    deudaDoctorListMensual = new ArrayList<>();
-    if (ventasMensual.size()> 0)
-      for (int i = 0; i < ventasMensual.size(); i++){
-
-        result = ventasMensual.get(i);
-        doctor = (Personal) result[0];
-        monto = (BigDecimal) result[1];
-
-        pagoDoctor = new Pago();
-        pagoDoctor.setIdUsuario(login.getUsuario());
-        pagoDoctor.setIdPersonal(doctor);
-        pagoDoctor.setMonto(monto.setScale(2, RoundingMode.CEILING));
-        pagoDoctor.setTipo("PAGODOCTOR");
-        pagoDoctor.setFechaHora(fecha);
-
-        deudaDoctorListMensual.add(pagoDoctor);
-      }
-      
-    return deudaDoctorListMensual;
-  }
-
   public List<Saldoinicial> getSaldoInicialListMensual() {
     return SaldoInicialListMensual = ejbFacadeSaldoinicial.findByMonth(fecha);
   }
@@ -263,13 +223,13 @@ public class ResumenMensual implements Serializable{
     return total.setScale(2, RoundingMode.CEILING);
   }
   
-  public void generarPagoDoctor(){
-    for (Pago pagoDoctor : deudaDoctorListMensual) {
-      ejbFacadeServicioVenta.updatePagoDoctorMes(fecha); // change sePago = 'SI' AND pagado = true
-      ejbFacadePago.create(pagoDoctor);
-    }
-    JsfUtil.addSuccessMessage("Los pagos se generaron exitosamente.");
-  }
+//  public void generarPagoDoctor(){
+//    for (Pago pagoDoctor : deudaDoctorListMensual) {
+//      ejbFacadeServicioVenta.updatePagoDoctorMes(fecha); // change sePago = 'SI' AND pagado = true
+//      ejbFacadePago.create(pagoDoctor);
+//    }
+//    JsfUtil.addSuccessMessage("Los pagos se generaron exitosamente.");
+//  }
   
   public void imprimirPagoDoctor(Pago pago) throws JRException, IOException, NamingException, SQLException, Exception {
 

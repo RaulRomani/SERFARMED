@@ -78,6 +78,12 @@
             </f:facet>
             <h:outputText value="#{item.idServicio}"/>
           </p:column>
+          <p:column>
+            <f:facet name="header">
+              <h:outputText value="#{bundle.ListServicioventaTitle_idPago}"/>
+            </f:facet>
+            <h:outputText value="#{item.idPago}"/>
+          </p:column>
           <p:column filterBy="#{item.idVenta}" sortBy="#{item.idVenta}">
             <f:facet name="header">
               <h:outputText value="#{bundle.ListServicioventaTitle_idVenta}"/>

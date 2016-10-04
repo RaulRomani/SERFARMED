@@ -38,6 +38,12 @@
           </p:column>
           <p:column>
             <f:facet name="header">
+              <h:outputText value="#{bundle.ListPagoTitle_nroComprobante}"/>
+            </f:facet>
+            <h:outputText value="#{item.nroComprobante}"/>
+          </p:column>
+          <p:column>
+            <f:facet name="header">
               <h:outputText value="#{bundle.ListPagoTitle_descripcion}"/>
             </f:facet>
             <h:outputText value="#{item.descripcion}"/>

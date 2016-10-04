@@ -271,7 +271,7 @@ public class Resumen implements Serializable{
   }
   
   public void pagarDoctor(Pago pago){
-    ejbFacadeServicioVenta.updatePagoByDoctorHoy(fecha, pago.getIdPersonal());
+    ejbFacadeServicioVenta.updatePagoByDoctorHoy(fecha, pago.getIdPersonal(), pago);
     ejbFacadePago.create(pago);
     JsfUtil.addSuccessMessage("El pago se realizó correctamente.");
   }

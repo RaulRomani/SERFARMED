@@ -35,6 +35,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <link rel="icon" type="image/png" href="#{resource['images/favicon.png']}" />
     <title><ui:insert name="title">Serfarmed</ui:insert></title>
 
   </h:head>
@@ -123,6 +124,10 @@
                     </li>
                     <li class="#{view.viewId eq '/modulos/operaciones/operaciones.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/operaciones/operaciones"><i class="fa fa-fw fa-money  "></i> Operaciones</h:link>
+                    </li>
+                    
+                    <li class="#{view.viewId eq '/modulos/operaciones/pagoDoctor.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/operaciones/pagoDoctor"><i class="fa fa-fw fa-money  "></i> Pago de doctores</h:link>
                     </li>
                   </ul>
                 </li>

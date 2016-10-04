@@ -60,7 +60,7 @@ import javax.persistence.Transient;
   @NamedQuery(name = "Venta.findVentasMensualesByServicio", query = "SELECT s.nombre, SUM(sv.importe*sv.cantidad) FROM Venta v JOIN v.productoventaList sv JOIN sv.idServicio s WHERE v.estado = :estado AND v.fechaHora BETWEEN :startDate AND :endDate GROUP BY s.nombre"),
   @NamedQuery(name = "Venta.findVentasMensualesByServicioDoctor", query = "SELECT sv.idPersonal, SUM(sv.importe*sv.cantidad) FROM Venta v JOIN v.productoventaList sv JOIN sv.idServicio s WHERE v.estado = :estado AND s.nombre = :servicio AND v.fechaHora BETWEEN :startDate AND :endDate GROUP BY sv.idPersonal"),
   @NamedQuery(name = "Venta.findPagoDoctorHoy", query = "SELECT sv.idPersonal, SUM( CASE WHEN sv.tipoComision = 'PORCENTAJE' THEN sv.importe*sv.comision/100 WHEN sv.tipoComision = 'MONTO' THEN sv.comision ELSE 0 END ) FROM Venta v JOIN V.productoventaList sv WHERE v.estado != 'ANULADO' AND sv.tipoComision != 'N/A' AND sv.sePago = 'SI' AND sv.pagado = false AND v.fechaHora BETWEEN :startDate AND :endDate GROUP BY sv.idPersonal"),
-  @NamedQuery(name = "Venta.findDeudaPagoDoctorMes", query = "SELECT sv.idPersonal, SUM( CASE WHEN sv.tipoComision = 'PORCENTAJE' THEN sv.importe*sv.comision/100 WHEN sv.tipoComision = 'MONTO' THEN sv.comision ELSE 0 END ) FROM Venta v JOIN V.productoventaList sv WHERE v.estado != 'ANULADO' AND sv.tipoComision != 'N/A' AND sv.sePago = 'NO' AND sv.pagado = false AND v.fechaHora BETWEEN :startDate AND :endDate GROUP BY sv.idPersonal"),
+  @NamedQuery(name = "Venta.findDeudaAntPagoDoctor", query = "SELECT sv.idPersonal, SUM( CASE WHEN sv.tipoComision = 'PORCENTAJE' THEN sv.importe*sv.comision/100 WHEN sv.tipoComision = 'MONTO' THEN sv.comision ELSE 0 END ) FROM Venta v JOIN V.productoventaList sv WHERE v.estado != 'ANULADO' AND sv.tipoComision != 'N/A' AND sv.sePago = 'NO' AND sv.pagado = false AND v.fechaHora BETWEEN :startDate AND :endDate GROUP BY sv.idPersonal"),
   @NamedQuery(name = "Venta.findTotalPagadoByDoctor", query = "SELECT SUM( CASE WHEN sv.tipoComision = 'PORCENTAJE' THEN sv.importe*(100 - sv.comision)/100 WHEN sv.tipoComision = 'MONTO' THEN sv.importe - sv.comision ELSE sv.importe END ) FROM Venta v JOIN V.productoventaList sv WHERE v.estado != 'ANULADO' AND sv.idPersonal = :doctor AND sv.sePago = 'SI' AND sv.pagado = TRUE AND v.fechaHora BETWEEN :startDate AND :endDate")})
 public class Venta implements Serializable {
 
@@ -98,11 +98,11 @@ public class Venta implements Serializable {
   @Column(name = "comprobante")
   private String comprobante;
   @Basic(optional = false)
-  @Size(min = 1, max = 10)
+  @Size(min = 0, max = 10)
   @Column(name = "nroComprobante")
   private String nroComprobante;
   @Basic(optional = false)
-  @Size(min = 1, max = 4)
+  @Size(min = 0, max = 4)
   @Column(name = "serie")
   private String serie;
   @Basic(optional = false)
