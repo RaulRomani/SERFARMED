@@ -75,9 +75,9 @@ public class CreditoController implements Serializable {
   }
 
   public List<Credito> getItems() {
-    if (items == null) {
+    //if (items == null) {
       items = getFacade().findAll();
-    }
+    //}
     return items;
   }
 

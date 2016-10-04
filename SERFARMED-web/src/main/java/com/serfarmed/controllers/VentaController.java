@@ -80,9 +80,9 @@ public class VentaController implements Serializable {
   }
 
   public List<Venta> getItems() {
-    if (items == null) {
+    //if (items == null) {
       items = getFacade().findAll();
-    }
+    //}
     return items;
   }
 

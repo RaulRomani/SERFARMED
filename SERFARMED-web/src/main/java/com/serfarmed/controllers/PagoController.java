@@ -80,10 +80,9 @@ public class PagoController implements Serializable {
   }
 
   public List<Pago> getItems() {
-    if (items == null) {
+    //if (items == null) {
       items = getFacade().findAll();
-    }
-    logger.info("GET ITEMS PAGO OK");
+    //}
     return items;
   }
 

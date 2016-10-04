@@ -75,9 +75,9 @@ public class DetallecompraController implements Serializable {
   }
 
   public List<Detallecompra> getItems() {
-    if (items == null) {
+    //if (items == null) {
       items = getFacade().findAll();
-    }
+    //}
     return items;
   }
 

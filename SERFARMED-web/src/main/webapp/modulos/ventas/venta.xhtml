@@ -8,7 +8,7 @@
 
 
   <ui:composition template="/templates/templateCool.xhtml">
-    
+
     <ui:define name="title">
       <h:outputText value="Ventas"></h:outputText>
     </ui:define>
@@ -26,6 +26,30 @@
         <div class="row">
           <h:form id="DatosCarrito" >
             <div class="col-sm-3 ventas-left">
+
+
+              <div class="form-group row">
+                <h:outputText class="col-sm-3 form-control-label" value="Fecha?:" />
+                <div class="col-sm-9">
+                  <p:inputSwitch value="#{ventas.setFechaAnt}" id="setFechaAnt" onLabel="SI" offLabel="NO">
+                    <p:ajax update="fecha" />
+                  </p:inputSwitch>
+                </div>
+              </div>
+              <h:panelGroup id="fecha">
+                <h:panelGroup rendered="#{ventas.setFechaAnt==true}">
+                  <div class="form-group row">
+                    <div class="col-sm-3">
+                      <p:outputLabel value="Fecha:" />
+                    </div>
+                    <div class="col-sm-9">
+                      <p:calendar pattern="dd/MM/yyyy HH:mm:ss" value="#{ventas.carrito.fecha}"  showOn="button" navigator="true"  yearRange="c-15:c+15" style="width: 150px;"/> 
+                    </div>
+                  </div>
+                </h:panelGroup>
+              </h:panelGroup>
+
+
               <div class="form-group row">
                 <div class="col-sm-3">
                   <!--<p:outputLabel class="form-control-label"  value="Cliente" for="buscarCliente" />-->
@@ -249,7 +273,7 @@
                                    />
                     </div>
                   </div>
-                  
+
                   <h3>Forma de pago</h3>
 
                   <p:tabView id="tabs" dynamic="true" cache="true" >
@@ -427,7 +451,7 @@
                                        ajax="false"/>
                     </p:tab>
                   </p:tabView>
-                  
+
                   <p:commandButton value="Nueva venta" 
                                    icon="fa fa-shopping-cart"
                                    actionListener="#{ventas.nuevaVenta()}"

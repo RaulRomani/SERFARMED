@@ -94,9 +94,9 @@ public class OperacionController implements Serializable {
   }
 
   public List<Operacion> getItems() {
-    if (items == null) {
+    //if (items == null) {
       items = getFacade().findAll();
-    }
+    //}
     return items;
   }
 

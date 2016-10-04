@@ -254,7 +254,7 @@ public class VentaFacade extends AbstractFacade<Venta> implements VentaFacadeLoc
     Venta venta = new Venta();
     venta.setComprobante(carrito.getComprobante());
     venta.setFormapago("CONTADO");
-    venta.setFechaHora(new Date());
+    venta.setFechaHora(carrito.getFecha());
     venta.setDescuento(BigDecimal.ZERO);
     venta.setSubtotal(carrito.getTotal());
     venta.setTotal(carrito.getTotal());
@@ -314,7 +314,7 @@ public class VentaFacade extends AbstractFacade<Venta> implements VentaFacadeLoc
     Venta venta = new Venta();
     venta.setComprobante("");  //No se asigna comprobante hasta que se cancele las cuotas
     venta.setFormapago("CREDITO");
-    venta.setFechaHora(new Date());
+    venta.setFechaHora(carrito.getFecha());
     venta.setDescuento(BigDecimal.ZERO);
     venta.setSubtotal(carrito.getTotal());
     venta.setTotal(carrito.getTotal());

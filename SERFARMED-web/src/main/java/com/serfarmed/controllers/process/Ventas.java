@@ -21,6 +21,7 @@ import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,10 +94,16 @@ public class Ventas implements Serializable {
   private String claseCliente;
   private BigDecimal comisionMedico;
   private BigDecimal comisionDoctor;
+  private Boolean setFechaAnt;
 
   @edu.umd.cs.findbugs.annotations.SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
   private transient final org.slf4j.Logger logger = LoggerFactory.getLogger(Ventas.class);
+  
+  //f:viewAction onPostBack=false, se carga cada vez que se refresca la página (Omite las llamadas ajax)
+  
+  //El constructor, se carga una vez al compilar la aplicación
 
+  //@PostConstruct, se inicia al usar el JSF Managed bean (en la vista), solo una sola vez
   @PostConstruct
   void init() {
 
@@ -109,6 +116,7 @@ public class Ventas implements Serializable {
     tipoCliente = "REGISTRADO";
     claseCliente = "Persona";
     venta = new Venta();
+    setFechaAnt = false;
 
   }
   
@@ -188,6 +196,10 @@ public class Ventas implements Serializable {
     
     Integer idVenta;
     if (!carrito.getItems().isEmpty()) {
+      
+      if(!setFechaAnt)  // si no se settea fecha anterior
+      carrito.setFecha(new Date());
+      
       idVenta = ejbFacadeVenta.grabarVentaContado(carrito, clienteSelected, personal.getUsuario());
       //reporteVentaContado(idVenta);
 
@@ -207,6 +219,10 @@ public class Ventas implements Serializable {
     if (clienteSelected.getIdCliente() != null) {
       if (!carrito.getItems().isEmpty()) {
         if (credito.getTotalcuotas() != 0) {
+          
+          if(!setFechaAnt)  // si no se settea fecha anterior
+            carrito.setFecha(new Date());
+          
           idVenta = ejbFacadeVenta.grabarVentaCreditos(carrito, clienteSelected, personal.getUsuario(), credito);
           //reporteVentaCreditos(idVenta);
           venta.setIdVenta(idVenta);
@@ -459,7 +475,15 @@ public class Ventas implements Serializable {
   public void setClaseCliente(String claseCliente) {
     this.claseCliente = claseCliente;
   }
-  
-  
 
+  public Boolean getSetFechaAnt() {
+    return setFechaAnt;
+  }
+
+  public void setSetFechaAnt(Boolean setFechaAnt) {
+    this.setFechaAnt = setFechaAnt;
+  }
+
+  
+  
 }

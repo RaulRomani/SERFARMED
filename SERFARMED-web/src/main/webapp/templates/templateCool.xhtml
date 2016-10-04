@@ -125,7 +125,7 @@
                     <li class="#{view.viewId eq '/modulos/operaciones/operaciones.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/operaciones/operaciones"><i class="fa fa-fw fa-money  "></i> Operaciones</h:link>
                     </li>
-                    
+
                     <li class="#{view.viewId eq '/modulos/operaciones/pagoDoctor.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/operaciones/pagoDoctor"><i class="fa fa-fw fa-money  "></i> Pago de doctores</h:link>
                     </li>
@@ -142,7 +142,7 @@
                     <li class="#{view.viewId eq '/modulos/reportes/resumen.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/reportes/resumen"><i class="fa fa-fw fa-file-text  "></i> Resumen del día</h:link>
                     </li>
-                    
+
                     <li class="#{view.viewId eq '/modulos/reportes/resumenMensual.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/reportes/resumenMensual"><i class="fa fa-fw fa-file-text  "></i> Resumen del mes</h:link>
                     </li>
@@ -150,7 +150,7 @@
                     <li class="#{view.viewId eq '/modulos/reportes/estadisticaMensualServicio.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/reportes/estadisticaMensualServicio"><i class="fa fa-fw fa-bar-chart"></i> Estadística Mensual por servicio</h:link>
                     </li>
-                    
+
                     <li class="#{view.viewId eq '/modulos/reportes/estadisticaMensualServicioDoctor.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/reportes/estadisticaMensualServicioDoctor"><i class="fa fa-fw fa-bar-chart"></i> Estadística Mensual por servicio y doctor</h:link>
                     </li>
@@ -176,31 +176,6 @@
                     <h:link outcome="/modulos/mantenimiento/cliente/List">Cliente</h:link>
                   </li>
 
-                  <h:panelGroup rendered="#{loginController.usuario.authority.equals('ROLE_ADMIN')}"> 
-
-                    <li class="#{view.viewId eq '/modulos/mantenimiento/compra/List.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/mantenimiento/compra/List">Compra</h:link>
-                    </li>
-                    <li class="#{view.viewId eq '/modulos/mantenimiento/credito/List.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/mantenimiento/credito/List">Crédito</h:link>
-                    </li>  
-                      
-                    <li class="#{view.viewId eq '/modulos/mantenimiento/operacion/List.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/mantenimiento/operacion/List">Operación (ingreso/egreso)</h:link>
-                    </li>
-                    <li class="#{view.viewId eq '/modulos/mantenimiento/pago/List.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/mantenimiento/pago/List">Pagos</h:link>
-                    </li>
-
-                    <li class="#{view.viewId eq '/modulos/mantenimiento/detallecompra/List.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/mantenimiento/detallecompra/List">Detalle deCompra</h:link>
-                    </li>
-                    <li class="#{view.viewId eq '/modulos/mantenimiento/personal/List.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/mantenimiento/personal/List">Personal</h:link>
-                    </li>
-
-                  </h:panelGroup>
-
                   <li class="#{view.viewId eq '/modulos/mantenimiento/producto/List.xhtml' ? 'active' : ''}">
                     <h:link outcome="/modulos/mantenimiento/producto/List">Producto</h:link>
                   </li>
@@ -209,35 +184,64 @@
                     <h:link outcome="/modulos/mantenimiento/proveedor/List">Proveedor</h:link>
                   </li>
 
+                  <li class="#{view.viewId eq '/modulos/mantenimiento/personal/List.xhtml' ? 'active' : ''}">
+                    <h:link outcome="/modulos/mantenimiento/personal/List">Personal</h:link>
+                  </li>
 
                   <h:panelGroup rendered="#{loginController.usuario.authority.equals('ROLE_ADMIN')}"> 
-                    <li class="#{view.viewId eq '/modulos/mantenimiento/servicio/List.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/mantenimiento/servicio/List">Servicios</h:link>
-                    </li>
-                    <li class="#{view.viewId eq '/modulos/mantenimiento/servicioventa/List.xhtml' ? 'active' : ''}">
-                      <h:link outcome="/modulos/mantenimiento/servicioventa/List">Detalle de Venta</h:link>
-                    </li>
 
                     <li class="#{view.viewId eq '/modulos/mantenimiento/usuario/List.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/mantenimiento/usuario/List">Usuario</h:link>
                     </li>
+
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/servicio/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/servicio/List">Servicios</h:link>
+                    </li>
+
+                    <li class="divider"></li>
+
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/compra/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/compra/List">Compra</h:link>
+                    </li>
+
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/detallecompra/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/detallecompra/List">Detalle de compra</h:link>
+                    </li>
+
+                    
+
+                    <li class="divider"></li>
+
+
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/operacion/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/operacion/List">Operación (ingreso/egreso)</h:link>
+                    </li>
+
+                    <li class="divider"></li>
+
                     <li class="#{view.viewId eq '/modulos/mantenimiento/venta/List.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/mantenimiento/venta/List">Venta</h:link>
+                    </li>
+
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/servicioventa/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/servicioventa/List">Detalle de Venta</h:link>
+                    </li>
+
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/credito/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/credito/List">Crédito</h:link>
                     </li>
 
                     <li class="#{view.viewId eq '/modulos/mantenimiento/saldoinicial/List.xhtml' ? 'active' : ''}">
                       <h:link outcome="/modulos/mantenimiento/saldoinicial/List">Saldo inicial</h:link>
                     </li>
-
                     
+                    <li class="#{view.viewId eq '/modulos/mantenimiento/pago/List.xhtml' ? 'active' : ''}">
+                      <h:link outcome="/modulos/mantenimiento/pago/List">Pagos</h:link>
+                    </li>
                   </h:panelGroup>
-
                 </ul>
               </li>
-
-
             </ul>
-
             <!--
             <h:panelGroup rendered="#loginController.validarPermisos().equals('director')}">
 

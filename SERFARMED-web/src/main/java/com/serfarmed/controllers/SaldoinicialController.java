@@ -91,9 +91,9 @@ public class SaldoinicialController implements Serializable {
   }
 
   public List<Saldoinicial> getItems() {
-    if (items == null) {
+    //if (items == null) {
       items = getFacade().findAll();
-    }
+    //}
     return items;
   }
 
